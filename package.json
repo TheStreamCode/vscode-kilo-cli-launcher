@@ -1,7 +1,7 @@
 {
   "name": "vscode-kilo-cli-launcher",
   "displayName": "Kilo CLI Launcher",
-  "description": "Professional VS Code extension by Mikesoft, led by Michael Gasperini (https://mikesoft.it), that opens Kilo CLI beside the active editor.",
+  "description": "A polished VS Code extension from Mikesoft, led by Michael Gasperini (https://mikesoft.it), that opens Kilo CLI beside the active editor.",
   "publisher": "mikesoft",
   "version": "0.0.1",
   "repository": {
