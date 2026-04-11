@@ -1,17 +1,21 @@
 {
   "name": "vscode-kilo-cli-launcher",
   "displayName": "Kilo CLI Launcher",
-  "description": "Opens Kilo CLI beside the active editor from the editor title bar.",
-  "publisher": "TheStreamCode",
+  "description": "Amateur VS Code extension by Mikesoft (https://mikesoft.it) that opens Kilo CLI beside the active editor.",
+  "publisher": "mikesoft",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
   },
+  "author": {
+    "name": "Mikesoft",
+    "url": "https://mikesoft.it"
+  },
   "bugs": {
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues"
   },
-  "homepage": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher#readme",
+  "homepage": "https://mikesoft.it",
   "license": "MIT",
   "engines": {
     "vscode": "^1.86.0"
