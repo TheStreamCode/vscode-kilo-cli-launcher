@@ -3,7 +3,7 @@
   "displayName": "Kilo CLI Launcher",
   "description": "VS Code extension by Mikesoft that launches a configurable terminal command beside the active editor. Not affiliated with Kilo or KiloCode.",
   "publisher": "mikesoft",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -27,7 +27,8 @@
     "vscode": "^1.86.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Productivity"
   ],
   "keywords": [
     "vscode",
@@ -35,28 +36,27 @@
     "kilo",
     "cli",
     "terminal",
-    "launcher"
+    "launcher",
+    "toolbar",
+    "editor",
+    "command"
   ],
   "main": "./out/extension.js",
-  "files": [
-    "out",
-    "media",
-    "README.md",
-    "CHANGELOG.md",
-    "SUPPORT.md",
-    "LICENSE",
-    "package.json"
-  ],
   "contributes": {
     "commands": [
       {
         "command": "kilocodeCliLauncher.openCli",
-        "title": "Open Kilo CLI",
+        "title": "Open Kilo CLI in Side Terminal",
         "category": "KiloCode",
         "icon": {
           "light": "./media/kilo-mark.svg",
           "dark": "./media/kilo-mark.svg"
         }
+      },
+      {
+        "command": "kilocodeCliLauncher.openSettings",
+        "title": "Open Kilo CLI Launcher Settings",
+        "category": "KiloCode"
       }
     ],
     "menus": {
@@ -87,7 +87,8 @@
     "compile": "tsc -p .",
     "watch": "tsc -watch -p .",
     "vscode:prepublish": "npm run compile",
-    "package": "vsce package"
+    "package": "vsce package",
+    "check": "npm run compile"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

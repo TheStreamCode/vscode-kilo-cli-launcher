@@ -1,0 +1,11 @@
+src/**
+scripts/**
+node_modules/**
+.git/**
+.github/**
+.kilo/**
+.vscode/**
+*.vsix
+Screenshot_*.jpeg
+tsconfig.json
+package-lock.json
