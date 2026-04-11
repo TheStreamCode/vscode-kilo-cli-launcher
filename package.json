@@ -6,14 +6,14 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mikesoft/vscode-kilo-cli-launcher.git"
+    "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
   },
   "author": {
     "name": "Michael Gasperini",
     "url": "https://mikesoft.it"
   },
   "bugs": {
-    "url": "https://github.com/Mikesoft/vscode-kilo-cli-launcher/issues"
+    "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues"
   },
   "homepage": "https://mikesoft.it",
   "license": "MIT",

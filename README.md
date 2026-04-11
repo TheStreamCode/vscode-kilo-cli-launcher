@@ -15,8 +15,8 @@ The official docs start the interactive TUI with `kilo`. If your binary is not o
 
 ## Repository
 
-- GitHub: https://github.com/Mikesoft/vscode-kilo-cli-launcher
-- Issues: https://github.com/Mikesoft/vscode-kilo-cli-launcher/issues
+- GitHub: https://github.com/TheStreamCode/vscode-kilo-cli-launcher
+- Issues: https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues
 - Site: https://mikesoft.it
 
 ## Build and package
