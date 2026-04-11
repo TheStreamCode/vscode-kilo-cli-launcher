@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5
+
+- Prepared the next Marketplace release with the latest public wording updates.
+
 ## 0.0.4
 
 - Prepared the next Marketplace release after the custom branding update.
