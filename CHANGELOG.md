@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.3
+
+- Updated the toolbar and Marketplace icons with custom branding.
+
 ## 0.0.2
 
 - Prepared Marketplace metadata and release assets.

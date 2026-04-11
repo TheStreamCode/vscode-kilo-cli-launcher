@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="oklch(95% 0.15 108)"/>
-  <g fill="#000000">
-    <path d="M23,26v-2h3v-5l-2-2h-4v2h-3v5l2,2h4ZM20,20h3v3h-3v-3Z"/>
-    <rect x="12" y="17" width="3" height="3"/>
-    <polygon points="26 12 23 12 23 9 20 6 17 6 17 9 20 9 20 12 17 12 17 15 26 15 26 12"/>
-    <path d="M0,0v32h32V0H0ZM29,29H3V3h26v26Z"/>
-    <polygon points="15 26 15 23 9 23 9 17 6 17 6 23.1875 8.8125 26 15 26"/>
-    <rect x="12" y="6" width="3" height="3"/>
-    <polygon points="9 12 12 12 12 15 15 15 15 12 12 9 9 9 9 6 6 6 6 15 9 15 9 12"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" zoomAndPan="magnify" viewBox="0 0 96 95.999999" height="128" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><g/><clipPath id="ceba7d217a"><rect x="0" width="64" y="0" height="96"/></clipPath></defs><rect x="-9.6" width="115.2" fill="#ffffff" y="-9.6" height="115.199999" fill-opacity="1"/><rect x="-9.6" width="115.2" fill="#111828" y="-9.6" height="115.199999" fill-opacity="1"/><path stroke-linecap="butt" transform="matrix(0.75, 0, 0, 0.75, 0.0000005, 0.000002)" fill="none" stroke-linejoin="miter" d="M -0.000000666667 -0.00000266667 L 127.999998 -0.00000266667 L 127.999998 127.999996 L -0.000000666667 127.999996 Z M -0.000000666667 -0.00000266667 " stroke="#000000" stroke-width="10" stroke-opacity="1" stroke-miterlimit="4"/><g transform="matrix(1, 0, 0, 1, 16, -0.000000000000008101)"><g clip-path="url(#ceba7d217a)"><g fill="#f7f574" fill-opacity="1"><g transform="translate(1.056894, 82.781944)"><g><path d="M 5.15625 0 L 5.15625 -72.15625 L 15.46875 -72.15625 L 15.46875 -41.234375 L 25.765625 -41.234375 L 25.765625 -30.921875 L 15.46875 -30.921875 L 15.46875 0 Z M 25.765625 -20.625 L 25.765625 -30.921875 L 36.078125 -30.921875 L 36.078125 -20.625 Z M 25.765625 -41.234375 L 25.765625 -51.546875 L 36.078125 -51.546875 L 36.078125 -41.234375 Z M 36.078125 -10.3125 L 36.078125 -20.625 L 46.390625 -20.625 L 46.390625 -10.3125 Z M 36.078125 -51.546875 L 36.078125 -61.859375 L 46.390625 -61.859375 L 46.390625 -51.546875 Z M 46.390625 0 L 46.390625 -10.3125 L 56.703125 -10.3125 L 56.703125 0 Z M 46.390625 -61.859375 L 46.390625 -72.15625 L 56.703125 -72.15625 L 56.703125 -61.859375 Z M 46.390625 -61.859375 "/></g></g></g></g></g></svg>
