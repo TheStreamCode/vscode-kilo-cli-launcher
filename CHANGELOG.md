@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.0.8
+
+### Fixed
+
+- Stability improvements and bug fixes (generic patch).
+
 ## 0.0.7
 
 ### Changed

@@ -3,7 +3,7 @@
   "displayName": "Kilo CLI Launcher",
   "description": "VS Code extension that launches a configurable terminal command beside the active editor. Not affiliated with Kilo or KiloCode.",
   "publisher": "mikesoft",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
