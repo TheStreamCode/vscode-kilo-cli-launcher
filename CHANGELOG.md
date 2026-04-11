@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.0.7
+
+### Changed
+
+- Refined extension metadata wording for Marketplace presentation.
+- Updated documentation wording and credits formatting.
+
 ### Added
 
 - Added a new command to open extension settings quickly from Command Palette.

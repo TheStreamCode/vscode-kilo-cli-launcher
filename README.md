@@ -1,6 +1,6 @@
 # Kilo CLI Launcher
 
-A VS Code extension by Mikesoft for launching a configurable terminal command from the editor title bar.
+A VS Code extension for launching a configurable terminal command from the editor title bar.
 
 This project is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode.
 
@@ -52,7 +52,7 @@ You can open extension settings quickly from Command Palette:
 
 ## Details
 
-Created by Michael Gasperini, Mikesoft: https://mikesoft.it
+Credits: Michael Gasperini, Mikesoft: https://mikesoft.it
 
 ## Build and package
 
