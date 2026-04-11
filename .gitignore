@@ -6,3 +6,4 @@ out/
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
+Screenshot_*.jpeg

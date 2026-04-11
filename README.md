@@ -1,6 +1,6 @@
 # Kilo CLI Launcher
 
-A polished VS Code extension by Mikesoft, led by Michael Gasperini (https://mikesoft.it), for opening Kilo CLI from the editor title bar.
+A VS Code extension by Mikesoft, led by Michael Gasperini (https://mikesoft.it), for opening Kilo CLI from the editor title bar.
 
 This extension adds an editor title button in the top-right toolbar that opens Kilo CLI in a terminal beside the current editor, not in the bottom terminal panel.
 
