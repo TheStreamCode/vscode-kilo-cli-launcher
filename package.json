@@ -1,0 +1,87 @@
+{
+  "name": "vscode-kilo-cli-launcher",
+  "displayName": "Kilo CLI Launcher",
+  "description": "Opens Kilo CLI beside the active editor from the editor title bar.",
+  "publisher": "TheStreamCode",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues"
+  },
+  "homepage": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher#readme",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "vscode",
+    "extension",
+    "kilo",
+    "cli",
+    "terminal",
+    "launcher"
+  ],
+  "main": "./out/extension.js",
+  "files": [
+    "out",
+    "media",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "kilocodeCliLauncher.openCli",
+        "title": "Open Kilo CLI",
+        "category": "KiloCode",
+        "icon": {
+          "light": "./media/kilo-mark.svg",
+          "dark": "./media/kilo-mark.svg"
+        }
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "kilocodeCliLauncher.openCli",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "KiloCode CLI Launcher",
+      "properties": {
+        "kilocodeCliLauncher.cliCommand": {
+          "type": "string",
+          "default": "kilo",
+          "markdownDescription": "Command line used to launch Kilo CLI. The official docs start the TUI with `kilo`; if you installed the npm package and the binary is not on your PATH, you can set this to `npx kilo` or another launch command."
+        },
+        "kilocodeCliLauncher.terminalName": {
+          "type": "string",
+          "default": "Kilo CLI",
+          "description": "Name of the terminal used by the launcher."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.86.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}
