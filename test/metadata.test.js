@@ -80,8 +80,8 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
 test('changelog keeps the 0.0.8 stability note and adds unreleased release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
-  assert.match(changelog, /## Unreleased\s+## 0\.0\.9\s+### Added\s+- Added metadata regression tests for extension packaging and branding\./s);
-  assert.match(changelog, /## 0\.0\.9[\s\S]*### Changed\s+- Updated user-facing branding to Kilo CLI Launcher while keeping `kilocodeCliLauncher` setting IDs for compatibility\./);
-  assert.match(changelog, /## 0\.0\.9[\s\S]*### Fixed\s+- Tightened ignore and packaging rules so tests, docs, source maps, `.gitignore`, and local tooling artifacts stay out of VSIX or local-only git noise as appropriate\./);
+  assert.match(changelog, /## Unreleased\s+## 0\.0\.9\s+### Added\s+- Added automated coverage for the release workflow\./s);
+  assert.match(changelog, /## 0\.0\.9[\s\S]*### Changed\s+- Updated maintenance and release tooling\./);
+  assert.match(changelog, /## 0\.0\.9[\s\S]*### Fixed\s+- Improved command handling reliability and packaging hygiene\./);
   assert.match(changelog, /## 0\.0\.8\s+### Fixed\s+- Stability improvements\./s);
 });
