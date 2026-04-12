@@ -28,9 +28,23 @@ If Kilo CLI is missing and the launcher is configured to use `kilo`, the extensi
 
 The official docs start the interactive TUI with `kilo`. If your binary is not on PATH, set the command to something like `npx kilo` or another launch command that works in your environment.
 
+The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility with existing installs. Only the user-facing labels are branded as `Kilo CLI Launcher`.
+
+On Windows, quote executable paths that contain spaces. Example `settings.json` value:
+
+```json
+"kilocodeCliLauncher.cliCommand": "\"C:\\Program Files\\Kilo CLI\\kilo.cmd\""
+```
+
+If you need to pass arguments as well, keep the executable path quoted:
+
+```json
+"kilocodeCliLauncher.cliCommand": "\"C:\\Program Files\\Kilo CLI\\kilo.cmd\" --workspace \"C:\\Workspaces\\Sample Project\""
+```
+
 You can open extension settings quickly from Command Palette:
 
-- `KiloCode: Open Kilo CLI Launcher Settings`
+- `Kilo CLI Launcher: Open Kilo CLI Launcher Settings`
 
 ## Troubleshooting
 
@@ -43,6 +57,13 @@ You can open extension settings quickly from Command Palette:
 
 - **Nothing happens on click**
   Check `kilocodeCliLauncher.cliCommand` and verify the command runs correctly in a normal terminal.
+
+- **Custom executable path on Windows**
+  Quote the executable path when it contains spaces, for example:
+
+  ```json
+  "kilocodeCliLauncher.cliCommand": "\"C:\\Program Files\\Kilo CLI\\kilo.cmd\" --workspace \"C:\\Workspaces\\Sample Project\""
+  ```
 
 ## Repository
 
@@ -57,9 +78,9 @@ Credits: Michael Gasperini, Mikesoft: https://mikesoft.it
 ## Build and package
 
 ```bash
-npm install
-npm run compile
-npm run package
+pnpm install
+pnpm run check
+pnpm run package
 ```
 
 The package step creates the `.vsix` file in the workspace root.

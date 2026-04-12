@@ -4,11 +4,27 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.0.9
+
+### Added
+
+- Added metadata regression tests for extension packaging and branding.
+
+### Changed
+
+- Updated user-facing branding to Kilo CLI Launcher while keeping `kilocodeCliLauncher` setting IDs for compatibility.
+- Made compile, test, and check scripts deterministic by invoking workspace-local TypeScript and VSCE binaries.
+- Documented quoted Windows path examples and the local `pnpm` workflow in the README.
+
+### Fixed
+
+- Tightened ignore and packaging rules so tests, docs, source maps, `.gitignore`, and local tooling artifacts stay out of VSIX or local-only git noise as appropriate.
+
 ## 0.0.8
 
 ### Fixed
 
-- Stability improvements and bug fixes (generic patch).
+- Stability improvements.
 
 ## 0.0.7
 

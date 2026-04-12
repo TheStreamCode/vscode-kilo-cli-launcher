@@ -3,7 +3,7 @@
   "displayName": "Kilo CLI Launcher",
   "description": "VS Code extension that launches a configurable terminal command beside the active editor. Not affiliated with Kilo or KiloCode.",
   "publisher": "mikesoft",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -46,7 +46,7 @@
       {
         "command": "kilocodeCliLauncher.openCli",
         "title": "Open Kilo CLI in Side Terminal",
-        "category": "KiloCode",
+        "category": "Kilo CLI Launcher",
         "icon": {
           "light": "./media/kilo-mark.svg",
           "dark": "./media/kilo-mark.svg"
@@ -55,7 +55,7 @@
       {
         "command": "kilocodeCliLauncher.openSettings",
         "title": "Open Kilo CLI Launcher Settings",
-        "category": "KiloCode"
+        "category": "Kilo CLI Launcher"
       }
     ],
     "menus": {
@@ -67,12 +67,12 @@
       ]
     },
     "configuration": {
-      "title": "KiloCode CLI Launcher",
+      "title": "Kilo CLI Launcher",
       "properties": {
         "kilocodeCliLauncher.cliCommand": {
           "type": "string",
           "default": "kilo",
-          "markdownDescription": "Command line used to launch Kilo CLI. The official docs start the TUI with `kilo`; if you installed the npm package and the binary is not on your PATH, you can set this to `npx kilo` or another launch command."
+          "markdownDescription": "Command line used to launch Kilo CLI. The extension keeps the existing `kilocodeCliLauncher` setting IDs for compatibility. If your executable path contains spaces on Windows, wrap it in quotes, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
         },
         "kilocodeCliLauncher.terminalName": {
           "type": "string",
@@ -83,11 +83,14 @@
     }
   },
   "scripts": {
-    "compile": "tsc -p .",
-    "watch": "tsc -watch -p .",
-    "vscode:prepublish": "npm run compile",
-    "package": "vsce package",
-    "check": "npm run compile"
+    "compile": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
+    "watch": "node ./node_modules/typescript/bin/tsc --watch -p . --pretty false",
+    "test": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js",
+    "test:command-utils": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/command-utils.test.js",
+    "test:metadata": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/metadata.test.js",
+    "vscode:prepublish": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
+    "package": "node ./node_modules/@vscode/vsce/vsce package",
+    "check": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./node_modules/@vscode/vsce/vsce ls"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

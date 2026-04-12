@@ -1,8 +1,14 @@
 node_modules/
 out/
+out/**/*.map
+.kilo/
 *.vsix
 *.tgz
 .vscode-test/
+.vsce/
+.pnpm-store/
+coverage/
+*.log
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
