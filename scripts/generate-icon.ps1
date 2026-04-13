@@ -50,31 +50,18 @@ $graphics.FillEllipse($dotBrush, 56, 54, 14, 14)
 $graphics.FillEllipse($dotBrush, 80, 54, 14, 14)
 $graphics.FillEllipse($dotBrush, 104, 54, 14, 14)
 
-$accentBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 248, 246, 117))
-$shadowBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(140, 0, 0, 0))
-$font = New-Object System.Drawing.Font([System.Drawing.FontFamily]::GenericSansSerif, 110, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
-$format = New-Object System.Drawing.StringFormat
-$format.Alignment = [System.Drawing.StringAlignment]::Center
-$format.LineAlignment = [System.Drawing.StringAlignment]::Center
-$rect = New-Object System.Drawing.RectangleF(0, 72, 256, 120)
+$accentPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 248, 246, 117), 10)
+$commandPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 229, 231, 235), 10)
 
-$graphics.TranslateTransform(2, 2)
-$graphics.DrawString('K', $font, $shadowBrush, $rect, $format)
-$graphics.ResetTransform()
-$graphics.DrawString('K', $font, $accentBrush, $rect, $format)
-
-$promptPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 229, 231, 235), 8)
-$cursorPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 248, 246, 117), 8)
-$graphics.DrawLine($promptPen, 84, 188, 164, 188)
-$graphics.DrawLine($cursorPen, 170, 172, 170, 196)
+$graphics.DrawLine($accentPen, 82, 102, 116, 128)
+$graphics.DrawLine($accentPen, 82, 154, 116, 128)
+$graphics.DrawLine($commandPen, 132, 128, 182, 128)
+$graphics.DrawLine($accentPen, 192, 108, 192, 148)
 
 $bitmap.Save($OutputPath, [System.Drawing.Imaging.ImageFormat]::Png)
 
-$cursorPen.Dispose()
-$promptPen.Dispose()
-$shadowBrush.Dispose()
-$accentBrush.Dispose()
-$font.Dispose()
+$accentPen.Dispose()
+$commandPen.Dispose()
 $dotBrush.Dispose()
 $borderPen.Dispose()
 $bgBrush.Dispose()

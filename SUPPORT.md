@@ -1,6 +1,8 @@
 # Support
 
-For questions, feedback, or support related to this extension, contact Mikesoft:
+Launcher for Kilo CLI is maintained by Mikesoft.
+
+For questions, feedback, or support related to this extension, contact:
 
 - Website: https://mikesoft.it
 - Email: info@mikesoft.it

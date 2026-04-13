@@ -4,85 +4,81 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.0
+
+### Changed
+
+- Updated public-facing project details and documentation.
+- Refined Marketplace presentation and repository materials.
+- Refreshed release assets and packaging output.
+
 ## 0.0.9
 
 ### Added
 
-- Added automated coverage for the release workflow.
+- Added internal release validation coverage.
 
 ### Changed
 
-- Updated maintenance and release tooling.
-- Refreshed documentation for the current packaging workflow.
+- Updated project maintenance and packaging materials.
+- Refreshed project documentation.
 
 ### Fixed
 
-- Improved command handling reliability and packaging hygiene.
+- Improved overall reliability and packaging consistency.
 
 ## 0.0.8
 
 ### Fixed
 
-- Stability improvements.
+- General stability improvements.
 
 ## 0.0.7
 
-### Changed
-
-- Refined extension metadata wording for Marketplace presentation.
-- Updated documentation wording and credits formatting.
-
 ### Added
 
-- Added a new command to open extension settings quickly from Command Palette.
-- Added package filtering via `.vscodeignore` for cleaner Marketplace artifacts.
+- Added minor usability and packaging improvements.
 
 ### Changed
 
-- Updated Marketplace metadata for better discoverability.
-- Updated toolbar command title to clarify side-terminal behavior.
-- Added a lightweight `npm run check` quality script.
+- Updated extension metadata, labels, and project documentation.
 
 ### Fixed
 
-- Added a blocking system message when `kilo` is configured but Kilo CLI is not installed.
+- Improved local CLI validation behavior.
 
 ## 0.0.6
 
 ### Added
 
-- Added a new command to open extension settings quickly from Command Palette.
-- Added package filtering via `.vscodeignore` for cleaner Marketplace artifacts.
+- Added minor usability and packaging improvements.
 
 ### Changed
 
-- Updated Marketplace metadata for better discoverability.
-- Updated toolbar command title to clarify side-terminal behavior.
-- Added a lightweight `npm run check` quality script.
-- Expanded README with requirements and troubleshooting guidance.
+- Updated extension metadata and supporting documentation.
 
 ### Fixed
 
-- Added a blocking system message when `kilo` is configured but Kilo CLI is not installed.
+- Improved local CLI validation behavior.
 
 ## 0.0.5
 
-- Prepared the next Marketplace release with the latest public wording updates.
+- Documentation and packaging updates.
 
 ## 0.0.4
 
-- Prepared the next Marketplace release after the custom branding update.
+- Release preparation updates.
 
 ## 0.0.3
 
-- Updated the toolbar and Marketplace icons with custom branding.
+- Updated project assets.
 
 ## 0.0.2
 
-- Prepared Marketplace metadata and release assets.
-- Refined the extension description and public presentation.
-- Added support information for the Marketplace listing.
+- Updated Marketplace metadata and release assets.
+- Refined public project information.
+- Added support information.
 
 ## 0.0.1
 
-- Initial release of the Kilo CLI quick-open extension.
+- Initial release.

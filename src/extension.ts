@@ -9,7 +9,8 @@ import {
   shouldCheckKiloBinary,
 } from './command-utils.js';
 
-const MISSING_KILO_MESSAGE = 'Kilo CLI is not installed. Install it with the official command: npm install -g @kilocode/cli';
+const INSTALL_KILO_COMMAND = 'npm install -g @kilocode/cli';
+const MISSING_KILO_MESSAGE = `Kilo CLI is not installed. Install it with: ${INSTALL_KILO_COMMAND}`;
 const execAsync = promisify(exec);
 
 let terminalSequence = 1;

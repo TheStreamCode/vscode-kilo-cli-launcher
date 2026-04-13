@@ -1,28 +1,33 @@
-# Kilo CLI Launcher
+# Launcher for Kilo CLI
 
-Launch Kilo CLI from the editor toolbar and open it in a side terminal without breaking your current editing flow.
+Launcher for Kilo CLI is an unofficial VS Code extension that helps you launch Kilo CLI from within the editor.
 
-Each click opens a fresh terminal beside the active editor, so you can start a new Kilo session quickly without reusing an old one.
+> **Disclaimer**
+> This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.
+
+Each click opens a fresh terminal beside the active editor, so you can start a new Kilo CLI session quickly without reusing an old one.
 
 ## Quick Start
 
 1. Install the extension from the VS Code Marketplace.
 2. Make sure Kilo CLI is available in your terminal.
 3. Open any file in VS Code.
-4. Click the Kilo button in the editor title bar.
+4. Click the launcher button in the editor title bar.
 
-Official Kilo CLI install command:
+One way to install Kilo CLI:
 
 ```bash
 npm install -g @kilocode/cli
 ```
+
+Any equivalent install method that makes `kilo` available on your PATH also works.
 
 ## Requirements
 
 - VS Code `^1.86.0`
 - Kilo CLI installed and available on PATH, or another working launch command configured in settings
 
-If Kilo CLI is missing and the launcher is configured to use `kilo`, the extension shows a blocking system message with the official install command.
+If Kilo CLI is missing and the launcher is configured to use `kilo`, the extension shows a blocking system message with an install command.
 
 ## What It Does
 
@@ -33,18 +38,18 @@ If Kilo CLI is missing and the launcher is configured to use `kilo`, the extensi
 
 ## Configuration
 
-The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility with existing installs. Only the user-facing labels are branded as `Kilo CLI Launcher`.
+The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility with existing installs. Only the user-facing labels are branded as `Launcher for Kilo CLI`.
 
 Available settings:
 
 - `kilocodeCliLauncher.cliCommand`: command line used when the toolbar button is clicked. Default: `kilo`.
 - `kilocodeCliLauncher.terminalName`: terminal label shown in VS Code. Default: `Kilo CLI`.
 
-The official docs start the interactive TUI with `kilo`. If your binary is not on PATH, set the command to something like `npx kilo` or another launch command that works in your environment.
+The default interactive command is `kilo`. If your binary is not on PATH, set the command to something like `npx kilo` or another launch command that works in your environment.
 
-You can open extension settings quickly from Command Palette:
+You can open extension settings quickly from the Command Palette:
 
-- `Kilo CLI Launcher: Open Kilo CLI Launcher Settings`
+- `Launcher for Kilo CLI: Open Extension Settings`
 
 ## Examples
 
@@ -95,23 +100,26 @@ Windows executable path with arguments:
 Local verification and packaging:
 
 ```bash
-pnpm install
-pnpm run check
-pnpm run package
+npm install
+npm run check
+npm run package
 ```
 
 The package step creates the `.vsix` file in the workspace root.
+
+## Privacy
+
+This extension does not collect telemetry, analytics, or personal data.
 
 ## Project Links
 
 - GitHub: https://github.com/TheStreamCode/vscode-kilo-cli-launcher
 - Issues: https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues
-- Site: https://mikesoft.it
+
+## License
+
+Released under the MIT License. See `LICENSE` for details.
 
 ## Credits
 
 Michael Gasperini, Mikesoft: https://mikesoft.it
-
-## Disclaimer
-
-This project is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode.

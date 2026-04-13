@@ -23,18 +23,20 @@ function readIgnoreEntries(relativePath) {
     .filter(Boolean);
 }
 
-test('package metadata keeps compatibility IDs while using Kilo CLI Launcher branding', () => {
+test('package metadata keeps compatibility IDs while using Launcher for Kilo CLI branding', () => {
   const packageJson = readPackageJson();
 
-  assert.equal(packageJson.displayName, 'Kilo CLI Launcher');
-  assert.equal(packageJson.version, '0.0.9');
-  assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI Launcher');
+  assert.equal(packageJson.displayName, 'Launcher for Kilo CLI');
+  assert.equal(packageJson.description, 'Unofficial VS Code extension to quickly launch and manage Kilo CLI.');
+  assert.equal(packageJson.version, '0.1.0');
+  assert.equal(packageJson.contributes.configuration.title, 'Launcher for Kilo CLI');
 
   const [openCliCommand, openSettingsCommand] = packageJson.contributes.commands;
   assert.equal(openCliCommand.command, 'kilocodeCliLauncher.openCli');
-  assert.equal(openCliCommand.category, 'Kilo CLI Launcher');
+  assert.equal(openCliCommand.category, 'Launcher for Kilo CLI');
   assert.equal(openSettingsCommand.command, 'kilocodeCliLauncher.openSettings');
-  assert.equal(openSettingsCommand.category, 'Kilo CLI Launcher');
+  assert.equal(openSettingsCommand.category, 'Launcher for Kilo CLI');
+  assert.equal(openSettingsCommand.title, 'Open Extension Settings');
 });
 
 test('package scripts use deterministic local tooling entry points', () => {
@@ -46,15 +48,19 @@ test('package scripts use deterministic local tooling entry points', () => {
   assert.equal(packageJson.scripts.package, 'node ./node_modules/@vscode/vsce/vsce package');
 });
 
-test('README documents the launcher branding and quoted Windows command paths', () => {
+test('README documents the launcher branding, disclaimer, and quoted Windows command paths', () => {
   const readme = readText('README.md');
 
-  assert.match(readme, /^# Kilo CLI Launcher/m);
-  assert.match(readme, /Kilo CLI Launcher: Open Kilo CLI Launcher Settings/);
+  assert.match(readme, /^# Launcher for Kilo CLI/m);
+  assert.match(readme, /Launcher for Kilo CLI is an unofficial VS Code extension that helps you launch Kilo CLI from within the editor\./);
+  assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode\./);
+  assert.match(readme, /Launcher for Kilo CLI: Open Extension Settings/);
   assert.match(readme, /keeps the `kilocodeCliLauncher` setting IDs for backward compatibility/i);
   assert.match(readme, /\\"C:\\\\Program Files\\\\Kilo CLI\\\\kilo\.cmd\\"/);
-  assert.match(readme, /pnpm install/);
-  assert.match(readme, /pnpm run check/);
+  assert.match(readme, /This extension does not collect telemetry, analytics, or personal data\./);
+  assert.match(readme, /npm install/);
+  assert.match(readme, /npm run check/);
+  assert.match(readme, /npm install -g @kilocode\/cli/);
 });
 
 test('ignore rules keep tests docs source maps and local tooling out of artifacts', () => {
@@ -77,11 +83,11 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(vscodeignoreEntries.includes('.vsce/**'));
 });
 
-test('changelog keeps the 0.0.8 stability note and adds unreleased release notes', () => {
+test('changelog keeps concise release notes for current and previous versions', () => {
   const changelog = readText('CHANGELOG.md');
 
-  assert.match(changelog, /## Unreleased\s+## 0\.0\.9\s+### Added\s+- Added automated coverage for the release workflow\./s);
-  assert.match(changelog, /## 0\.0\.9[\s\S]*### Changed\s+- Updated maintenance and release tooling\./);
-  assert.match(changelog, /## 0\.0\.9[\s\S]*### Fixed\s+- Improved command handling reliability and packaging hygiene\./);
-  assert.match(changelog, /## 0\.0\.8\s+### Fixed\s+- Stability improvements\./s);
+  assert.doesNotMatch(changelog, /## Unreleased\s+###/s);
+  assert.match(changelog, /## 0\.1\.0[\s\S]*Updated public-facing project details and documentation\./);
+  assert.match(changelog, /## 0\.0\.9[\s\S]*Improved overall reliability and packaging consistency\./);
+  assert.match(changelog, /## 0\.0\.8\s+### Fixed\s+- General stability improvements\./s);
 });

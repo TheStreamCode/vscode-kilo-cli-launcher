@@ -1,9 +1,9 @@
 {
   "name": "vscode-kilo-cli-launcher",
-  "displayName": "Kilo CLI Launcher",
-  "description": "VS Code extension that launches a configurable terminal command beside the active editor. Not affiliated with Kilo or KiloCode.",
+  "displayName": "Launcher for Kilo CLI",
+  "description": "Unofficial VS Code extension to quickly launch and manage Kilo CLI.",
   "publisher": "mikesoft",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -46,16 +46,16 @@
       {
         "command": "kilocodeCliLauncher.openCli",
         "title": "Open Kilo CLI in Side Terminal",
-        "category": "Kilo CLI Launcher",
+        "category": "Launcher for Kilo CLI",
         "icon": {
-          "light": "./media/kilo-mark.svg",
-          "dark": "./media/kilo-mark.svg"
+          "light": "./media/launcher-mark.svg",
+          "dark": "./media/launcher-mark.svg"
         }
       },
       {
         "command": "kilocodeCliLauncher.openSettings",
-        "title": "Open Kilo CLI Launcher Settings",
-        "category": "Kilo CLI Launcher"
+        "title": "Open Extension Settings",
+        "category": "Launcher for Kilo CLI"
       }
     ],
     "menus": {
@@ -67,12 +67,12 @@
       ]
     },
     "configuration": {
-      "title": "Kilo CLI Launcher",
+      "title": "Launcher for Kilo CLI",
       "properties": {
         "kilocodeCliLauncher.cliCommand": {
           "type": "string",
           "default": "kilo",
-          "markdownDescription": "Command line used to launch Kilo CLI. The extension keeps the existing `kilocodeCliLauncher` setting IDs for compatibility. If your executable path contains spaces on Windows, wrap it in quotes, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
+          "markdownDescription": "Command line used to launch Kilo CLI. This extension keeps the existing `kilocodeCliLauncher` setting IDs for compatibility. If your executable path contains spaces on Windows, wrap it in quotes, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
         },
         "kilocodeCliLauncher.terminalName": {
           "type": "string",
