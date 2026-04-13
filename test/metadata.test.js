@@ -28,7 +28,7 @@ test('package metadata keeps compatibility IDs while using Launcher for Kilo CLI
 
   assert.equal(packageJson.displayName, 'Launcher for Kilo CLI');
   assert.equal(packageJson.description, 'Unofficial VS Code extension to quickly launch and manage Kilo CLI.');
-  assert.equal(packageJson.version, '0.1.0');
+  assert.equal(packageJson.version, '0.1.1');
   assert.equal(packageJson.contributes.configuration.title, 'Launcher for Kilo CLI');
 
   const [openCliCommand, openSettingsCommand] = packageJson.contributes.commands;

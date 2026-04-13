@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.1
+
+### Changed
+
+- Updated release assets and packaging output.
+
 ## 0.1.0
 
 ### Changed
