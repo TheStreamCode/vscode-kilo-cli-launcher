@@ -28,7 +28,7 @@ test('package metadata keeps compatibility IDs while using Launcher for Kilo CLI
 
   assert.equal(packageJson.displayName, 'Launcher for Kilo CLI');
   assert.equal(packageJson.description, 'Unofficial VS Code extension to quickly launch and manage Kilo CLI.');
-  assert.equal(packageJson.version, '0.1.1');
+  assert.equal(packageJson.version, '0.1.2');
   assert.equal(packageJson.contributes.configuration.title, 'Launcher for Kilo CLI');
 
   const [openCliCommand, openSettingsCommand] = packageJson.contributes.commands;
@@ -53,6 +53,7 @@ test('README documents the launcher branding, disclaimer, and quoted Windows com
 
   assert.match(readme, /^# Launcher for Kilo CLI/m);
   assert.match(readme, /Launcher for Kilo CLI is an unofficial VS Code extension that helps you launch Kilo CLI from within the editor\./);
+  assert.match(readme, /Works on Windows, macOS, and Linux\./);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode\./);
   assert.match(readme, /Launcher for Kilo CLI: Open Extension Settings/);
   assert.match(readme, /keeps the `kilocodeCliLauncher` setting IDs for backward compatibility/i);

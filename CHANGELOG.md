@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.2
+
+### Changed
+
+- Updated documentation and release packaging.
+
 ## 0.1.1
 
 ### Changed

@@ -2,6 +2,8 @@
 
 Launcher for Kilo CLI is an unofficial VS Code extension that helps you launch Kilo CLI from within the editor.
 
+Works on Windows, macOS, and Linux.
+
 > **Disclaimer**
 > This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.
 
@@ -89,8 +91,8 @@ Windows executable path with arguments:
 - **Nothing happens on click**
   Check `kilocodeCliLauncher.cliCommand` and verify that the same command works in a normal terminal.
 
-- **Using a custom executable path on Windows**
-  Quote the executable path when it contains spaces.
+- **Using a custom executable path**
+  Make sure the command works in a normal terminal. If the executable path contains spaces, quote it. This is especially common on Windows.
 
 - **Using a custom launch command**
   Commands like `npx kilo` are supported. The extension only performs the explicit install check when the executable is the plain `kilo` command.

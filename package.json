@@ -3,7 +3,7 @@
   "displayName": "Launcher for Kilo CLI",
   "description": "Unofficial VS Code extension to quickly launch and manage Kilo CLI.",
   "publisher": "mikesoft",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -72,7 +72,7 @@
         "kilocodeCliLauncher.cliCommand": {
           "type": "string",
           "default": "kilo",
-          "markdownDescription": "Command line used to launch Kilo CLI. This extension keeps the existing `kilocodeCliLauncher` setting IDs for compatibility. If your executable path contains spaces on Windows, wrap it in quotes, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
+          "markdownDescription": "Command line used to launch Kilo CLI. This extension keeps the existing `kilocodeCliLauncher` setting IDs for compatibility. If your executable path contains spaces, wrap it in quotes. This is especially common on Windows, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
         },
         "kilocodeCliLauncher.terminalName": {
           "type": "string",
