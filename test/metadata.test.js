@@ -23,20 +23,21 @@ function readIgnoreEntries(relativePath) {
     .filter(Boolean);
 }
 
-test('package metadata keeps compatibility IDs while using Launcher for Kilo CLI branding', () => {
+test('package metadata uses Kilo CLI launcher branding while keeping compatibility IDs', () => {
   const packageJson = readPackageJson();
 
-  assert.equal(packageJson.displayName, 'Launcher for Kilo CLI');
-  assert.equal(packageJson.description, 'Unofficial VS Code extension to quickly launch and manage Kilo CLI.');
-  assert.equal(packageJson.version, '0.1.2');
-  assert.equal(packageJson.contributes.configuration.title, 'Launcher for Kilo CLI');
+  assert.equal(packageJson.displayName, 'Kilo CLI launcher');
+  assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
+  assert.equal(packageJson.version, '0.1.3');
+  assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
 
   const [openCliCommand, openSettingsCommand] = packageJson.contributes.commands;
   assert.equal(openCliCommand.command, 'kilocodeCliLauncher.openCli');
-  assert.equal(openCliCommand.category, 'Launcher for Kilo CLI');
+  assert.equal(openCliCommand.title, 'Open Kilo CLI in Side Terminal');
+  assert.equal(openCliCommand.category, 'Kilo CLI launcher');
   assert.equal(openSettingsCommand.command, 'kilocodeCliLauncher.openSettings');
-  assert.equal(openSettingsCommand.category, 'Launcher for Kilo CLI');
-  assert.equal(openSettingsCommand.title, 'Open Extension Settings');
+  assert.equal(openSettingsCommand.category, 'Kilo CLI launcher');
+  assert.equal(openSettingsCommand.title, 'Open Settings');
 });
 
 test('package scripts use deterministic local tooling entry points', () => {
@@ -48,20 +49,52 @@ test('package scripts use deterministic local tooling entry points', () => {
   assert.equal(packageJson.scripts.package, 'node ./node_modules/@vscode/vsce/vsce package');
 });
 
-test('README documents the launcher branding, disclaimer, and quoted Windows command paths', () => {
+test('README is organized around user-facing setup, configuration, and troubleshooting', () => {
   const readme = readText('README.md');
 
-  assert.match(readme, /^# Launcher for Kilo CLI/m);
-  assert.match(readme, /Launcher for Kilo CLI is an unofficial VS Code extension that helps you launch Kilo CLI from within the editor\./);
+  assert.match(readme, /^# Kilo CLI launcher$/m);
+  assert.match(readme, /opens Kilo CLI in a new side terminal/i);
   assert.match(readme, /Works on Windows, macOS, and Linux\./);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode\./);
-  assert.match(readme, /Launcher for Kilo CLI: Open Extension Settings/);
+  assert.match(readme, /## Features/);
+  assert.match(readme, /## Configuration/);
+  assert.match(readme, /## Troubleshooting/);
+  assert.match(readme, /Kilo CLI launcher: Open Settings/);
   assert.match(readme, /keeps the `kilocodeCliLauncher` setting IDs for backward compatibility/i);
   assert.match(readme, /\\"C:\\\\Program Files\\\\Kilo CLI\\\\kilo\.cmd\\"/);
-  assert.match(readme, /This extension does not collect telemetry, analytics, or personal data\./);
-  assert.match(readme, /npm install/);
-  assert.match(readme, /npm run check/);
-  assert.match(readme, /npm install -g @kilocode\/cli/);
+  assert.match(readme, /pnpm add -g @kilocode\/cli/);
+  assert.match(readme, /pnpm run check/);
+  assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
+  assert.doesNotMatch(readme, /^## Credits$/m);
+  assert.doesNotMatch(readme, /^## Project Links$/m);
+});
+
+test('SUPPORT explains when to use issues and when to contact the maintainer directly', () => {
+  const support = readText('SUPPORT.md');
+
+  assert.match(support, /^# Support$/m);
+  assert.match(support, /GitHub Issues/);
+  assert.match(support, /VS Code version/);
+  assert.match(support, /info@mikesoft\.it/);
+  assert.match(support, /https:\/\/mikesoft\.it/);
+});
+
+test('docs directory includes an index for engineering documents', () => {
+  const docsReadme = readText('docs/README.md');
+
+  assert.match(docsReadme, /^# Documentation$/m);
+  assert.match(docsReadme, /root `README\.md`/);
+  assert.match(docsReadme, /`specs\/`/);
+  assert.match(docsReadme, /`plans\/`/);
+});
+
+test('README uses pnpm-based examples and keeps privacy guidance visible', () => {
+  const readme = readText('README.md');
+
+  assert.match(readme, /does not collect telemetry, analytics, or personal data\./i);
+  assert.doesNotMatch(readme, /npm install -g @kilocode\/cli/);
+  assert.match(readme, /pnpm add -g @kilocode\/cli/);
+  assert.match(readme, /pnpm run package/);
 });
 
 test('ignore rules keep tests docs source maps and local tooling out of artifacts', () => {
@@ -84,10 +117,12 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(vscodeignoreEntries.includes('.vsce/**'));
 });
 
-test('changelog keeps concise release notes for current and previous versions', () => {
+test('changelog documents the 0.1.3 documentation refresh and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
-  assert.doesNotMatch(changelog, /## Unreleased\s+###/s);
+  assert.match(changelog, /## 0\.1\.3[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.1\.3[\s\S]*Reorganized repository documentation, support guidance, and engineering notes\./s);
+  assert.match(changelog, /## 0\.1\.3[\s\S]*Standardized public naming as `Kilo CLI launcher` across metadata and documentation\./s);
   assert.match(changelog, /## 0\.1\.0[\s\S]*Updated public-facing project details and documentation\./);
   assert.match(changelog, /## 0\.0\.9[\s\S]*Improved overall reliability and packaging consistency\./);
   assert.match(changelog, /## 0\.0\.8\s+### Fixed\s+- General stability improvements\./s);

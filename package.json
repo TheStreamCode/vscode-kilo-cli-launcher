@@ -1,9 +1,9 @@
 {
   "name": "vscode-kilo-cli-launcher",
-  "displayName": "Launcher for Kilo CLI",
-  "description": "Unofficial VS Code extension to quickly launch and manage Kilo CLI.",
+  "displayName": "Kilo CLI launcher",
+  "description": "Unofficial VS Code extension that opens Kilo CLI in a side terminal.",
   "publisher": "mikesoft",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -43,21 +43,21 @@
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "kilocodeCliLauncher.openCli",
-        "title": "Open Kilo CLI in Side Terminal",
-        "category": "Launcher for Kilo CLI",
-        "icon": {
-          "light": "./media/launcher-mark.svg",
-          "dark": "./media/launcher-mark.svg"
+        {
+          "command": "kilocodeCliLauncher.openCli",
+          "title": "Open Kilo CLI in Side Terminal",
+          "category": "Kilo CLI launcher",
+          "icon": {
+            "light": "./media/launcher-mark.svg",
+            "dark": "./media/launcher-mark.svg"
         }
       },
-      {
-        "command": "kilocodeCliLauncher.openSettings",
-        "title": "Open Extension Settings",
-        "category": "Launcher for Kilo CLI"
-      }
-    ],
+        {
+          "command": "kilocodeCliLauncher.openSettings",
+          "title": "Open Settings",
+          "category": "Kilo CLI launcher"
+        }
+      ],
     "menus": {
       "editor/title": [
         {
@@ -67,12 +67,12 @@
       ]
     },
     "configuration": {
-      "title": "Launcher for Kilo CLI",
+      "title": "Kilo CLI launcher",
       "properties": {
         "kilocodeCliLauncher.cliCommand": {
           "type": "string",
           "default": "kilo",
-          "markdownDescription": "Command line used to launch Kilo CLI. This extension keeps the existing `kilocodeCliLauncher` setting IDs for compatibility. If your executable path contains spaces, wrap it in quotes. This is especially common on Windows, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
+          "markdownDescription": "Command used to start Kilo CLI. The extension keeps the existing `kilocodeCliLauncher` setting IDs for backward compatibility. On Windows, quote executable paths that contain spaces, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
         },
         "kilocodeCliLauncher.terminalName": {
           "type": "string",

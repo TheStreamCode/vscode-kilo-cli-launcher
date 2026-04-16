@@ -9,8 +9,8 @@ import {
   shouldCheckKiloBinary,
 } from './command-utils.js';
 
-const INSTALL_KILO_COMMAND = 'npm install -g @kilocode/cli';
-const MISSING_KILO_MESSAGE = `Kilo CLI is not installed. Install it with: ${INSTALL_KILO_COMMAND}`;
+const INSTALL_KILO_COMMAND = 'pnpm add -g @kilocode/cli';
+const MISSING_KILO_MESSAGE = `Kilo CLI is not installed. Install it globally, for example: ${INSTALL_KILO_COMMAND}`;
 const execAsync = promisify(exec);
 
 let terminalSequence = 1;
@@ -56,7 +56,7 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
   const openSettingsCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openSettings', async () => {
-    await vscode.commands.executeCommand('workbench.action.openSettings', '@ext:mikesoft.vscode-kilo-cli-launcher kilocodeCliLauncher');
+    await vscode.commands.executeCommand('workbench.action.openSettings', '@ext:mikesoft.vscode-kilo-cli-launcher Kilo CLI launcher');
   });
 
   context.subscriptions.push(openCliCommand, openSettingsCommand);

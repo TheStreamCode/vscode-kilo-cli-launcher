@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.3
+
+### Changed
+
+- Reorganized repository documentation, support guidance, and engineering notes.
+- Standardized public naming as `Kilo CLI launcher` across metadata and documentation.
+- Clarified setup and Windows command examples for Kilo CLI launch commands.
+
 ## 0.1.2
 
 ### Changed

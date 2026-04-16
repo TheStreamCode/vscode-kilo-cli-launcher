@@ -1,70 +1,68 @@
-# Launcher for Kilo CLI
+# Kilo CLI launcher
 
-Launcher for Kilo CLI is an unofficial VS Code extension that helps you launch Kilo CLI from within the editor.
+Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a new side terminal directly from the editor toolbar.
 
 Works on Windows, macOS, and Linux.
 
 > **Disclaimer**
 > This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.
 
-Each click opens a fresh terminal beside the active editor, so you can start a new Kilo CLI session quickly without reusing an old one.
+## Features
 
-## Quick Start
-
-1. Install the extension from the VS Code Marketplace.
-2. Make sure Kilo CLI is available in your terminal.
-3. Open any file in VS Code.
-4. Click the launcher button in the editor title bar.
-
-One way to install Kilo CLI:
-
-```bash
-npm install -g @kilocode/cli
-```
-
-Any equivalent install method that makes `kilo` available on your PATH also works.
+- Adds a launcher button to the editor title area
+- Opens a fresh terminal beside the active editor on every launch
+- Runs a configurable Kilo CLI command
+- Supports quoted Windows executable paths
+- Does not collect telemetry, analytics, or personal data
 
 ## Requirements
 
 - VS Code `^1.86.0`
-- Kilo CLI installed and available on PATH, or another working launch command configured in settings
+- Kilo CLI available on `PATH`, or a working custom launch command configured in settings
 
-If Kilo CLI is missing and the launcher is configured to use `kilo`, the extension shows a blocking system message with an install command.
+## Installation
 
-## What It Does
+1. Install the extension from the VS Code Marketplace.
+2. Install Kilo CLI globally, for example:
 
-- Adds a button to the editor title toolbar
-- Opens a terminal beside the current editor
-- Runs your configured Kilo launch command
-- Creates a new terminal every time you click the button
+```bash
+pnpm add -g @kilocode/cli
+```
+
+3. Open any file in VS Code.
+4. Click the launcher button in the editor title.
+
+Any equivalent install or launch method that makes `kilo` available in your terminal also works.
+
+## How It Works
+
+Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
 
 ## Configuration
 
-The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility with existing installs. Only the user-facing labels are branded as `Launcher for Kilo CLI`.
+The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility. Only the user-facing labels use the `Kilo CLI launcher` name.
 
-Available settings:
+| Setting | Default | Description |
+| --- | --- | --- |
+| `kilocodeCliLauncher.cliCommand` | `kilo` | Command executed when the launcher button is clicked. |
+| `kilocodeCliLauncher.terminalName` | `Kilo CLI` | Base label used for the created terminal. |
 
-- `kilocodeCliLauncher.cliCommand`: command line used when the toolbar button is clicked. Default: `kilo`.
-- `kilocodeCliLauncher.terminalName`: terminal label shown in VS Code. Default: `Kilo CLI`.
+Use the Command Palette to open the extension settings:
 
-The default interactive command is `kilo`. If your binary is not on PATH, set the command to something like `npx kilo` or another launch command that works in your environment.
+- `Kilo CLI launcher: Open Settings`
 
-You can open extension settings quickly from the Command Palette:
+Examples:
 
-- `Launcher for Kilo CLI: Open Extension Settings`
-
-## Examples
-
-Default setup:
+Default command:
 
 ```json
 "kilocodeCliLauncher.cliCommand": "kilo"
 ```
 
-Launch through `npx`:
+Launch through `pnpm dlx`:
 
 ```json
-"kilocodeCliLauncher.cliCommand": "npx kilo"
+"kilocodeCliLauncher.cliCommand": "pnpm dlx @kilocode/cli"
 ```
 
 Windows executable path with spaces:
@@ -81,47 +79,46 @@ Windows executable path with arguments:
 
 ## Troubleshooting
 
-- **Message: "Kilo CLI is not installed..."**
-  Install it with:
+### Message: "Kilo CLI is not installed..."
 
-  ```bash
-  npm install -g @kilocode/cli
-  ```
+Install Kilo CLI globally and confirm that `kilo` works in a regular terminal, for example:
 
-- **Nothing happens on click**
-  Check `kilocodeCliLauncher.cliCommand` and verify that the same command works in a normal terminal.
+```bash
+pnpm add -g @kilocode/cli
+```
 
-- **Using a custom executable path**
-  Make sure the command works in a normal terminal. If the executable path contains spaces, quote it. This is especially common on Windows.
+### Nothing happens after clicking the button
 
-- **Using a custom launch command**
-  Commands like `npx kilo` are supported. The extension only performs the explicit install check when the executable is the plain `kilo` command.
+Check `kilocodeCliLauncher.cliCommand` and verify that the same command works in a regular terminal.
 
-## For Maintainers
+### Custom executable path on Windows
+
+Quote executable paths that contain spaces. This is required for commands such as `"C:\Program Files\Kilo CLI\kilo.cmd"`.
+
+### Custom launch commands
+
+Commands such as `pnpm dlx @kilocode/cli` are supported. The extension only performs the explicit install check when the executable is the plain `kilo` command.
+
+## Privacy
+
+Kilo CLI launcher does not collect telemetry, analytics, or personal data.
+
+## Development
 
 Local verification and packaging:
 
 ```bash
-npm install
-npm run check
-npm run package
+pnpm install
+pnpm run check
+pnpm run package
 ```
 
-The package step creates the `.vsix` file in the workspace root.
+`pnpm run package` creates the `.vsix` file in the workspace root.
 
-## Privacy
+## Support
 
-This extension does not collect telemetry, analytics, or personal data.
-
-## Project Links
-
-- GitHub: https://github.com/TheStreamCode/vscode-kilo-cli-launcher
-- Issues: https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues
+Open a GitHub issue for bugs and feature requests. For support details, see `SUPPORT.md`.
 
 ## License
 
 Released under the MIT License. See `LICENSE` for details.
-
-## Credits
-
-Michael Gasperini, Mikesoft: https://mikesoft.it
