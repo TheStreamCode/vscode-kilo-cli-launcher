@@ -12,10 +12,12 @@ When opening an issue, include:
 
 - VS Code version
 - Operating system
+- Whether you are using a single-folder or multi-root workspace
 - Configured `kilocodeCliLauncher.cliCommand` value
 - Steps to reproduce the problem
 - Expected result
 - Actual result
+- What happened in the integrated terminal after launch
 
 ## General Or Private Contact
 

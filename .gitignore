@@ -6,7 +6,6 @@ out/**/*.map
 *.tgz
 .vscode-test/
 .vsce/
-.pnpm-store/
 coverage/
 *.log
 *.tsbuildinfo

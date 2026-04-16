@@ -11,6 +11,7 @@ Works on Windows, macOS, and Linux.
 
 - Adds a launcher button to the editor title area
 - Opens a fresh terminal beside the active editor on every launch
+- Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
@@ -18,7 +19,7 @@ Works on Windows, macOS, and Linux.
 ## Requirements
 
 - VS Code `^1.86.0`
-- Kilo CLI available on `PATH`, or a working custom launch command configured in settings
+- Kilo CLI available in the integrated terminal environment, or a working custom launch command configured in settings
 
 ## Installation
 
@@ -26,7 +27,7 @@ Works on Windows, macOS, and Linux.
 2. Install Kilo CLI globally, for example:
 
 ```bash
-pnpm add -g @kilocode/cli
+npm install -g @kilocode/cli
 ```
 
 3. Open any file in VS Code.
@@ -38,13 +39,17 @@ Any equivalent install or launch method that makes `kilo` available in your term
 
 Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
 
+When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
+
+The launcher does not block startup with a local PATH pre-check. The integrated terminal is the source of truth for whether the configured command is available in your environment.
+
 ## Configuration
 
 The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility. Only the user-facing labels use the `Kilo CLI launcher` name.
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `kilocodeCliLauncher.cliCommand` | `kilo` | Command executed when the launcher button is clicked. |
+| `kilocodeCliLauncher.cliCommand` | `kilo` | Command executed when the launcher button is clicked. The command is sent directly to the integrated terminal. |
 | `kilocodeCliLauncher.terminalName` | `Kilo CLI` | Base label used for the created terminal. |
 
 Use the Command Palette to open the extension settings:
@@ -59,10 +64,10 @@ Default command:
 "kilocodeCliLauncher.cliCommand": "kilo"
 ```
 
-Launch through `pnpm dlx`:
+Launch through `npx`:
 
 ```json
-"kilocodeCliLauncher.cliCommand": "pnpm dlx @kilocode/cli"
+"kilocodeCliLauncher.cliCommand": "npx --yes @kilocode/cli"
 ```
 
 Windows executable path with spaces:
@@ -79,13 +84,15 @@ Windows executable path with arguments:
 
 ## Troubleshooting
 
-### Message: "Kilo CLI is not installed..."
+### The terminal opens but `kilo` is not recognized
 
-Install Kilo CLI globally and confirm that `kilo` works in a regular terminal, for example:
+Install Kilo CLI globally and confirm that `kilo` works in a regular integrated terminal, for example:
 
 ```bash
-pnpm add -g @kilocode/cli
+npm install -g @kilocode/cli
 ```
+
+If your setup relies on shell initialization, restart VS Code after installation so new terminals inherit the updated environment.
 
 ### Nothing happens after clicking the button
 
@@ -97,7 +104,11 @@ Quote executable paths that contain spaces. This is required for commands such a
 
 ### Custom launch commands
 
-Commands such as `pnpm dlx @kilocode/cli` are supported. The extension only performs the explicit install check when the executable is the plain `kilo` command.
+Commands such as `npx --yes @kilocode/cli` are supported.
+
+### Multi-root workspaces
+
+The launcher prefers the workspace folder of the active editor. To control where Kilo starts in a multi-root window, open a file from the target workspace before clicking the toolbar button.
 
 ## Privacy
 
@@ -108,12 +119,15 @@ Kilo CLI launcher does not collect telemetry, analytics, or personal data.
 Local verification and packaging:
 
 ```bash
-pnpm install
-pnpm run check
-pnpm run package
+npm install
+npm run check
+npm run test:integration
+npm run package
 ```
 
-`pnpm run package` creates the `.vsix` file in the workspace root.
+`npm run package` creates the `.vsix` file in the workspace root.
+
+The repository includes unit tests, metadata checks, VS Code integration smoke tests, and CI coverage for Windows and Linux.
 
 ## Support
 

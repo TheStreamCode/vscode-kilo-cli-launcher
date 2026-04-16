@@ -10,30 +10,33 @@ Harden command parsing, align user-facing naming, and add regression coverage wi
 
 The plan focused on three related workstreams:
 
-1. command parsing and terminal naming
+1. terminal launch behavior and terminal naming
 2. metadata, documentation, and packaging cleanup
-3. local verification for release readiness
+3. local and CI verification for release readiness
 
 ## File Map
 
-- `src/command-utils.ts`: pure helpers for command normalization, executable extraction, and terminal naming
+- `src/command-utils.ts`: pure helpers for command normalization, terminal naming, settings queries, and workspace-aware cwd resolution
 - `src/extension.ts`: VS Code command wiring and runtime integration
 - `test/command-utils.test.js`: regression tests for helper behavior
 - `test/metadata.test.js`: regression tests for metadata, docs, and ignore rules
+- `test/integration/`: VS Code smoke tests for activation and command execution
 - `package.json`: extension metadata and local verification scripts
+- `.github/workflows/ci.yml`: Windows and Linux validation workflow
 - `README.md`: end-user installation, configuration, and troubleshooting guide
 - `SUPPORT.md`: issue-reporting and maintainer contact guidance
 - `CHANGELOG.md`: release notes
 - `docs/README.md`: engineering documentation index
 
-## Workstream 1: Command Parsing
+## Workstream 1: Terminal Launch Behavior
 
 The runtime change was intentionally small:
 
 - keep `src/extension.ts` as the extension entry point
-- extract fragile logic into `src/command-utils.ts`
-- support quoted Windows executable paths without attempting to parse full shell syntax
-- preserve the explicit install check only for the plain `kilo` executable
+- extract runtime decisions into `src/command-utils.ts`
+- resolve terminal cwd from the active editor workspace when possible
+- support direct command launch without a blocking local PATH probe
+- keep terminal creation and status feedback lightweight
 
 ## Workstream 2: Metadata And Documentation
 
@@ -50,9 +53,11 @@ Release readiness for the hardening pass was based on:
 
 - successful TypeScript compilation
 - passing unit tests for helpers and metadata
+- passing VS Code integration smoke tests
+- a minimal CI workflow on Windows and Linux
 - package inspection to confirm that tests, source maps, and engineering notes were excluded from the VSIX
 - final review of metadata and public documentation for naming consistency
 
 ## Outcome
 
-The hardening pass stayed proportionate to the size of the project. It delivered a safer command-parsing path, basic regression coverage, and a cleaner public repository without adding new product scope or unnecessary infrastructure.
+The hardening pass stayed proportionate to the size of the project. It delivered a safer terminal-launch path, workspace-aware behavior, stronger automated validation, and a cleaner public repository without adding unnecessary product scope.

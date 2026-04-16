@@ -1,30 +1,14 @@
 import * as vscode from 'vscode';
-import { exec } from 'node:child_process';
-import { promisify } from 'node:util';
 import {
   FALLBACK_TERMINAL_NAME,
+  buildExtensionSettingsQuery,
   buildTerminalName,
   normalizeCliCommand,
   normalizeTerminalName,
-  shouldCheckKiloBinary,
+  resolveTerminalCwd,
 } from './command-utils.js';
 
-const INSTALL_KILO_COMMAND = 'pnpm add -g @kilocode/cli';
-const MISSING_KILO_MESSAGE = `Kilo CLI is not installed. Install it globally, for example: ${INSTALL_KILO_COMMAND}`;
-const execAsync = promisify(exec);
-
 let terminalSequence = 1;
-
-async function isKiloCliInstalled(): Promise<boolean> {
-  const checkCommand = process.platform === 'win32' ? 'where kilo' : 'command -v kilo';
-
-  try {
-    await execAsync(checkCommand);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 export function activate(context: vscode.ExtensionContext): void {
   const openCliCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openCli', async () => {
@@ -39,16 +23,13 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
 
-      if (shouldCheckKiloBinary(cliCommand) && !(await isKiloCliInstalled())) {
-        void vscode.window.showErrorMessage(MISSING_KILO_MESSAGE);
-        return;
-      }
-
       terminalSequence += 1;
+      const cwd = resolveTerminalCwd(vscode.window.activeTextEditor, vscode.workspace);
 
       const terminal = vscode.window.createTerminal({
         name: terminalName,
         location: { viewColumn: vscode.ViewColumn.Beside },
+        cwd,
       });
       terminal.show();
       terminal.sendText(cliCommand, true);
@@ -56,7 +37,7 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
   const openSettingsCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openSettings', async () => {
-    await vscode.commands.executeCommand('workbench.action.openSettings', '@ext:mikesoft.vscode-kilo-cli-launcher Kilo CLI launcher');
+    await vscode.commands.executeCommand('workbench.action.openSettings', buildExtensionSettingsQuery(context.extension.id));
   });
 
   context.subscriptions.push(openCliCommand, openSettingsCommand);

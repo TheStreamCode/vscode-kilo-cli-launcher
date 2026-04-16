@@ -3,7 +3,7 @@
   "displayName": "Kilo CLI launcher",
   "description": "Unofficial VS Code extension that opens Kilo CLI in a side terminal.",
   "publisher": "mikesoft",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -85,14 +85,16 @@
   "scripts": {
     "compile": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
     "watch": "node ./node_modules/typescript/bin/tsc --watch -p . --pretty false",
-    "test": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js",
+    "test": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js",
     "test:command-utils": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/command-utils.test.js",
+    "test:integration": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node ./test/integration/runTest.js",
     "test:metadata": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/metadata.test.js",
     "vscode:prepublish": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
     "package": "node ./node_modules/@vscode/vsce/vsce package",
-    "check": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./node_modules/@vscode/vsce/vsce ls"
+    "check": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js && node ./node_modules/@vscode/vsce/vsce ls"
   },
   "devDependencies": {
+    "@vscode/test-electron": "^2.5.2",
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.86.0",
     "@vscode/vsce": "^3.0.0",

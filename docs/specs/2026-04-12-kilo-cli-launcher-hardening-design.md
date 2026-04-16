@@ -10,23 +10,24 @@ This document captures the design used to harden the Kilo CLI launcher repositor
 
 At the time of the change, the repository had a small but meaningful set of issues:
 
-- command parsing could fail on Windows when the executable path was quoted and contained spaces
+- the launch flow could incorrectly block valid commands because it relied on the extension host PATH instead of the integrated terminal environment
+- terminal launch location was not explicit in multi-root or editor-driven workflows
 - user-facing naming was not fully consistent across metadata and documentation
 - automated coverage for the fragile helper logic was missing
-- public and engineering documentation needed clearer separation
+- public and engineering documentation needed clearer separation and release validation was still local-only
 
 ## Goals
 
 - standardize user-facing naming as `Kilo CLI launcher`
-- make executable detection quote-aware and Windows-safe
-- add unit tests for the most failure-prone logic
+- launch commands through the integrated terminal without a blocking local PATH probe
+- resolve terminal cwd from the active editor workspace when possible
+- add unit tests and VS Code integration smoke tests for the most failure-prone logic
+- add minimal CI coverage for release validation
 - keep packaging lean and documentation easier to navigate
 
 ## Non-Goals
 
 - adding new extension features
-- introducing CI workflows
-- adding end-to-end VS Code integration tests
 - restructuring the extension into a larger architecture
 
 ## Design Approach
@@ -35,9 +36,13 @@ At the time of the change, the repository had a small but meaningful set of issu
 
 The extension remains intentionally lightweight. `src/extension.ts` stays as the runtime entry point, while pure helper logic lives in `src/command-utils.ts` where it can be tested independently.
 
-### Keep parsing narrow and deliberate
+### Let the integrated terminal be the execution authority
 
-The extension does not need to parse full shell syntax. It only needs to extract the first executable token reliably enough to decide whether the explicit `kilo` install check should run.
+The extension should not second-guess whether the configured command exists by probing the extension host environment. Launch should stay simple: validate only obviously invalid input such as a blank command, then send the configured command to the integrated terminal and let that environment determine whether it succeeds.
+
+### Make launch location predictable
+
+Terminal startup should use the active editor workspace folder when possible, because that is the strongest signal for user intent in a multi-root VS Code window. If no matching editor workspace exists, the extension should fall back to the first workspace folder and otherwise leave cwd unspecified.
 
 ## Runtime Behavior
 
@@ -46,22 +51,29 @@ When the launcher command runs, the extension should:
 1. read extension settings
 2. normalize `cliCommand` and `terminalName`
 3. stop early if `cliCommand` is blank
-4. extract the executable using quote-aware parsing
-5. run the install check only when the executable is the plain `kilo` command
-6. create a new terminal beside the active editor
-7. send the configured command to the terminal and show a short status message
+4. resolve terminal cwd from the active editor workspace when possible
+5. create a new terminal beside the active editor
+6. send the configured command to the terminal and show a short status message
+7. open extension settings through the current extension id rather than a hardcoded marketplace id
 
 ## Testing Strategy
 
 The hardening pass adds focused unit tests for:
 
 - command trimming and normalization
-- executable extraction for plain commands and quoted Windows paths
 - terminal naming and fallback behavior
-- install-check decision logic
+- workspace-aware cwd resolution
+- settings query generation
 - public metadata and packaging expectations
 
-The test scope is intentionally narrow. The aim is regression protection for the extension's critical helper paths, not a full shell parser or a VS Code integration harness.
+It also adds VS Code integration smoke tests for:
+
+- extension activation
+- public command registration
+- launcher command execution creating a terminal
+- settings command execution without throwing
+
+The automated scope remains intentionally narrow. The aim is regression protection for the extension's critical launch paths, not a full end-to-end terminal automation suite.
 
 ## Documentation And Packaging
 
@@ -71,12 +83,14 @@ The repository documentation should be split by audience:
 - `SUPPORT.md` explains issue reporting and maintainer contact
 - `docs/` stores engineering notes and historical design or planning material
 
-The published VSIX should continue to exclude tests, source maps, and engineering-only material.
+The published VSIX should continue to exclude tests, source maps, engineering-only material, and the npm lockfile that is not needed at runtime.
 
 ## Acceptance Criteria
 
 - user-facing naming is consistent across metadata and public documentation
-- quoted executable paths no longer break executable detection
 - empty command configuration still fails with a clear error
-- automated tests cover helper logic and metadata checks
+- terminal launch no longer blocks on extension-host PATH detection
+- terminal cwd follows the active editor workspace when available
+- automated tests cover helper logic, metadata checks, and VS Code smoke scenarios
+- CI validates the extension on Windows and Linux
 - compile, tests, and package inspection succeed locally

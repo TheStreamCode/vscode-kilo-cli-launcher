@@ -1,6 +1,13 @@
 const FALLBACK_CLI_COMMAND = 'kilo';
 const FALLBACK_TERMINAL_NAME = 'Kilo CLI';
 
+type WorkspaceFolderLike<T> = { uri: T };
+type WorkspaceLike<T> = {
+  workspaceFolders?: readonly WorkspaceFolderLike<T>[];
+  getWorkspaceFolder(uri: T): WorkspaceFolderLike<T> | undefined;
+};
+type ActiveEditorLike<T> = { document: { uri: T } };
+
 /** Returns a trimmed CLI command with a safe fallback. */
 export function normalizeCliCommand(value: string | undefined, fallback = FALLBACK_CLI_COMMAND): string {
   return (value ?? fallback).trim();
@@ -19,29 +26,18 @@ export function buildTerminalName(value: string | undefined, sequence: number, f
   return `${baseName}${suffix}`;
 }
 
-/** Extracts the executable token while preserving quoted Windows paths with spaces. */
-export function extractExecutable(command: string): string {
-  const normalized = command.trim();
-
-  if (!normalized) {
-    return '';
-  }
-
-  const firstCharacter = normalized[0];
-  if (firstCharacter === '"' || firstCharacter === "'") {
-    const closingQuoteIndex = normalized.indexOf(firstCharacter, 1);
-    if (closingQuoteIndex > 0) {
-      return normalized.slice(1, closingQuoteIndex);
-    }
-  }
-
-  const whitespaceIndex = normalized.search(/\s/);
-  return whitespaceIndex === -1 ? normalized : normalized.slice(0, whitespaceIndex);
+/** Returns the settings search query for the current extension id. */
+export function buildExtensionSettingsQuery(extensionId: string): string {
+  return `@ext:${extensionId}`;
 }
 
-/** Decides whether the extension should validate that the kilo binary is on PATH. */
-export function shouldCheckKiloBinary(command: string): boolean {
-  return extractExecutable(command) === FALLBACK_CLI_COMMAND;
+/** Resolves the terminal cwd from the active editor or the first workspace folder. */
+export function resolveTerminalCwd<T>(
+  activeEditor: ActiveEditorLike<T> | undefined,
+  workspace: WorkspaceLike<T>,
+): T | undefined {
+  const activeWorkspaceFolder = activeEditor ? workspace.getWorkspaceFolder(activeEditor.document.uri) : undefined;
+  return activeWorkspaceFolder?.uri ?? workspace.workspaceFolders?.[0]?.uri;
 }
 
 export { FALLBACK_CLI_COMMAND, FALLBACK_TERMINAL_NAME };

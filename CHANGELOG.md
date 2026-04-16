@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.4
+
+### Changed
+
+- Removed the blocking local `kilo` PATH pre-check so launches rely on the integrated terminal environment.
+- Opened new terminals in the active editor workspace when possible, with a workspace fallback for multi-root windows.
+- Opened extension settings using the runtime extension id instead of a hardcoded marketplace identifier.
+- Standardized local development on `npm`.
+- Added VS Code integration smoke tests and CI coverage on Windows and Linux.
+- Updated public and engineering documentation for the new runtime and verification behavior.
+
 ## 0.1.3
 
 ### Changed

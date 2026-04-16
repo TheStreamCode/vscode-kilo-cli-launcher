@@ -4,8 +4,8 @@ const assert = require('node:assert/strict');
 const {
   normalizeCliCommand,
   buildTerminalName,
-  extractExecutable,
-  shouldCheckKiloBinary,
+  buildExtensionSettingsQuery,
+  resolveTerminalCwd,
 } = require('../out/command-utils.js');
 
 test('normalizeCliCommand trims configured values', () => {
@@ -32,23 +32,71 @@ test('buildTerminalName falls back when the configured name is blank', () => {
   assert.equal(buildTerminalName('   ', 2), 'Kilo CLI 2');
 });
 
-test('extractExecutable returns the first token for simple commands', () => {
-  assert.equal(extractExecutable('kilo --help'), 'kilo');
+test('buildExtensionSettingsQuery targets the current extension id', () => {
+  assert.equal(buildExtensionSettingsQuery('mikesoft.vscode-kilo-cli-launcher'), '@ext:mikesoft.vscode-kilo-cli-launcher');
 });
 
-test('extractExecutable preserves quoted Windows paths with spaces', () => {
-  assert.equal(
-    extractExecutable('"C:\\Program Files\\Kilo CLI\\kilo.cmd" --workspace "C:\\Temp Folder"'),
-    'C:\\Program Files\\Kilo CLI\\kilo.cmd',
-  );
+test('resolveTerminalCwd uses the active editor workspace when available', () => {
+  const workspace = {
+    workspaceFolders: [
+      { uri: 'workspace-a' },
+      { uri: 'workspace-b' },
+    ],
+    getWorkspaceFolder(uri) {
+      return uri === 'file-b' ? { uri: 'workspace-b' } : undefined;
+    },
+  };
+
+  const activeEditor = {
+    document: {
+      uri: 'file-b',
+    },
+  };
+
+  assert.equal(resolveTerminalCwd(activeEditor, workspace), 'workspace-b');
 });
 
-test('extractExecutable handles quoted commands with leading whitespace', () => {
-  assert.equal(extractExecutable('   "C:\\Tools\\kilo.exe" --version'), 'C:\\Tools\\kilo.exe');
+test('resolveTerminalCwd falls back to the first workspace when the active editor is outside the workspace', () => {
+  const workspace = {
+    workspaceFolders: [
+      { uri: 'workspace-a' },
+      { uri: 'workspace-b' },
+    ],
+    getWorkspaceFolder() {
+      return undefined;
+    },
+  };
+
+  const activeEditor = {
+    document: {
+      uri: 'external-file',
+    },
+  };
+
+  assert.equal(resolveTerminalCwd(activeEditor, workspace), 'workspace-a');
 });
 
-test('shouldCheckKiloBinary only checks the plain kilo executable', () => {
-  assert.equal(shouldCheckKiloBinary('kilo --help'), true);
-  assert.equal(shouldCheckKiloBinary('npx kilo'), false);
-  assert.equal(shouldCheckKiloBinary('"C:\\Program Files\\Kilo CLI\\kilo.cmd"'), false);
+test('resolveTerminalCwd falls back to the first workspace when there is no active editor', () => {
+  const workspace = {
+    workspaceFolders: [
+      { uri: 'workspace-a' },
+      { uri: 'workspace-b' },
+    ],
+    getWorkspaceFolder() {
+      return undefined;
+    },
+  };
+
+  assert.equal(resolveTerminalCwd(undefined, workspace), 'workspace-a');
+});
+
+test('resolveTerminalCwd returns undefined when no workspace is open', () => {
+  const workspace = {
+    workspaceFolders: undefined,
+    getWorkspaceFolder() {
+      return undefined;
+    },
+  };
+
+  assert.equal(resolveTerminalCwd(undefined, workspace), undefined);
 });
