@@ -3,12 +3,106 @@ import {
   FALLBACK_TERMINAL_NAME,
   buildExtensionSettingsQuery,
   buildTerminalName,
+  extractExecutable,
   normalizeCliCommand,
   normalizeTerminalName,
   resolveTerminalCwd,
+  shouldPromptToInstallKilo,
 } from './command-utils.js';
 
 let terminalSequence = 1;
+const INSTALL_KILO_COMMAND = 'npm install -g @kilocode/cli';
+
+function collectShellExecutionOutput(execution: vscode.TerminalShellExecution): Promise<string> {
+  return (async () => {
+    let output = '';
+
+    try {
+      for await (const chunk of execution.read()) {
+        output += chunk;
+      }
+    } catch {
+      return output;
+    }
+
+    return output;
+  })();
+}
+
+function watchForMissingKilo(terminal: vscode.Terminal, cliCommand: string, context: vscode.ExtensionContext): void {
+  const executable = extractExecutable(cliCommand);
+  if (executable !== 'kilo') {
+    return;
+  }
+
+  let executionStarted = false;
+
+  const startExecution = (shellIntegration: vscode.TerminalShellIntegration) => {
+    if (executionStarted) {
+      return;
+    }
+
+    executionStarted = true;
+    shellIntegrationListener.dispose();
+    clearTimeout(fallbackHandle);
+
+    const execution = shellIntegration.executeCommand(cliCommand);
+    const outputPromise = collectShellExecutionOutput(execution);
+
+    const executionListener = vscode.window.onDidEndTerminalShellExecution(async (endEvent) => {
+      if (endEvent.terminal !== terminal || endEvent.execution !== execution) {
+        return;
+      }
+
+      executionListener.dispose();
+
+      const output = await outputPromise;
+      if (!shouldPromptToInstallKilo(cliCommand, endEvent.exitCode, output)) {
+        return;
+      }
+
+      const selection = await vscode.window.showWarningMessage(
+        `Kilo CLI does not seem to be installed in this terminal environment. Install it with ${INSTALL_KILO_COMMAND}.`,
+        'Open Settings',
+      );
+
+      if (selection === 'Open Settings') {
+        await vscode.commands.executeCommand('kilocodeCliLauncher.openSettings');
+      }
+    });
+
+    context.subscriptions.push(executionListener);
+  };
+
+  const shellIntegrationListener = vscode.window.onDidChangeTerminalShellIntegration(async (event) => {
+    if (event.terminal !== terminal) {
+      return;
+    }
+
+    startExecution(event.shellIntegration);
+  });
+
+  const fallbackHandle = setTimeout(() => {
+    if (terminal.shellIntegration) {
+      startExecution(terminal.shellIntegration);
+      return;
+    }
+
+    executionStarted = true;
+    shellIntegrationListener.dispose();
+    terminal.sendText(cliCommand, true);
+  }, 3000);
+
+  if (terminal.shellIntegration) {
+    startExecution(terminal.shellIntegration);
+    return;
+  }
+
+  context.subscriptions.push(
+    shellIntegrationListener,
+    { dispose: () => clearTimeout(fallbackHandle) },
+  );
+}
 
 export function activate(context: vscode.ExtensionContext): void {
   const openCliCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openCli', async () => {
@@ -32,7 +126,7 @@ export function activate(context: vscode.ExtensionContext): void {
         cwd,
       });
       terminal.show();
-      terminal.sendText(cliCommand, true);
+      watchForMissingKilo(terminal, cliCommand, context);
       void vscode.window.setStatusBarMessage(`Started ${terminalBaseName}`, 2500);
     });
 

@@ -5,7 +5,9 @@ const {
   normalizeCliCommand,
   buildTerminalName,
   buildExtensionSettingsQuery,
+  extractExecutable,
   resolveTerminalCwd,
+  shouldPromptToInstallKilo,
 } = require('../out/command-utils.js');
 
 test('normalizeCliCommand trims configured values', () => {
@@ -34,6 +36,39 @@ test('buildTerminalName falls back when the configured name is blank', () => {
 
 test('buildExtensionSettingsQuery targets the current extension id', () => {
   assert.equal(buildExtensionSettingsQuery('mikesoft.vscode-kilo-cli-launcher'), '@ext:mikesoft.vscode-kilo-cli-launcher');
+});
+
+test('extractExecutable returns the first token for simple commands', () => {
+  assert.equal(extractExecutable('kilo --help'), 'kilo');
+});
+
+test('extractExecutable preserves quoted Windows paths with spaces', () => {
+  assert.equal(
+    extractExecutable('"C:\\Program Files\\Kilo CLI\\kilo.cmd" --workspace "C:\\Temp Folder"'),
+    'C:\\Program Files\\Kilo CLI\\kilo.cmd',
+  );
+});
+
+test('shouldPromptToInstallKilo detects PowerShell command-not-found output', () => {
+  const output = "kilo: The term 'kilo' is not recognized as a name of a cmdlet, function, script file, or executable program.";
+
+  assert.equal(shouldPromptToInstallKilo('kilo', 1, output), true);
+});
+
+test('shouldPromptToInstallKilo detects POSIX command-not-found exit codes', () => {
+  assert.equal(shouldPromptToInstallKilo('kilo', 127, ''), true);
+});
+
+test('shouldPromptToInstallKilo ignores custom commands', () => {
+  assert.equal(shouldPromptToInstallKilo('npx --yes @kilocode/cli', 1, 'command not found'), false);
+});
+
+test('shouldPromptToInstallKilo ignores unrelated runtime failures', () => {
+  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: authentication failed'), false);
+});
+
+test('shouldPromptToInstallKilo ignores generic not-found messages unrelated to the executable', () => {
+  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: model not found'), false);
 });
 
 test('resolveTerminalCwd uses the active editor workspace when available', () => {

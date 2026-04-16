@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.5
+
+### Changed
+
+- Added a guided install warning when shell integration confirms that the default `kilo` command is missing from the terminal environment.
+- Kept the non-blocking launch flow while avoiding false positives for custom commands and unrelated terminal failures.
+- Updated end-user documentation for the new missing-install feedback path.
+
 ## 0.1.4
 
 ### Changed

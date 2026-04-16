@@ -13,6 +13,7 @@ Works on Windows, macOS, and Linux.
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
+- Shows an install hint when the default `kilo` command fails because it is missing from the terminal environment
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
 
@@ -42,6 +43,8 @@ Each launch creates a new terminal beside the current editor and sends the confi
 When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
 
 The launcher does not block startup with a local PATH pre-check. The integrated terminal is the source of truth for whether the configured command is available in your environment.
+
+When shell integration reports that the default `kilo` command is missing, the extension shows a guided warning with the install command and a shortcut to the extension settings.
 
 ## Configuration
 
@@ -93,6 +96,8 @@ npm install -g @kilocode/cli
 ```
 
 If your setup relies on shell initialization, restart VS Code after installation so new terminals inherit the updated environment.
+
+When shell integration is available, the launcher also shows a VS Code warning after this failure so the error is easier to understand than reading only the terminal output.
 
 ### Nothing happens after clicking the button
 

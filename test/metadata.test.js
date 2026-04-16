@@ -28,7 +28,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.1.4');
+  assert.equal(packageJson.version, '0.1.5');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
 
@@ -68,6 +68,8 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /the launcher does not block startup with a local PATH pre-check/i);
+  assert.match(readme, /shows an install hint when the default `kilo` command fails because it is missing/i);
+  assert.match(readme, /shows a VS Code warning after this failure so the error is easier to understand/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
   assert.doesNotMatch(readme, /^## Credits$/m);
   assert.doesNotMatch(readme, /^## Project Links$/m);
@@ -124,13 +126,13 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.1.4 runtime hardening and keeps historical release notes', () => {
+test('changelog documents the 0.1.5 guided install hint and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
-  assert.match(changelog, /## 0\.1\.4[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.1\.4[\s\S]*Removed the blocking local `kilo` PATH pre-check so launches rely on the integrated terminal environment\./s);
-  assert.match(changelog, /## 0\.1\.4[\s\S]*Opened new terminals in the active editor workspace when possible, with a workspace fallback for multi-root windows\./s);
-  assert.match(changelog, /## 0\.1\.4[\s\S]*Added VS Code integration smoke tests and CI coverage on Windows and Linux\./s);
+  assert.match(changelog, /## 0\.1\.5[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.1\.5[\s\S]*Added a guided install warning when shell integration confirms that the default `kilo` command is missing from the terminal environment\./s);
+  assert.match(changelog, /## 0\.1\.5[\s\S]*Kept the non-blocking launch flow while avoiding false positives for custom commands and unrelated terminal failures\./s);
+  assert.match(changelog, /## 0\.1\.5[\s\S]*Updated end-user documentation for the new missing-install feedback path\./s);
   assert.match(changelog, /## 0\.1\.0[\s\S]*Updated public-facing project details and documentation\./);
   assert.match(changelog, /## 0\.0\.9[\s\S]*Improved overall reliability and packaging consistency\./);
   assert.match(changelog, /## 0\.0\.8\s+### Fixed\s+- General stability improvements\./s);
