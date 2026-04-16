@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.6
+
+### Changed
+
+- Refreshed the extension logos and Marketplace icon assets.
+
 ## 0.1.5
 
 ### Changed

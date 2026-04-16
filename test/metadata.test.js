@@ -28,7 +28,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.1.5');
+  assert.equal(packageJson.version, '0.1.6');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
 
@@ -126,9 +126,11 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.1.5 guided install hint and keeps historical release notes', () => {
+test('changelog documents the 0.1.6 asset refresh and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.1\.6[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.1\.6[\s\S]*Refreshed the extension logos and Marketplace icon assets\./s);
   assert.match(changelog, /## 0\.1\.5[\s\S]*### Changed/s);
   assert.match(changelog, /## 0\.1\.5[\s\S]*Added a guided install warning when shell integration confirms that the default `kilo` command is missing from the terminal environment\./s);
   assert.match(changelog, /## 0\.1\.5[\s\S]*Kept the non-blocking launch flow while avoiding false positives for custom commands and unrelated terminal failures\./s);
