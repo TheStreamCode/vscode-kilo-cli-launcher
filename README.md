@@ -10,7 +10,7 @@ Works on Windows, macOS, and Linux.
 ## Features
 
 - Adds a launcher button to the editor title area
-- Uses a minimal monochrome command icon in VS Code UI surfaces and a separate branded PNG for the Marketplace listing
+- Uses a dedicated launcher SVG in VS Code UI surfaces and a separate branded PNG for the Marketplace listing
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
@@ -41,7 +41,7 @@ Any equivalent install or launch method that makes `kilo` available in your term
 
 Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
 
-The command button icon inside VS Code uses a simple monochrome SVG so it remains legible in small toolbar surfaces. The Marketplace listing uses the dedicated `media/icon.png` asset, which keeps the full branded colors and meets the store PNG size requirement.
+The command button inside VS Code uses the dedicated `media/launcher-mark.svg` asset. The Marketplace listing uses the dedicated `media/icon.png` asset, which remains the packaged PNG icon for store surfaces.
 
 When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
 
@@ -135,7 +135,7 @@ npm run package
 
 `npm run package` creates the `.vsix` file in the workspace root.
 
-Release note: the UI command icon and the Marketplace icon are intentionally different asset types. Keep `media/launcher-mark.svg` minimal and monochrome for VS Code surfaces, and keep `media/icon.png` as the full-color Marketplace asset.
+Release note: the UI command icon and the Marketplace icon are intentionally different packaged assets. Keep `media/launcher-mark.svg` for the VS Code command surface and `media/icon.png` for the Marketplace listing.
 
 The repository includes unit tests, metadata checks, VS Code integration smoke tests, and CI coverage for Windows and Linux.
 

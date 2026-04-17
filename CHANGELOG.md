@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.8
+
+### Changed
+
+- Updated the packaged launcher mark and Marketplace icon assets to match the current branding.
+- Refreshed the release documentation so the launcher SVG and Marketplace PNG are documented as separate packaged assets.
+- Rebuilt the `.vsix` package for the updated release.
+
 ## 0.1.7
 
 ### Changed
