@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const rootDir = path.resolve(__dirname, '..');
+const PNG_SIGNATURE_SIZE = 8;
 
 /** Returns UTF-8 file contents from the repository root. */
 function readText(relativePath) {
@@ -23,22 +24,51 @@ function readIgnoreEntries(relativePath) {
     .filter(Boolean);
 }
 
+/** Reads PNG dimensions directly from the IHDR chunk. */
+function readPngSize(relativePath) {
+  const fileBuffer = fs.readFileSync(path.join(rootDir, relativePath));
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+  assert.deepEqual(fileBuffer.subarray(0, PNG_SIGNATURE_SIZE), pngSignature);
+
+  return {
+    width: fileBuffer.readUInt32BE(16),
+    height: fileBuffer.readUInt32BE(20),
+  };
+}
+
 test('package metadata uses Kilo CLI launcher branding while keeping compatibility IDs', () => {
   const packageJson = readPackageJson();
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.1.6');
+  assert.equal(packageJson.version, '0.1.7');
   assert.equal(packageJson.packageManager, undefined);
+  assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
 
   const [openCliCommand, openSettingsCommand] = packageJson.contributes.commands;
   assert.equal(openCliCommand.command, 'kilocodeCliLauncher.openCli');
   assert.equal(openCliCommand.title, 'Open Kilo CLI in Side Terminal');
   assert.equal(openCliCommand.category, 'Kilo CLI launcher');
+  assert.deepEqual(openCliCommand.icon, {
+    light: './media/launcher-mark.svg',
+    dark: './media/launcher-mark.svg',
+  });
   assert.equal(openSettingsCommand.command, 'kilocodeCliLauncher.openSettings');
   assert.equal(openSettingsCommand.category, 'Kilo CLI launcher');
   assert.equal(openSettingsCommand.title, 'Open Settings');
+});
+
+test('extension assets keep Marketplace and command icons aligned with VS Code requirements', () => {
+  const marketplaceIcon = readPngSize('media/icon.png');
+  const commandIcon = readText('media/launcher-mark.svg');
+
+  assert.ok(marketplaceIcon.width >= 256);
+  assert.ok(marketplaceIcon.height >= 256);
+  assert.match(commandIcon, /viewBox="0 0 24 24"/);
+  assert.match(commandIcon, /currentColor/);
+  assert.doesNotMatch(commandIcon, /linearGradient|radialGradient|filter=|<image/i);
 });
 
 test('package scripts use deterministic local tooling entry points', () => {
@@ -126,11 +156,12 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.1.6 asset refresh and keeps historical release notes', () => {
+test('changelog documents the 0.1.7 branding refresh and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
-  assert.match(changelog, /## 0\.1\.6[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.1\.6[\s\S]*Refreshed the extension logos and Marketplace icon assets\./s);
+  assert.match(changelog, /## 0\.1\.7[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.1\.7[\s\S]*Aligned the command toolbar icon with VS Code UI icon guidance using a minimal monochrome SVG based on `currentColor`\./s);
+  assert.match(changelog, /## 0\.1\.7[\s\S]*Regenerated the Marketplace icon as a 256x256 branded PNG asset while keeping the product brand colors for store surfaces\./s);
   assert.match(changelog, /## 0\.1\.5[\s\S]*### Changed/s);
   assert.match(changelog, /## 0\.1\.5[\s\S]*Added a guided install warning when shell integration confirms that the default `kilo` command is missing from the terminal environment\./s);
   assert.match(changelog, /## 0\.1\.5[\s\S]*Kept the non-blocking launch flow while avoiding false positives for custom commands and unrelated terminal failures\./s);

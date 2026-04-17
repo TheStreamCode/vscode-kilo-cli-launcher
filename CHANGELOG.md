@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.7
+
+### Changed
+
+- Aligned the command toolbar icon with VS Code UI icon guidance using a minimal monochrome SVG based on `currentColor`.
+- Regenerated the Marketplace icon as a 256x256 branded PNG asset while keeping the product brand colors for store surfaces.
+- Clarified the icon split in the README so packaging and branding expectations are easier to maintain.
+
 ## 0.1.6
 
 ### Changed

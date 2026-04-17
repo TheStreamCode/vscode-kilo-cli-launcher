@@ -7,7 +7,7 @@ This directory contains engineering documents for the repository. End-user insta
 - `specs/`: scoped design documents for engineering changes
 - `plans/`: implementation plans and historical execution notes
 
-Current release hardening focuses on predictable terminal launch behavior, workspace-aware terminal placement, guided feedback when the default `kilo` command is missing, npm-based local tooling, and automated validation in CI.
+Current release hardening focuses on predictable terminal launch behavior, workspace-aware terminal placement, guided feedback when the default `kilo` command is missing, npm-based local tooling, consistent branding assets for VS Code and Marketplace surfaces, and automated validation in CI.
 
 ## Document Status
 
