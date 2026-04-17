@@ -10,11 +10,10 @@ Works on Windows, macOS, and Linux.
 ## Features
 
 - Adds a launcher button to the editor title area
-- Uses a dedicated launcher SVG in VS Code UI surfaces and a separate branded PNG for the Marketplace listing
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
-- Shows an install hint when the default `kilo` command fails because it is missing from the terminal environment
+- Shows a guided warning when the default `kilo` command is not available
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
 
@@ -41,17 +40,13 @@ Any equivalent install or launch method that makes `kilo` available in your term
 
 Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
 
-The command button inside VS Code uses the dedicated `media/launcher-mark.svg` asset. The Marketplace listing uses the dedicated `media/icon.png` asset, which remains the packaged PNG icon for store surfaces.
-
 When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
 
-The launcher does not block startup with a local PATH pre-check. The integrated terminal is the source of truth for whether the configured command is available in your environment.
+The launcher checks command availability when the terminal runs, so it behaves consistently with your normal integrated terminal environment.
 
-When shell integration reports that the default `kilo` command is missing, the extension shows a guided warning with the install command and a shortcut to the extension settings.
+If the default `kilo` command is missing, the extension shows a guided warning with the install command and a shortcut to the extension settings.
 
 ## Configuration
-
-The extension keeps the `kilocodeCliLauncher` setting IDs for backward compatibility. Only the user-facing labels use the `Kilo CLI launcher` name.
 
 | Setting | Default | Description |
 | --- | --- | --- |
@@ -100,7 +95,7 @@ npm install -g @kilocode/cli
 
 If your setup relies on shell initialization, restart VS Code after installation so new terminals inherit the updated environment.
 
-When shell integration is available, the launcher also shows a VS Code warning after this failure so the error is easier to understand than reading only the terminal output.
+The launcher also shows a VS Code warning so the problem is easier to understand than relying only on terminal output.
 
 ### Nothing happens after clicking the button
 
@@ -134,8 +129,6 @@ npm run package
 ```
 
 `npm run package` creates the `.vsix` file in the workspace root.
-
-Release note: the UI command icon and the Marketplace icon are intentionally different packaged assets. Keep `media/launcher-mark.svg` for the VS Code command surface and `media/icon.png` for the Marketplace listing.
 
 The repository includes unit tests, metadata checks, VS Code integration smoke tests, and CI coverage for Windows and Linux.
 

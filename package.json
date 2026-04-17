@@ -3,7 +3,7 @@
   "displayName": "Kilo CLI launcher",
   "description": "Unofficial VS Code extension that opens Kilo CLI in a side terminal.",
   "publisher": "mikesoft",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"

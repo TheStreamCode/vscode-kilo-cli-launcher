@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.1.9
+
+### Changed
+
+- Refined the public README so Marketplace-facing details stay focused on user-relevant setup, behavior, configuration, and troubleshooting.
+- Removed internal branding and packaging notes from the end-user documentation.
+- Rebuilt the `.vsix` package for the updated release.
+
 ## 0.1.8
 
 ### Changed

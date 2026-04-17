@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.1.8');
+  assert.equal(packageJson.version, '0.1.9');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -91,15 +91,17 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /## Configuration/);
   assert.match(readme, /## Troubleshooting/);
   assert.match(readme, /Kilo CLI launcher: Open Settings/);
-  assert.match(readme, /keeps the `kilocodeCliLauncher` setting IDs for backward compatibility/i);
   assert.match(readme, /\\"C:\\\\Program Files\\\\Kilo CLI\\\\kilo\.cmd\\"/);
   assert.match(readme, /npm install -g @kilocode\/cli/);
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
-  assert.match(readme, /the launcher does not block startup with a local PATH pre-check/i);
-  assert.match(readme, /shows an install hint when the default `kilo` command fails because it is missing/i);
-  assert.match(readme, /shows a VS Code warning after this failure so the error is easier to understand/i);
+  assert.match(readme, /checks command availability when the terminal runs/i);
+  assert.match(readme, /shows a guided warning when the default `kilo` command is not available/i);
+  assert.match(readme, /shows a VS Code warning so the problem is easier to understand/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
+  assert.doesNotMatch(readme, /launcher-mark\.svg/i);
+  assert.doesNotMatch(readme, /media\/icon\.png/i);
+  assert.doesNotMatch(readme, /backward compatibility/i);
   assert.doesNotMatch(readme, /^## Credits$/m);
   assert.doesNotMatch(readme, /^## Project Links$/m);
 });
@@ -155,9 +157,12 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.1.8 branding refresh and keeps historical release notes', () => {
+test('changelog documents the 0.1.9 documentation refresh and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.1\.9[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.1\.9[\s\S]*Refined the public README so Marketplace-facing details stay focused on user-relevant setup, behavior, configuration, and troubleshooting\./s);
+  assert.match(changelog, /## 0\.1\.9[\s\S]*Removed internal branding and packaging notes from the end-user documentation\./s);
   assert.match(changelog, /## 0\.1\.8[\s\S]*### Changed/s);
   assert.match(changelog, /## 0\.1\.8[\s\S]*Updated the packaged launcher mark and Marketplace icon assets to match the current branding\./s);
   assert.match(changelog, /## 0\.1\.8[\s\S]*Refreshed the release documentation so the launcher SVG and Marketplace PNG are documented as separate packaged assets\./s);
