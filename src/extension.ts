@@ -63,10 +63,18 @@ function watchForMissingKilo(terminal: vscode.Terminal, cliCommand: string, cont
 
       const selection = await vscode.window.showWarningMessage(
         `Kilo CLI does not seem to be installed in this terminal environment. Install it with ${INSTALL_KILO_COMMAND}.`,
+        'Install',
         'Open Settings',
       );
 
-      if (selection === 'Open Settings') {
+      if (selection === 'Install') {
+        const installTerminal = vscode.window.createTerminal({
+          name: 'Install Kilo CLI',
+          location: { viewColumn: vscode.ViewColumn.Beside },
+        });
+        installTerminal.show();
+        installTerminal.sendText(INSTALL_KILO_COMMAND);
+      } else if (selection === 'Open Settings') {
         await vscode.commands.executeCommand('kilocodeCliLauncher.openSettings');
       }
     });

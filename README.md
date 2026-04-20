@@ -13,7 +13,7 @@ Works on Windows, macOS, and Linux.
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
-- Shows a guided warning when the default `kilo` command is not available
+- Shows a guided warning when the default `kilo` command is not available, with a one-click install button that runs the installation automatically
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
 
@@ -44,7 +44,7 @@ When possible, the launcher opens the terminal in the workspace folder of the ac
 
 The launcher checks command availability when the terminal runs, so it behaves consistently with your normal integrated terminal environment.
 
-If the default `kilo` command is missing, the extension shows a guided warning with the install command and a shortcut to the extension settings.
+If the default `kilo` command is missing, the extension shows a guided warning with an `Install` button that opens a new terminal and runs the installation command automatically, plus a shortcut to the extension settings.
 
 ## Configuration
 

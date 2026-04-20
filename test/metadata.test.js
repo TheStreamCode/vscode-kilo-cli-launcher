@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.1.9');
+  assert.equal(packageJson.version, '0.2.0');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -97,7 +97,8 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /checks command availability when the terminal runs/i);
   assert.match(readme, /shows a guided warning when the default `kilo` command is not available/i);
-  assert.match(readme, /shows a VS Code warning so the problem is easier to understand/i);
+  assert.match(readme, /with an `Install` button that opens a new terminal and runs the installation command automatically/i);
+  assert.match(readme, /one-click install button/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
   assert.doesNotMatch(readme, /launcher-mark\.svg/i);
   assert.doesNotMatch(readme, /media\/icon\.png/i);
@@ -157,9 +158,12 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.1.9 documentation refresh and keeps historical release notes', () => {
+test('changelog documents the 0.2.0 one-click install feature and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.2\.0[\s\S]*### Added/s);
+  assert.match(changelog, /## 0\.2\.0[\s\S]*Added an `Install` button to the missing CLI warning that opens a new terminal and runs the installation command automatically\./s);
+  assert.match(changelog, /## 0\.2\.0[\s\S]*Updated end-user documentation for the new one-click install flow\./s);
   assert.match(changelog, /## 0\.1\.9[\s\S]*### Changed/s);
   assert.match(changelog, /## 0\.1\.9[\s\S]*Refined the public README so Marketplace-facing details stay focused on user-relevant setup, behavior, configuration, and troubleshooting\./s);
   assert.match(changelog, /## 0\.1\.9[\s\S]*Removed internal branding and packaging notes from the end-user documentation\./s);

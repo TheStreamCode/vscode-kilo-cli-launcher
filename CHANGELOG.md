@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.0
+
+### Added
+
+- Added an `Install` button to the missing CLI warning that opens a new terminal and runs the installation command automatically.
+
+### Changed
+
+- Updated end-user documentation for the new one-click install flow.
+- Rebuilt the `.vsix` package for the updated release.
+
 ## 0.1.9
 
 ### Changed
