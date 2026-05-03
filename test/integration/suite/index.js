@@ -33,7 +33,7 @@ async function run() {
   const originalTerminalName = configuration.get('terminalName');
 
   try {
-    await configuration.update('cliCommand', 'kilo', vscode.ConfigurationTarget.Global);
+    await configuration.update('cliCommand', 'node --version', vscode.ConfigurationTarget.Global);
     await configuration.update('terminalName', 'Kilo CLI Test', vscode.ConfigurationTarget.Global);
 
     const beforeCount = vscode.window.terminals.length;

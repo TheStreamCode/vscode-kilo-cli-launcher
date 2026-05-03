@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.2.0');
+  assert.equal(packageJson.version, '0.2.1');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -158,9 +158,14 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.2.0 one-click install feature and keeps historical release notes', () => {
+test('changelog documents the 0.2.1 release and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.2\.1[\s\S]*### Added/s);
+  assert.match(changelog, /## 0\.2\.1[\s\S]*Added `AGENTS\.md` with repository contributor guidelines\./s);
+  assert.match(changelog, /## 0\.2\.1[\s\S]*### Fixed/s);
+  assert.match(changelog, /## 0\.2\.1[\s\S]*Reduced false positives in the missing CLI warning when an installed `kilo` command reports unrelated missing files\./s);
+  assert.match(changelog, /## 0\.2\.1[\s\S]*Made the VS Code integration smoke test independent of a locally installed Kilo CLI\./s);
   assert.match(changelog, /## 0\.2\.0[\s\S]*### Added/s);
   assert.match(changelog, /## 0\.2\.0[\s\S]*Added an `Install` button to the missing CLI warning that opens a new terminal and runs the installation command automatically\./s);
   assert.match(changelog, /## 0\.2\.0[\s\S]*Updated end-user documentation for the new one-click install flow\./s);

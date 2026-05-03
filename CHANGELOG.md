@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.1
+
+### Added
+
+- Added `AGENTS.md` with repository contributor guidelines.
+
+### Fixed
+
+- Reduced false positives in the missing CLI warning when an installed `kilo` command reports unrelated missing files.
+- Made the VS Code integration smoke test independent of a locally installed Kilo CLI.
+
 ## 0.2.0
 
 ### Added

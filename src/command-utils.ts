@@ -5,9 +5,10 @@ const COMMAND_NOT_FOUND_PATTERNS = [
   /(?:^|\s)kilo:\s+command not found/i,
   /(?:^|\s)kilo: not found/i,
   /command not found:\s*kilo/i,
+  /'kilo' is not recognized as an internal or external command/i,
   /\bkilo\b.*not found/i,
-  /no such file or directory/i,
-  /cannot find the file/i,
+  /no such file or directory:\s*kilo(?:\s|$)/i,
+  /cannot find the file:\s*kilo(?:\s|$)/i,
 ];
 
 type WorkspaceFolderLike<T> = { uri: T };

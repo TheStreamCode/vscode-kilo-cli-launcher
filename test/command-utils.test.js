@@ -71,6 +71,14 @@ test('shouldPromptToInstallKilo ignores generic not-found messages unrelated to 
   assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: model not found'), false);
 });
 
+test('shouldPromptToInstallKilo ignores missing file errors from an installed CLI', () => {
+  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: no such file or directory, open "/workspace/kilo.json"'), false);
+});
+
+test('shouldPromptToInstallKilo ignores Windows file errors from an installed CLI', () => {
+  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: cannot find the file C:\\Workspaces\\missing.prompt'), false);
+});
+
 test('resolveTerminalCwd uses the active editor workspace when available', () => {
   const workspace = {
     workspaceFolders: [
