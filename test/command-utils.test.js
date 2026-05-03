@@ -5,6 +5,7 @@ const {
   KILO_INSTALL_COMMAND,
   buildKiloInstallPromptCommand,
   buildKiloInstallPromptMessage,
+  buildKiloInstallPromptScript,
   normalizeCliCommand,
   buildTerminalName,
   buildExtensionSettingsQuery,
@@ -82,21 +83,26 @@ test('shouldPromptToInstallKilo ignores Windows file errors from an installed CL
   assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: cannot find the file C:\\Workspaces\\missing.prompt'), false);
 });
 
-test('buildKiloInstallPromptMessage includes the Kilo CLI help URL', () => {
-  assert.equal(
-    buildKiloInstallPromptMessage('https://example.com/kilo-help'),
-    'Cannot find Kilo CLI (https://example.com/kilo-help)',
-  );
+test('buildKiloInstallPromptMessage keeps the terminal prompt concise', () => {
+  assert.equal(buildKiloInstallPromptMessage(), 'Cannot find Kilo CLI');
 });
 
-test('buildKiloInstallPromptCommand prompts before running the npm install command', () => {
-  const command = buildKiloInstallPromptCommand('npm install -g @kilocode/cli', 'https://example.com/kilo-help');
+test('buildKiloInstallPromptCommand runs a prompt script instead of an inline command', () => {
+  const command = buildKiloInstallPromptCommand('C:\\Temp\\kilo cli prompt.js');
 
-  assert.match(command, /^node -e "/);
-  assert.match(command, /Cannot find Kilo CLI \(https:\/\/example\.com\/kilo-help\)/);
-  assert.match(command, /Install Kilo CLI\? \(y\/N\): /);
-  assert.match(command, /npm install -g @kilocode\/cli/);
-  assert.match(command, /normalized==='y'\|\|normalized==='yes'/);
+  assert.equal(command, 'node "C:\\Temp\\kilo cli prompt.js"');
+  assert.doesNotMatch(command, /node -e/);
+});
+
+test('buildKiloInstallPromptScript clears the runner command before prompting', () => {
+  const script = buildKiloInstallPromptScript('npm install -g @kilocode/cli');
+
+  assert.match(script, /process\.stdout\.write\('\\u001b\[1A\\u001b\[2K'\)/);
+  assert.match(script, /Cannot find Kilo CLI/);
+  assert.doesNotMatch(script, /github\.com\/TheStreamCode/);
+  assert.match(script, /Install Kilo CLI\? \(y\/N\): /);
+  assert.match(script, /npm install -g @kilocode\/cli/);
+  assert.match(script, /normalized === 'y' \|\| normalized === 'yes'/);
 });
 
 test('KILO_INSTALL_COMMAND uses the documented npm package', () => {

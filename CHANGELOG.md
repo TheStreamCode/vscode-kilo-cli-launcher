@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.3
+
+### Changed
+
+- Shortened the terminal install prompt and hid the internal prompt runner command from normal terminal output.
+
 ## 0.2.2
 
 ### Changed

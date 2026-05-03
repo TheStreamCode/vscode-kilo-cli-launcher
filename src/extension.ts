@@ -1,8 +1,12 @@
+import * as fs from 'node:fs';
+import * as os from 'node:os';
+import * as path from 'node:path';
 import * as vscode from 'vscode';
 import {
   FALLBACK_TERMINAL_NAME,
   buildExtensionSettingsQuery,
   buildKiloInstallPromptCommand,
+  buildKiloInstallPromptScript,
   buildTerminalName,
   extractExecutable,
   normalizeCliCommand,
@@ -12,6 +16,13 @@ import {
 } from './command-utils.js';
 
 let terminalSequence = 1;
+
+function writeKiloInstallPromptScript(): string {
+  const scriptPath = path.join(os.tmpdir(), 'kilo-cli-install-prompt.js');
+  fs.writeFileSync(scriptPath, buildKiloInstallPromptScript(), 'utf8');
+
+  return scriptPath;
+}
 
 function collectShellExecutionOutput(execution: vscode.TerminalShellExecution): Promise<string> {
   return (async () => {
@@ -61,7 +72,7 @@ function watchForMissingKilo(terminal: vscode.Terminal, cliCommand: string, cont
         return;
       }
 
-      terminal.sendText(buildKiloInstallPromptCommand(), true);
+      terminal.sendText(buildKiloInstallPromptCommand(writeKiloInstallPromptScript()), true);
     });
 
     context.subscriptions.push(executionListener);

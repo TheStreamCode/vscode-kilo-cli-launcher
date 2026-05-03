@@ -1,7 +1,6 @@
 const FALLBACK_CLI_COMMAND = 'kilo';
 const FALLBACK_TERMINAL_NAME = 'Kilo CLI';
 const KILO_INSTALL_COMMAND = 'npm install -g @kilocode/cli';
-const KILO_INSTALL_HELP_URL = 'https://github.com/TheStreamCode/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized';
 const COMMAND_NOT_FOUND_PATTERNS = [
   /is not recognized as a name of a cmdlet/i,
   /(?:^|\s)kilo:\s+command not found/i,
@@ -22,6 +21,10 @@ type ActiveEditorLike<T> = { document: { uri: T } };
 
 function quoteJavaScriptString(value: string): string {
   return `'${value.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
+}
+
+function quoteShellPath(value: string): string {
+  return `"${value.replace(/"/g, '\\"')}"`;
 }
 
 /** Returns a trimmed CLI command with a safe fallback. */
@@ -48,27 +51,41 @@ export function buildExtensionSettingsQuery(extensionId: string): string {
 }
 
 /** Returns the terminal-facing missing CLI message. */
-export function buildKiloInstallPromptMessage(helpUrl = KILO_INSTALL_HELP_URL): string {
-  return `Cannot find Kilo CLI (${helpUrl})`;
+export function buildKiloInstallPromptMessage(): string {
+  return 'Cannot find Kilo CLI';
 }
 
-/** Returns a cross-shell Node prompt that installs Kilo CLI only after confirmation. */
-export function buildKiloInstallPromptCommand(
+/** Returns the Node prompt script that installs Kilo CLI only after confirmation. */
+export function buildKiloInstallPromptScript(
   installCommand = KILO_INSTALL_COMMAND,
-  helpUrl = KILO_INSTALL_HELP_URL,
 ): string {
-  const message = quoteJavaScriptString(buildKiloInstallPromptMessage(helpUrl));
+  const message = quoteJavaScriptString(buildKiloInstallPromptMessage());
   const prompt = quoteJavaScriptString('Install Kilo CLI? (y/N): ');
   const command = quoteJavaScriptString(installCommand);
-  const script = [
-    "const readline=require('node:readline')",
-    "const cp=require('node:child_process')",
-    'const rl=readline.createInterface({input:process.stdin,output:process.stdout})',
+  return [
+    "process.stdout.write('\\u001b[1A\\u001b[2K')",
+    "const readline = require('node:readline')",
+    "const cp = require('node:child_process')",
+    'const rl = readline.createInterface({ input: process.stdin, output: process.stdout })',
     `console.log(${message})`,
-    `rl.question(${prompt},(answer)=>{rl.close();const normalized=answer.trim().toLowerCase();if(normalized==='y'||normalized==='yes'){const child=cp.spawn(${command},[],{stdio:'inherit',shell:true});child.on('exit',(code)=>process.exit(code===null?1:code));child.on('error',()=>process.exit(1));}else{process.exit(0);}})`,
-  ].join(';');
+    `rl.question(${prompt}, (answer) => {`,
+    '  rl.close()',
+    '  const normalized = answer.trim().toLowerCase()',
+    "  if (normalized === 'y' || normalized === 'yes') {",
+    `    const child = cp.spawn(${command}, [], { stdio: 'inherit', shell: true })`,
+    '    child.on(\'exit\', (code) => process.exit(code === null ? 1 : code))',
+    '    child.on(\'error\', () => process.exit(1))',
+    '  } else {',
+    '    process.exit(0)',
+    '  }',
+    '})',
+    '',
+  ].join('\n');
+}
 
-  return `node -e "${script}"`;
+/** Returns the short terminal command that runs the generated prompt script. */
+export function buildKiloInstallPromptCommand(scriptPath: string): string {
+  return `node ${quoteShellPath(scriptPath)}`;
 }
 
 /** Extracts the executable token while preserving quoted Windows paths with spaces. */
@@ -117,4 +134,4 @@ export function resolveTerminalCwd<T>(
   return activeWorkspaceFolder?.uri ?? workspace.workspaceFolders?.[0]?.uri;
 }
 
-export { FALLBACK_CLI_COMMAND, FALLBACK_TERMINAL_NAME, KILO_INSTALL_COMMAND, KILO_INSTALL_HELP_URL };
+export { FALLBACK_CLI_COMMAND, FALLBACK_TERMINAL_NAME, KILO_INSTALL_COMMAND };
