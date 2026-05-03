@@ -2,6 +2,9 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  KILO_INSTALL_COMMAND,
+  buildKiloInstallPromptCommand,
+  buildKiloInstallPromptMessage,
   normalizeCliCommand,
   buildTerminalName,
   buildExtensionSettingsQuery,
@@ -77,6 +80,27 @@ test('shouldPromptToInstallKilo ignores missing file errors from an installed CL
 
 test('shouldPromptToInstallKilo ignores Windows file errors from an installed CLI', () => {
   assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: cannot find the file C:\\Workspaces\\missing.prompt'), false);
+});
+
+test('buildKiloInstallPromptMessage includes the Kilo CLI help URL', () => {
+  assert.equal(
+    buildKiloInstallPromptMessage('https://example.com/kilo-help'),
+    'Cannot find Kilo CLI (https://example.com/kilo-help)',
+  );
+});
+
+test('buildKiloInstallPromptCommand prompts before running the npm install command', () => {
+  const command = buildKiloInstallPromptCommand('npm install -g @kilocode/cli', 'https://example.com/kilo-help');
+
+  assert.match(command, /^node -e "/);
+  assert.match(command, /Cannot find Kilo CLI \(https:\/\/example\.com\/kilo-help\)/);
+  assert.match(command, /Install Kilo CLI\? \(y\/N\): /);
+  assert.match(command, /npm install -g @kilocode\/cli/);
+  assert.match(command, /normalized==='y'\|\|normalized==='yes'/);
+});
+
+test('KILO_INSTALL_COMMAND uses the documented npm package', () => {
+  assert.equal(KILO_INSTALL_COMMAND, 'npm install -g @kilocode/cli');
 });
 
 test('resolveTerminalCwd uses the active editor workspace when available', () => {

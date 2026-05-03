@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.2
+
+### Changed
+
+- Replaced the VS Code missing CLI warning with an interactive terminal install prompt.
+
 ## 0.2.1
 
 ### Added

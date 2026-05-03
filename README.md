@@ -4,6 +4,8 @@ Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a ne
 
 Works on Windows, macOS, and Linux.
 
+Current documented release: `0.2.2`. See `CHANGELOG.md` for release-by-release changes.
+
 > **Disclaimer**
 > This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.
 
@@ -13,7 +15,7 @@ Works on Windows, macOS, and Linux.
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
-- Shows a guided warning when the default `kilo` command is not available, with a one-click install button that runs the installation automatically
+- Prints an interactive terminal prompt when the default `kilo` command is not available
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
 
@@ -44,7 +46,14 @@ When possible, the launcher opens the terminal in the workspace folder of the ac
 
 The launcher checks command availability when the terminal runs, so it behaves consistently with your normal integrated terminal environment.
 
-If the default `kilo` command is missing, the extension shows a guided warning with an `Install` button that opens a new terminal and runs the installation command automatically, plus a shortcut to the extension settings.
+If the default `kilo` command is missing, the extension prints an interactive prompt in the same terminal:
+
+```text
+Cannot find Kilo CLI (https://github.com/TheStreamCode/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized)
+Install Kilo CLI? (y/N):
+```
+
+Answer `y` or `yes` to run `npm install -g @kilocode/cli` in that terminal. Any other answer cancels installation.
 
 ## Configuration
 
@@ -95,7 +104,7 @@ npm install -g @kilocode/cli
 
 If your setup relies on shell initialization, restart VS Code after installation so new terminals inherit the updated environment.
 
-The launcher also shows a VS Code warning so the problem is easier to understand than relying only on terminal output.
+The launcher also prints an interactive terminal prompt so the problem is easier to resolve without leaving the terminal.
 
 ### Nothing happens after clicking the button
 

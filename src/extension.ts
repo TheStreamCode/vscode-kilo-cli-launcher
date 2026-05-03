@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import {
   FALLBACK_TERMINAL_NAME,
   buildExtensionSettingsQuery,
+  buildKiloInstallPromptCommand,
   buildTerminalName,
   extractExecutable,
   normalizeCliCommand,
@@ -11,7 +12,6 @@ import {
 } from './command-utils.js';
 
 let terminalSequence = 1;
-const INSTALL_KILO_COMMAND = 'npm install -g @kilocode/cli';
 
 function collectShellExecutionOutput(execution: vscode.TerminalShellExecution): Promise<string> {
   return (async () => {
@@ -61,22 +61,7 @@ function watchForMissingKilo(terminal: vscode.Terminal, cliCommand: string, cont
         return;
       }
 
-      const selection = await vscode.window.showWarningMessage(
-        `Kilo CLI does not seem to be installed in this terminal environment. Install it with ${INSTALL_KILO_COMMAND}.`,
-        'Install',
-        'Open Settings',
-      );
-
-      if (selection === 'Install') {
-        const installTerminal = vscode.window.createTerminal({
-          name: 'Install Kilo CLI',
-          location: { viewColumn: vscode.ViewColumn.Beside },
-        });
-        installTerminal.show();
-        installTerminal.sendText(INSTALL_KILO_COMMAND);
-      } else if (selection === 'Open Settings') {
-        await vscode.commands.executeCommand('kilocodeCliLauncher.openSettings');
-      }
+      terminal.sendText(buildKiloInstallPromptCommand(), true);
     });
 
     context.subscriptions.push(executionListener);

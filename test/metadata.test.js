@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.2.1');
+  assert.equal(packageJson.version, '0.2.2');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -96,9 +96,9 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /checks command availability when the terminal runs/i);
-  assert.match(readme, /shows a guided warning when the default `kilo` command is not available/i);
-  assert.match(readme, /with an `Install` button that opens a new terminal and runs the installation command automatically/i);
-  assert.match(readme, /one-click install button/i);
+  assert.match(readme, /Current documented release: `0\.2\.2`/);
+  assert.match(readme, /prints an interactive terminal prompt when the default `kilo` command is not available/i);
+  assert.match(readme, /Install Kilo CLI\? \(y\/N\):/);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
   assert.doesNotMatch(readme, /launcher-mark\.svg/i);
   assert.doesNotMatch(readme, /media\/icon\.png/i);
@@ -158,9 +158,11 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.2.1 release and keeps historical release notes', () => {
+test('changelog documents the 0.2.2 release and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.2\.2[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.2\.2[\s\S]*Replaced the VS Code missing CLI warning with an interactive terminal install prompt\./s);
   assert.match(changelog, /## 0\.2\.1[\s\S]*### Added/s);
   assert.match(changelog, /## 0\.2\.1[\s\S]*Added `AGENTS\.md` with repository contributor guidelines\./s);
   assert.match(changelog, /## 0\.2\.1[\s\S]*### Fixed/s);
