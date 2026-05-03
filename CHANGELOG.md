@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.4
+
+### Changed
+
+- Updated engineering documentation to reflect the current interactive terminal install prompt behavior.
+
 ## 0.2.3
 
 ### Changed

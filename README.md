@@ -4,7 +4,7 @@ Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a ne
 
 Works on Windows, macOS, and Linux.
 
-Current documented release: `0.2.3`. See `CHANGELOG.md` for release-by-release changes.
+Current documented release: `0.2.4`. See `CHANGELOG.md` for release-by-release changes.
 
 > **Disclaimer**
 > This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.

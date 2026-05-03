@@ -1,6 +1,6 @@
 # Kilo CLI launcher hardening design
 
-**Status:** Historical design note for the April 2026 hardening pass.
+**Status:** Historical design note for the April 2026 hardening pass. Current releases replace the original VS Code missing-install warning with an interactive terminal install prompt.
 
 ## Summary
 
@@ -21,7 +21,7 @@ At the time of the change, the repository had a small but meaningful set of issu
 - standardize user-facing naming as `Kilo CLI launcher`
 - launch commands through the integrated terminal without a blocking local PATH probe
 - resolve terminal cwd from the active editor workspace when possible
-- show a guided install warning only when shell integration confirms that the default `kilo` command is missing
+- show missing-install feedback only when shell integration confirms that the default `kilo` command is missing
 - add unit tests and VS Code integration smoke tests for the most failure-prone logic
 - add minimal CI coverage for release validation
 - keep packaging lean and documentation easier to navigate
@@ -45,9 +45,11 @@ The extension should not second-guess whether the configured command exists by p
 
 Terminal startup should use the active editor workspace folder when possible, because that is the strongest signal for user intent in a multi-root VS Code window. If no matching editor workspace exists, the extension should fall back to the first workspace folder and otherwise leave cwd unspecified.
 
-### Only warn after a confirmed terminal failure
+### Only prompt after a confirmed terminal failure
 
 The extension should not reintroduce a blocking install pre-check. Instead, when the default `kilo` command is launched in a terminal with shell integration, it should observe the real command execution and show a guided warning only if the terminal output and exit code indicate that `kilo` is genuinely missing. This preserves accurate feedback while avoiding false positives for custom commands or unrelated runtime errors.
+
+Current behavior: the confirmed missing-install path prints an interactive prompt in the terminal rather than opening a VS Code warning. The prompt says `Cannot find Kilo CLI`, asks `Install Kilo CLI? (y/N):`, and runs `npm install -g @kilocode/cli` only when the user confirms with `y` or `yes`.
 
 ## Runtime Behavior
 
@@ -60,7 +62,7 @@ When the launcher command runs, the extension should:
 5. create a new terminal beside the active editor
 6. execute the configured command in the terminal, using shell integration when available
 7. open extension settings through the current extension id rather than a hardcoded marketplace id
-8. show an install hint only when the observed terminal failure indicates that the default `kilo` command is missing
+8. show an interactive terminal install prompt only when the observed terminal failure indicates that the default `kilo` command is missing
 
 ## Testing Strategy
 
@@ -99,7 +101,7 @@ The published VSIX should continue to exclude tests, source maps, engineering-on
 - empty command configuration still fails with a clear error
 - terminal launch no longer blocks on extension-host PATH detection
 - terminal cwd follows the active editor workspace when available
-- a guided warning appears only for confirmed missing-install failures of the default `kilo` command
+- an interactive terminal install prompt appears only for confirmed missing-install failures of the default `kilo` command
 - automated tests cover helper logic, metadata checks, and VS Code smoke scenarios
 - CI validates the extension on Windows and Linux
 - compile, tests, and package inspection succeed locally

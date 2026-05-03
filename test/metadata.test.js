@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.2.3');
+  assert.equal(packageJson.version, '0.2.4');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -96,7 +96,7 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /checks command availability when the terminal runs/i);
-  assert.match(readme, /Current documented release: `0\.2\.3`/);
+  assert.match(readme, /Current documented release: `0\.2\.4`/);
   assert.match(readme, /prints an interactive terminal prompt when the default `kilo` command is not available/i);
   assert.match(readme, /Cannot find Kilo CLI\s+Install Kilo CLI\? \(y\/N\):/);
   assert.doesNotMatch(readme, /github\.com\/TheStreamCode\/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized/);
@@ -160,9 +160,11 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.2.3 release and keeps historical release notes', () => {
+test('changelog documents the 0.2.4 release and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.2\.4[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.2\.4[\s\S]*Updated engineering documentation to reflect the current interactive terminal install prompt behavior\./s);
   assert.match(changelog, /## 0\.2\.3[\s\S]*### Changed/s);
   assert.match(changelog, /## 0\.2\.3[\s\S]*Shortened the terminal install prompt and hid the internal prompt runner command from normal terminal output\./s);
   assert.match(changelog, /## 0\.2\.2[\s\S]*### Changed/s);
