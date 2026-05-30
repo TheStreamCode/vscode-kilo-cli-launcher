@@ -4,7 +4,7 @@ Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a ne
 
 Works on Windows, macOS, and Linux.
 
-Current documented release: `0.2.4`. See `CHANGELOG.md` for release-by-release changes.
+Current documented release: `0.2.5`. See `CHANGELOG.md` for release-by-release changes.
 
 > **Disclaimer**
 > This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.
@@ -38,6 +38,23 @@ npm install -g @kilocode/cli
 
 Any equivalent install or launch method that makes `kilo` available in your terminal also works.
 
+## Guided Installation
+
+If the default `kilo` command is missing, the extension prints an interactive prompt in the same terminal. The prompt uses the official Kilo CLI npm package command and never installs without explicit confirmation:
+
+```text
+Cannot find Kilo CLI
+Install Kilo CLI? (y/N):
+```
+
+Answer `y` or `yes` to run:
+
+```bash
+npm install -g @kilocode/cli
+```
+
+Any other answer cancels installation. Restart VS Code if your shell needs a new environment to see globally installed npm commands.
+
 ## How It Works
 
 Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
@@ -46,7 +63,7 @@ When possible, the launcher opens the terminal in the workspace folder of the ac
 
 The launcher checks command availability when the terminal runs, so it behaves consistently with your normal integrated terminal environment.
 
-If the default `kilo` command is missing, the extension prints an interactive prompt in the same terminal:
+If the default `kilo` command is missing, the extension prints the guided installation prompt in the same terminal:
 
 ```text
 Cannot find Kilo CLI

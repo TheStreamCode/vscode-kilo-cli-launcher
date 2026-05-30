@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.5
+
+### Changed
+
+- Documented the existing interactive guided install prompt with the official Kilo CLI npm package command.
+
 ## 0.2.4
 
 ### Changed

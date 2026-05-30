@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI launcher');
   assert.equal(packageJson.description, 'Unofficial VS Code extension that opens Kilo CLI in a side terminal.');
-  assert.equal(packageJson.version, '0.2.4');
+  assert.equal(packageJson.version, '0.2.5');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -88,6 +88,7 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /Works on Windows, macOS, and Linux\./);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode\./);
   assert.match(readme, /## Features/);
+  assert.match(readme, /## Guided Installation/);
   assert.match(readme, /## Configuration/);
   assert.match(readme, /## Troubleshooting/);
   assert.match(readme, /Kilo CLI launcher: Open Settings/);
@@ -96,11 +97,12 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /checks command availability when the terminal runs/i);
-  assert.match(readme, /Current documented release: `0\.2\.4`/);
+  assert.match(readme, /Current documented release: `0\.2\.5`/);
   assert.match(readme, /prints an interactive terminal prompt when the default `kilo` command is not available/i);
   assert.match(readme, /Cannot find Kilo CLI\s+Install Kilo CLI\? \(y\/N\):/);
   assert.doesNotMatch(readme, /github\.com\/TheStreamCode\/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized/);
   assert.match(readme, /Install Kilo CLI\? \(y\/N\):/);
+  assert.match(readme, /official Kilo CLI npm package/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
   assert.doesNotMatch(readme, /launcher-mark\.svg/i);
   assert.doesNotMatch(readme, /media\/icon\.png/i);
@@ -163,6 +165,8 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
 test('changelog documents the 0.2.4 release and keeps historical release notes', () => {
   const changelog = readText('CHANGELOG.md');
 
+  assert.match(changelog, /## 0\.2\.5[\s\S]*### Changed/s);
+  assert.match(changelog, /## 0\.2\.5[\s\S]*Documented the existing interactive guided install prompt with the official Kilo CLI npm package command\./s);
   assert.match(changelog, /## 0\.2\.4[\s\S]*### Changed/s);
   assert.match(changelog, /## 0\.2\.4[\s\S]*Updated engineering documentation to reflect the current interactive terminal install prompt behavior\./s);
   assert.match(changelog, /## 0\.2\.3[\s\S]*### Changed/s);
