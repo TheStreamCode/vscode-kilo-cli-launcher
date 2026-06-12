@@ -1,9 +1,9 @@
 {
   "name": "vscode-kilo-cli-launcher",
-  "displayName": "Kilo CLI launcher",
-  "description": "Unofficial VS Code extension that opens Kilo CLI in a side terminal.",
+  "displayName": "Kilo CLI Launcher — Run Kilo Code in a Side Terminal",
+  "description": "Launch the Kilo Code AI coding agent CLI in a side terminal from your editor toolbar — one click, fresh terminal, guided npm install. Unofficial; works in VS Code, Cursor & Windsurf on Windows, macOS & Linux.",
   "publisher": "mikesoft",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -16,6 +16,9 @@
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues"
   },
   "homepage": "https://mikesoft.it",
+  "sponsor": {
+    "url": "https://github.com/sponsors/TheStreamCode"
+  },
   "license": "MIT",
   "icon": "media/icon.png",
   "galleryBanner": {
@@ -27,37 +30,42 @@
     "vscode": "^1.86.0"
   },
   "categories": [
+    "AI",
+    "Chat",
     "Other"
   ],
   "keywords": [
-    "vscode",
-    "extension",
     "kilo",
+    "kilocode",
+    "kilo code",
+    "kilo cli",
+    "ai coding agent",
+    "coding agent",
+    "ai agent",
+    "ai",
     "cli",
     "terminal",
     "launcher",
-    "toolbar",
-    "editor",
-    "command"
+    "vscode"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-        {
-          "command": "kilocodeCliLauncher.openCli",
-          "title": "Open Kilo CLI in Side Terminal",
-          "category": "Kilo CLI launcher",
-          "icon": {
-            "light": "./media/launcher-mark.svg",
-            "dark": "./media/launcher-mark.svg"
+      {
+        "command": "kilocodeCliLauncher.openCli",
+        "title": "Open Kilo CLI in Side Terminal",
+        "category": "Kilo CLI launcher",
+        "icon": {
+          "light": "./media/launcher-mark.svg",
+          "dark": "./media/launcher-mark.svg"
         }
       },
-        {
-          "command": "kilocodeCliLauncher.openSettings",
-          "title": "Open Settings",
-          "category": "Kilo CLI launcher"
-        }
-      ],
+      {
+        "command": "kilocodeCliLauncher.openSettings",
+        "title": "Open Settings",
+        "category": "Kilo CLI launcher"
+      }
+    ],
     "menus": {
       "editor/title": [
         {
