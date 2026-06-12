@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.7
+
+### Changed
+
+- Unified the `LICENSE` copyright holder to **Michael Gasperini (Mikesoft)**. No functional changes.
+
 ## 0.2.6
 
 ### Changed
