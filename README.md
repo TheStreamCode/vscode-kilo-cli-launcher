@@ -10,7 +10,7 @@ Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a ne
 
 Works on Windows, macOS, and Linux.
 
-Current documented release: `0.2.7`. See `CHANGELOG.md` for release-by-release changes.
+Current documented release: `0.2.8`. See `CHANGELOG.md` for release-by-release changes.
 
 > **✨ Want one launcher for every agent?** Try **[Super CLI](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-super-cli)** — a single sidebar that launches Claude Code, Codex, Copilot, Cursor, Grok, Kilo, Antigravity, OpenCode, and more. Install this launcher for Kilo alone, or Super CLI for the whole set.
 
@@ -29,7 +29,7 @@ Current documented release: `0.2.7`. See `CHANGELOG.md` for release-by-release c
 
 ## Requirements
 
-- VS Code `^1.86.0`
+- VS Code `^1.93.0`
 - Kilo CLI available in the integrated terminal environment, or a working custom launch command configured in settings
 
 ## Installation

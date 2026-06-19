@@ -110,6 +110,22 @@ function watchForMissingKilo(terminal: vscode.Terminal, cliCommand: string, cont
 
 export function activate(context: vscode.ExtensionContext): void {
   const openCliCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openCli', async () => {
+      if (!vscode.workspace.isTrusted) {
+        const selection = await vscode.window.showWarningMessage(
+          'Kilo CLI Launcher runs terminal commands in the current workspace. Trust this workspace before launching Kilo CLI.',
+          'Manage Workspace Trust',
+          'Open Settings',
+        );
+
+        if (selection === 'Manage Workspace Trust') {
+          await vscode.commands.executeCommand('workbench.trust.manage');
+        } else if (selection === 'Open Settings') {
+          await vscode.commands.executeCommand('workbench.action.openSettings', buildExtensionSettingsQuery(context.extension.id));
+        }
+
+        return;
+      }
+
       const configuration = vscode.workspace.getConfiguration('kilocodeCliLauncher');
       const cliCommand = normalizeCliCommand(configuration.get<string>('cliCommand', 'kilo'));
       const configuredTerminalName = configuration.get<string>('terminalName', FALLBACK_TERMINAL_NAME);

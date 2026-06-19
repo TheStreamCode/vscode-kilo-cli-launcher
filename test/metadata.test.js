@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI Launcher — Run Kilo Code in a Side Terminal');
   assert.equal(packageJson.description, 'Launch the Kilo Code AI coding agent CLI in a side terminal from your editor toolbar — one click, fresh terminal, guided npm install. Unofficial; works in VS Code, Cursor & Windsurf on Windows, macOS & Linux.');
-  assert.equal(packageJson.version, '0.2.7');
+  assert.equal(packageJson.version, '0.2.8');
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -97,7 +97,7 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /checks command availability when the terminal runs/i);
-  assert.match(readme, /Current documented release: `0\.2\.7`/);
+  assert.match(readme, /Current documented release: `0\.2\.8`/);
   assert.match(readme, /prints an interactive terminal prompt when the default `kilo` command is not available/i);
   assert.match(readme, /Cannot find Kilo CLI\s+Install Kilo CLI\? \(y\/N\):/);
   assert.doesNotMatch(readme, /github\.com\/TheStreamCode\/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized/);

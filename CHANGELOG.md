@@ -4,6 +4,19 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.8
+
+### Added
+
+- Added `CONTRIBUTING.md`, `SECURITY.md`, and `TRADEMARKS.md` governance documents for the public repository.
+- Added a Workspace Trust check to the launch command so the agent is not started in untrusted workspaces, matching the rest of the launcher family.
+- Added the `untrustedWorkspaces` capability, machine/window setting scopes, and a `test:unit` script.
+
+### Changed
+
+- Raised the minimum required VS Code version to `^1.93.0`, the actual floor for the terminal shell integration APIs the launcher uses (previously declared `^1.86.0`).
+- Compiled against the `ES2022` target to align with the rest of the launcher family.
+
 ## 0.2.7
 
 ### Changed

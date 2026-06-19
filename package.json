@@ -3,7 +3,7 @@
   "displayName": "Kilo CLI Launcher — Run Kilo Code in a Side Terminal",
   "description": "Launch the Kilo Code AI coding agent CLI in a side terminal from your editor toolbar — one click, fresh terminal, guided npm install. Unofficial; works in VS Code, Cursor & Windsurf on Windows, macOS & Linux.",
   "publisher": "mikesoft",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheStreamCode/vscode-kilo-cli-launcher.git"
@@ -27,7 +27,16 @@
   },
   "pricing": "Free",
   "engines": {
-    "vscode": "^1.86.0"
+    "vscode": "^1.93.0"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Launching Kilo CLI runs terminal commands in the current workspace. The launcher is disabled until the workspace is trusted.",
+      "restrictedConfigurations": [
+        "kilocodeCliLauncher.cliCommand"
+      ]
+    }
   },
   "categories": [
     "AI",
@@ -79,11 +88,13 @@
       "properties": {
         "kilocodeCliLauncher.cliCommand": {
           "type": "string",
+          "scope": "machine",
           "default": "kilo",
           "markdownDescription": "Command used to start Kilo CLI. The extension keeps the existing `kilocodeCliLauncher` setting IDs for backward compatibility. On Windows, quote executable paths that contain spaces, for example `\"C:\\Program Files\\Kilo CLI\\kilo.cmd\"`."
         },
         "kilocodeCliLauncher.terminalName": {
           "type": "string",
+          "scope": "window",
           "default": "Kilo CLI",
           "description": "Name of the terminal used by the launcher."
         }
@@ -94,6 +105,7 @@
     "compile": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
     "watch": "node ./node_modules/typescript/bin/tsc --watch -p . --pretty false",
     "test": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js",
+    "test:unit": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js",
     "test:command-utils": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/command-utils.test.js",
     "test:integration": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node ./test/integration/runTest.js",
     "test:metadata": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/metadata.test.js",
@@ -104,7 +116,7 @@
   "devDependencies": {
     "@vscode/test-electron": "^2.5.2",
     "@types/node": "^22.0.0",
-    "@types/vscode": "^1.86.0",
+    "@types/vscode": "^1.93.0",
     "@vscode/vsce": "^3.0.0",
     "typescript": "^5.0.0"
   }
