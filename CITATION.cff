@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Kilo CLI Launcher"
+authors:
+  - family-names: Gasperini
+    given-names: Michael
+url: "https://github.com/TheStreamCode/vscode-kilo-cli-launcher"
+version: "0.2.8"
+license: MIT
