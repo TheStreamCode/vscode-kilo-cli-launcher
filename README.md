@@ -29,7 +29,7 @@ Current documented release: `0.2.8`. See `CHANGELOG.md` for release-by-release c
 
 ## Requirements
 
-- VS Code `^1.93.0`
+- VS Code `^1.103.0`
 - Kilo CLI available in the integrated terminal environment, or a working custom launch command configured in settings
 
 ## Installation

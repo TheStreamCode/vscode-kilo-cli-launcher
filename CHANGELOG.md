@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- Raised the minimum required VS Code version to `^1.103.0` and aligned `@types/vscode` to match, so `vsce` validation passes against the declared engine floor.
+
+### Security
+
+- Resolved npm security vulnerabilities via `npm audit fix`.
+
 ## 0.2.8
 
 ### Added
