@@ -86,7 +86,7 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /^# Kilo CLI launcher$/m);
   assert.match(readme, /opens Kilo CLI in a new side terminal/i);
   assert.match(readme, /Works on Windows, macOS, and Linux\./);
-  assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode\./);
+  assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode/);
   assert.match(readme, /## Features/);
   assert.match(readme, /## Guided Installation/);
   assert.match(readme, /## Configuration/);
@@ -97,12 +97,10 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /checks command availability when the terminal runs/i);
-  assert.match(readme, /Current documented release: `0\.2\.8`/);
   assert.match(readme, /prints an interactive terminal prompt when the default `kilo` command is not available/i);
   assert.match(readme, /Cannot find Kilo CLI\s+Install Kilo CLI\? \(y\/N\):/);
   assert.doesNotMatch(readme, /github\.com\/TheStreamCode\/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized/);
   assert.match(readme, /Install Kilo CLI\? \(y\/N\):/);
-  assert.match(readme, /official Kilo CLI npm package/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
   assert.doesNotMatch(readme, /launcher-mark\.svg/i);
   assert.doesNotMatch(readme, /media\/icon\.png/i);

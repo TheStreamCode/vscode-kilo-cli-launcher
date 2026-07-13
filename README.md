@@ -10,12 +10,12 @@ Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a ne
 
 Works on Windows, macOS, and Linux.
 
-Current documented release: `0.2.8`. See `CHANGELOG.md` for release-by-release changes.
+Current documented release: `0.2.9`. See `CHANGELOG.md` for release-by-release changes.
 
 > **✨ Want one launcher for every agent?** Try **[Super CLI](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-super-cli)** — a single sidebar that launches Claude Code, Codex, Copilot, Cursor, Grok, Kilo, Antigravity, OpenCode, and more. Install this launcher for Kilo alone, or Super CLI for the whole set.
 
 > **Disclaimer**
-> This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. "Kilo" and "KiloCode" are trademarks of their respective owners.
+> This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. Kilo-related names are used only to identify the compatible CLI. See [TRADEMARKS.md](TRADEMARKS.md).
 
 ## Features
 
@@ -23,7 +23,7 @@ Current documented release: `0.2.8`. See `CHANGELOG.md` for release-by-release c
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
-- Prints an interactive terminal prompt when the default `kilo` command is not available
+- Prints an interactive terminal prompt when the default `kilo` command is not available and shell integration identifies command-not-found
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
 
@@ -48,7 +48,7 @@ Any equivalent install or launch method that makes `kilo` available in your term
 
 ## Guided Installation
 
-If the default `kilo` command is missing, the extension prints an interactive prompt in the same terminal. The prompt uses the official Kilo CLI npm package command and never installs without explicit confirmation:
+When terminal shell integration identifies that the default `kilo` executable was not found, the extension prints an interactive prompt in the same terminal. Custom launch commands do not trigger this prompt. The prompt runs the npm package command only after you explicitly answer `y` or `yes`:
 
 ```text
 Cannot find Kilo CLI
@@ -71,14 +71,16 @@ When possible, the launcher opens the terminal in the workspace folder of the ac
 
 The launcher checks command availability when the terminal runs, so it behaves consistently with your normal integrated terminal environment.
 
-If the default `kilo` command is missing, the extension prints the guided installation prompt in the same terminal:
+Launching is available only in trusted workspaces. The launcher runs the configured command only in VS Code's integrated terminal; review the workspace and command before you trust or launch it.
+
+When terminal shell integration identifies that the default `kilo` executable was not found, the extension prints the guided installation prompt in the same terminal. Custom launch commands do not trigger the prompt:
 
 ```text
 Cannot find Kilo CLI
 Install Kilo CLI? (y/N):
 ```
 
-Answer `y` or `yes` to run `npm install -g @kilocode/cli` in that terminal. Any other answer cancels installation.
+Only an explicit `y` or `yes` runs `npm install -g @kilocode/cli` in that terminal. Any other answer cancels installation.
 
 ## Configuration
 
