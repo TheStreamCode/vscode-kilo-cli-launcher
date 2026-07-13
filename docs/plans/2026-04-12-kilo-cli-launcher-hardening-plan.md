@@ -1,6 +1,6 @@
 # Kilo CLI launcher hardening implementation plan
 
-**Status:** Historical implementation note for the April 2026 hardening pass. Current releases use an interactive terminal install prompt instead of the original VS Code missing-install warning.
+**Status:** Historical implementation note for the April 2026 hardening pass. The missing-CLI detection and installer flow described below was removed in version 0.2.11; see the root `README.md` for current behavior.
 
 ## Goal
 
@@ -57,7 +57,7 @@ Release readiness for the hardening pass was based on:
 - passing VS Code integration smoke tests
 - a minimal CI workflow on Windows and Linux
 - package inspection to confirm that tests, source maps, and engineering notes were excluded from the VSIX
-- user-facing feedback stays clear when the default `kilo` command is missing from the terminal environment; current releases use a terminal prompt that asks `Install Kilo CLI? (y/N):`
+- user-facing feedback stayed clear when the default `kilo` command was missing from the terminal environment; a later historical release used a terminal prompt that asked `Install Kilo CLI? (y/N):`, which version 0.2.11 removed
 - final review of metadata and public documentation for naming consistency
 
 ## Outcome

@@ -1,6 +1,6 @@
 # Kilo CLI launcher hardening design
 
-**Status:** Historical design note for the April 2026 hardening pass. Current releases replace the original VS Code missing-install warning with an interactive terminal install prompt.
+**Status:** Historical design note for the April 2026 hardening pass. The missing-CLI detection and installer flow described below was removed in version 0.2.11; see the root `README.md` for current behavior.
 
 ## Summary
 
@@ -49,7 +49,7 @@ Terminal startup should use the active editor workspace folder when possible, be
 
 The extension should not reintroduce a blocking install pre-check. Instead, when the default `kilo` command is launched in a terminal with shell integration, it should observe the real command execution and show a guided warning only if the terminal output and exit code indicate that `kilo` is genuinely missing. This preserves accurate feedback while avoiding false positives for custom commands or unrelated runtime errors.
 
-Current behavior: the confirmed missing-install path prints an interactive prompt in the terminal rather than opening a VS Code warning. The prompt says `Cannot find Kilo CLI`, asks `Install Kilo CLI? (y/N):`, and runs `npm install -g @kilocode/cli` only when the user confirms with `y` or `yes`.
+Historical follow-up behavior: the confirmed missing-install path later printed an interactive prompt in the terminal rather than opening a VS Code warning. The prompt said `Cannot find Kilo CLI`, asked `Install Kilo CLI? (y/N):`, and ran `npm install -g @kilocode/cli` only when the user confirmed with `y` or `yes`. Version 0.2.11 removed this flow.
 
 ## Runtime Behavior
 

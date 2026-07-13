@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.11
+
+### Changed
+
+- Removed automatic npm installation, temporary installer scripts, and terminal shell execution inspection.
+- Kept the trusted-workspace launch flow while sending the configured command directly to the integrated terminal.
+- Directs users with a missing Kilo CLI only to the verified official installation documentation.
+
+### Security
+
+- Reduced the extension runtime surface by removing generated scripts and child-process shell execution.
+
 ## 0.2.10
 
 ### Changed

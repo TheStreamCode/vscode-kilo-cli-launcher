@@ -2,16 +2,10 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
-  KILO_INSTALL_COMMAND,
-  buildKiloInstallPromptCommand,
-  buildKiloInstallPromptMessage,
-  buildKiloInstallPromptScript,
   normalizeCliCommand,
   buildTerminalName,
   buildExtensionSettingsQuery,
-  extractExecutable,
   resolveTerminalCwd,
-  shouldPromptToInstallKilo,
 } = require('../out/command-utils.js');
 
 test('normalizeCliCommand trims configured values', () => {
@@ -40,73 +34,6 @@ test('buildTerminalName falls back when the configured name is blank', () => {
 
 test('buildExtensionSettingsQuery targets the current extension id', () => {
   assert.equal(buildExtensionSettingsQuery('mikesoft.vscode-kilo-cli-launcher'), '@ext:mikesoft.vscode-kilo-cli-launcher');
-});
-
-test('extractExecutable returns the first token for simple commands', () => {
-  assert.equal(extractExecutable('kilo --help'), 'kilo');
-});
-
-test('extractExecutable preserves quoted Windows paths with spaces', () => {
-  assert.equal(
-    extractExecutable('"C:\\Program Files\\Kilo CLI\\kilo.cmd" --workspace "C:\\Temp Folder"'),
-    'C:\\Program Files\\Kilo CLI\\kilo.cmd',
-  );
-});
-
-test('shouldPromptToInstallKilo detects PowerShell command-not-found output', () => {
-  const output = "kilo: The term 'kilo' is not recognized as a name of a cmdlet, function, script file, or executable program.";
-
-  assert.equal(shouldPromptToInstallKilo('kilo', 1, output), true);
-});
-
-test('shouldPromptToInstallKilo detects POSIX command-not-found exit codes', () => {
-  assert.equal(shouldPromptToInstallKilo('kilo', 127, ''), true);
-});
-
-test('shouldPromptToInstallKilo ignores custom commands', () => {
-  assert.equal(shouldPromptToInstallKilo('npx --yes @kilocode/cli', 1, 'command not found'), false);
-});
-
-test('shouldPromptToInstallKilo ignores unrelated runtime failures', () => {
-  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: authentication failed'), false);
-});
-
-test('shouldPromptToInstallKilo ignores generic not-found messages unrelated to the executable', () => {
-  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: model not found'), false);
-});
-
-test('shouldPromptToInstallKilo ignores missing file errors from an installed CLI', () => {
-  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: no such file or directory, open "/workspace/kilo.json"'), false);
-});
-
-test('shouldPromptToInstallKilo ignores Windows file errors from an installed CLI', () => {
-  assert.equal(shouldPromptToInstallKilo('kilo', 1, 'Error: cannot find the file C:\\Workspaces\\missing.prompt'), false);
-});
-
-test('buildKiloInstallPromptMessage keeps the terminal prompt concise', () => {
-  assert.equal(buildKiloInstallPromptMessage(), 'Cannot find Kilo CLI');
-});
-
-test('buildKiloInstallPromptCommand runs a prompt script instead of an inline command', () => {
-  const command = buildKiloInstallPromptCommand('C:\\Temp\\kilo cli prompt.js');
-
-  assert.equal(command, 'node "C:\\Temp\\kilo cli prompt.js"');
-  assert.doesNotMatch(command, /node -e/);
-});
-
-test('buildKiloInstallPromptScript clears the runner command before prompting', () => {
-  const script = buildKiloInstallPromptScript('npm install -g @kilocode/cli');
-
-  assert.match(script, /process\.stdout\.write\('\\u001b\[1A\\u001b\[2K'\)/);
-  assert.match(script, /Cannot find Kilo CLI/);
-  assert.doesNotMatch(script, /github\.com\/TheStreamCode/);
-  assert.match(script, /Install Kilo CLI\? \(y\/N\): /);
-  assert.match(script, /npm install -g @kilocode\/cli/);
-  assert.match(script, /normalized === 'y' \|\| normalized === 'yes'/);
-});
-
-test('KILO_INSTALL_COMMAND uses the documented npm package', () => {
-  assert.equal(KILO_INSTALL_COMMAND, 'npm install -g @kilocode/cli');
 });
 
 test('resolveTerminalCwd uses the active editor workspace when available', () => {

@@ -10,7 +10,7 @@ Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a ne
 
 Works on Windows, macOS, and Linux.
 
-Current documented release: `0.2.10`. See `CHANGELOG.md` for release-by-release changes.
+Current documented release: `0.2.11`. See `CHANGELOG.md` for release-by-release changes.
 
 > **✨ Want one launcher for every agent?** Try **[Super CLI](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-super-cli)** — a single sidebar that launches Claude Code, Codex, Copilot, Cursor, Grok, Kilo, Antigravity, OpenCode, and more. Install this launcher for Kilo alone, or Super CLI for the whole set.
 
@@ -23,7 +23,7 @@ Current documented release: `0.2.10`. See `CHANGELOG.md` for release-by-release 
 - Opens a fresh terminal beside the active editor on every launch
 - Uses the active editor workspace when available, with a fallback to the first open workspace folder
 - Runs a configurable Kilo CLI command
-- Prints an interactive terminal prompt when the default `kilo` command is not available and shell integration identifies command-not-found
+- Leaves installation decisions to the user and links only to the official Kilo CLI documentation
 - Supports quoted Windows executable paths
 - Does not collect telemetry, analytics, or personal data
 
@@ -35,33 +35,12 @@ Current documented release: `0.2.10`. See `CHANGELOG.md` for release-by-release 
 ## Installation
 
 1. Install the extension from the VS Code Marketplace.
-2. Install Kilo CLI globally, for example:
-
-```bash
-npm install -g @kilocode/cli
-```
+2. Install Kilo CLI by following the [official Kilo CLI documentation](https://kilocode.ai/docs/code-with-ai/platforms/cli).
 
 3. Open any file in VS Code.
 4. Click the launcher button in the editor title.
 
 Any equivalent install or launch method that makes `kilo` available in your terminal also works.
-
-## Guided Installation
-
-When terminal shell integration identifies that the default `kilo` executable was not found, the extension prints an interactive prompt in the same terminal. Custom launch commands do not trigger this prompt. The prompt runs the npm package command only after you explicitly answer `y` or `yes`:
-
-```text
-Cannot find Kilo CLI
-Install Kilo CLI? (y/N):
-```
-
-Answer `y` or `yes` to run:
-
-```bash
-npm install -g @kilocode/cli
-```
-
-Any other answer cancels installation. Restart VS Code if your shell needs a new environment to see globally installed npm commands.
 
 ## How It Works
 
@@ -69,18 +48,9 @@ Each launch creates a new terminal beside the current editor and sends the confi
 
 When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
 
-The launcher checks command availability when the terminal runs, so it behaves consistently with your normal integrated terminal environment.
-
 Launching is available only in trusted workspaces. The launcher runs the configured command only in VS Code's integrated terminal; review the workspace and command before you trust or launch it.
 
-When terminal shell integration identifies that the default `kilo` executable was not found, the extension prints the guided installation prompt in the same terminal. Custom launch commands do not trigger the prompt:
-
-```text
-Cannot find Kilo CLI
-Install Kilo CLI? (y/N):
-```
-
-Only an explicit `y` or `yes` runs `npm install -g @kilocode/cli` in that terminal. Any other answer cancels installation.
+The extension does not install Kilo CLI, create installer scripts, or inspect shell execution. If `kilo` is unavailable, use the terminal error and open the [official Kilo CLI documentation](https://kilocode.ai/docs/code-with-ai/platforms/cli) to choose and run an installation method yourself.
 
 ## Configuration
 
@@ -123,15 +93,9 @@ Windows executable path with arguments:
 
 ### The terminal opens but `kilo` is not recognized
 
-Install Kilo CLI globally and confirm that `kilo` works in a regular integrated terminal, for example:
-
-```bash
-npm install -g @kilocode/cli
-```
+Follow the [official Kilo CLI documentation](https://kilocode.ai/docs/code-with-ai/platforms/cli), then confirm that `kilo` works in a regular integrated terminal.
 
 If your setup relies on shell initialization, restart VS Code after installation so new terminals inherit the updated environment.
-
-The launcher also prints an interactive terminal prompt so the problem is easier to resolve without leaving the terminal.
 
 ### Nothing happens after clicking the button
 

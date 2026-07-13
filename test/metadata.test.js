@@ -41,8 +41,9 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
   const packageJson = readPackageJson();
 
   assert.equal(packageJson.displayName, 'Kilo CLI Launcher — Run Kilo Code in a Side Terminal');
-  assert.equal(packageJson.description, 'Launch the Kilo Code AI coding agent CLI in a side terminal from your editor toolbar — one click, fresh terminal, guided npm install. Unofficial; works in VS Code, Cursor & Windsurf on Windows, macOS & Linux.');
-  assert.equal(packageJson.version, '0.2.9');
+  assert.equal(packageJson.description, 'Launch the Kilo Code AI coding agent CLI in a side terminal from your editor toolbar — one click, fresh terminal. Unofficial; works in VS Code, Cursor & Windsurf on Windows, macOS & Linux.');
+  assert.equal(packageJson.version, '0.2.11');
+  assert.equal(JSON.parse(readText('package-lock.json')).version, packageJson.version);
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');
   assert.equal(packageJson.contributes.configuration.title, 'Kilo CLI launcher');
@@ -58,6 +59,17 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
   assert.equal(openSettingsCommand.command, 'kilocodeCliLauncher.openSettings');
   assert.equal(openSettingsCommand.category, 'Kilo CLI launcher');
   assert.equal(openSettingsCommand.title, 'Open Settings');
+});
+
+test('launcher has no automatic install, temporary script, or shell execution pipeline', () => {
+  const extensionSource = readText('src/extension.ts');
+  const commandUtilsSource = readText('src/command-utils.ts');
+
+  assert.match(extensionSource, /terminal\.sendText\(cliCommand, true\)/);
+  assert.doesNotMatch(extensionSource, /node:(?:fs|os|path)/);
+  assert.doesNotMatch(extensionSource, /shellIntegration|TerminalShellExecution|executeCommand\(cliCommand\)/i);
+  assert.doesNotMatch(extensionSource, /installPrompt|writeFileSync|tmpdir/i);
+  assert.doesNotMatch(commandUtilsSource, /npm install|child_process|shell:\s*true|installPrompt/i);
 });
 
 test('extension assets keep Marketplace and command icons packaged on the expected paths', () => {
@@ -88,19 +100,16 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /Works on Windows, macOS, and Linux\./);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode/);
   assert.match(readme, /## Features/);
-  assert.match(readme, /## Guided Installation/);
+  assert.match(readme, /official Kilo CLI documentation/i);
   assert.match(readme, /## Configuration/);
   assert.match(readme, /## Troubleshooting/);
   assert.match(readme, /Kilo CLI launcher: Open Settings/);
   assert.match(readme, /\\"C:\\\\Program Files\\\\Kilo CLI\\\\kilo\.cmd\\"/);
-  assert.match(readme, /npm install -g @kilocode\/cli/);
   assert.match(readme, /npm run check/);
   assert.match(readme, /uses the active editor workspace when available/i);
-  assert.match(readme, /checks command availability when the terminal runs/i);
-  assert.match(readme, /prints an interactive terminal prompt when the default `kilo` command is not available/i);
-  assert.match(readme, /Cannot find Kilo CLI\s+Install Kilo CLI\? \(y\/N\):/);
-  assert.doesNotMatch(readme, /github\.com\/TheStreamCode\/vscode-kilo-cli-launcher#the-terminal-opens-but-kilo-is-not-recognized/);
-  assert.match(readme, /Install Kilo CLI\? \(y\/N\):/);
+  assert.match(readme, /https:\/\/kilocode\.ai\/docs\/code-with-ai\/platforms\/cli/);
+  assert.match(readme, /does not install Kilo CLI/i);
+  assert.doesNotMatch(readme, /Guided Installation|Install Kilo CLI\? \(y\/N\):/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
   assert.doesNotMatch(readme, /launcher-mark\.svg/i);
   assert.doesNotMatch(readme, /media\/icon\.png/i);
@@ -126,13 +135,14 @@ test('docs directory includes an index for engineering documents', () => {
   assert.match(docsReadme, /root `README\.md`/);
   assert.match(docsReadme, /`specs\/`/);
   assert.match(docsReadme, /`plans\/`/);
+  assert.doesNotMatch(docsReadme, /interactive terminal install prompt/i);
 });
 
-test('README uses npm-based examples and keeps privacy guidance visible', () => {
+test('README uses official installation guidance and keeps privacy guidance visible', () => {
   const readme = readText('README.md');
 
   assert.match(readme, /does not collect telemetry, analytics, or personal data\./i);
-  assert.match(readme, /npm install -g @kilocode\/cli/);
+  assert.match(readme, /https:\/\/kilocode\.ai\/docs\/code-with-ai\/platforms\/cli/);
   assert.match(readme, /npm run package/);
   assert.match(readme, /npx --yes @kilocode\/cli/);
 });
