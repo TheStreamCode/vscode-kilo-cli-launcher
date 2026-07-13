@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.3.0
+
+### Changed
+
+- Superseded the `0.2.11` release with the same direct terminal launch behavior and manual installation guidance.
+
 ## 0.2.11
 
 ### Changed
