@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.2.10
+
+### Changed
+
+- Improved legal documentation, trademark notices, third-party terms references, and metadata cleanup.
+
 ## 0.2.9
 
 ### Changed
