@@ -3,8 +3,8 @@ import {
   FALLBACK_TERMINAL_NAME,
   buildExtensionSettingsQuery,
   buildTerminalName,
-  normalizeCliCommand,
   normalizeTerminalName,
+  resolveCliCommandSetting,
   resolveTerminalCwd,
 } from './command-utils.js';
 
@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext): void {
       }
 
       const configuration = vscode.workspace.getConfiguration('kilocodeCliLauncher');
-      const cliCommand = normalizeCliCommand(configuration.get<string>('cliCommand', 'kilo'));
+      const cliCommand = resolveCliCommandSetting(configuration.inspect<string>('cliCommand'), 'kilo');
       const configuredTerminalName = configuration.get<string>('terminalName', FALLBACK_TERMINAL_NAME);
       const terminalBaseName = normalizeTerminalName(configuredTerminalName, FALLBACK_TERMINAL_NAME);
       const terminalName = buildTerminalName(configuredTerminalName, terminalSequence, FALLBACK_TERMINAL_NAME);

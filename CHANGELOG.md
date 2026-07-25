@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.3.1
+
+### Security
+
+- The launch command is now read from user-level settings only. `configuration.get('cliCommand')` also resolves workspace and workspace-folder values, so a cloned repository shipping a `.vscode/settings.json` could choose the command sent to the terminal on the first toolbar click. The extension now inspects the setting and reads `globalValue`/`defaultValue`, matching the hardening the sibling launchers have carried since their first release.
+
 ## 0.3.0
 
 ### Changed
