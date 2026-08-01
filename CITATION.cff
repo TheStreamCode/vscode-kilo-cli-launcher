@@ -5,5 +5,5 @@ authors:
   - family-names: Gasperini
     given-names: Michael
 url: "https://github.com/TheStreamCode/vscode-kilo-cli-launcher"
-version: "0.3.2"
+version: "0.3.3"
 license: MIT

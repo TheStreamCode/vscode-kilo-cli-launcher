@@ -4,6 +4,29 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.3.3
+
+Released 2026-08-01. No change to launcher behavior, settings, or command IDs.
+
+### Removed
+
+- Removed the unreferenced `scripts/generate-icon.ps1`. It rendered a placeholder straight over `media/icon.png`, the icon published on the Marketplace and Open VSX, and had not matched that artwork since `0.1.8`.
+
+### Added
+
+- Added a metadata regression test that fails if any repository script or npm script can write over the published `media/` assets.
+
+### Changed
+
+- Documented `npm run test:unit` and `npm run package:contents` in the README command table.
+- Corrected the Dependabot auto-merge workflow comments: `main` requires an approving review as well as passing checks, so auto-merge queues a pull request rather than merging on green CI alone.
+- Recorded the branch-protection, asset, and packaging constraints of this repository in `AGENTS.md`.
+- Made the extension-host test runner set an explicit non-zero exit code instead of relying on Node's unhandled-rejection default.
+
+### Security
+
+- Recorded the removed icon generator as finding `SEC-004` in `docs/security-review-2026-08-01.md`, together with the required-status-check mismatch on `main` as an accepted, fail-closed risk.
+
 ## 0.3.2
 
 ### Added
