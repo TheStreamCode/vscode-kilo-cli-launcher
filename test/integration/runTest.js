@@ -6,17 +6,18 @@ async function main() {
   const extensionTestsPath = path.resolve(__dirname, 'suite');
   const version = process.env.VSCODE_VERSION || '1.103.0';
 
-  try {
-    await runTests({
-      version,
-      extensionDevelopmentPath,
-      extensionTestsPath,
-      launchArgs: ['--disable-extensions'],
-    });
-  } catch (error) {
-    console.error('VS Code integration tests failed.');
-    throw error;
-  }
+  await runTests({
+    version,
+    extensionDevelopmentPath,
+    extensionTestsPath,
+    launchArgs: ['--disable-extensions'],
+  });
 }
 
-main();
+// Fail explicitly instead of relying on Node's unhandled-rejection default, which
+// callers can change with --unhandled-rejections and which hides the exit code.
+main().catch((error) => {
+  console.error('VS Code integration tests failed.');
+  console.error(error);
+  process.exitCode = 1;
+});
