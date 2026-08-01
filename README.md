@@ -152,9 +152,11 @@ Available commands:
 | `npm run typecheck` | Run strict TypeScript checks without emitting files. |
 | `npm run test:command-utils` | Run focused helper regressions. |
 | `npm run test:metadata` | Validate metadata, documentation, packaging rules, and CI expectations. |
+| `npm run test:unit` | Compile and run every Node unit test without launching VS Code. |
 | `npm run test:integration` | Compile and run VS Code extension-host smoke tests. |
 | `npm test` | Compile and run all unit, metadata, and integration tests. |
 | `npm run audit` | Fail on high-severity npm advisories. |
+| `npm run package:contents` | List the files that would ship inside the `.vsix`. |
 | `npm run check` | Run type-check, all tests, integration smoke tests, and VSIX content inspection. |
 | `npm run package` | Build a local `.vsix` package. |
 
