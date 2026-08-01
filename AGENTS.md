@@ -4,6 +4,8 @@
 
 This repository contains a small unofficial VS Code extension that sends a user-configured Kilo CLI command to a visible integrated terminal. Preserve that narrow scope.
 
+The repository is public and MIT-licensed, and the extension ships to the Visual Studio Marketplace and Open VSX under the `mikesoft` publisher. Everything committed here is public: assume any file, comment, or test fixture will be read by users and mirrored into the packaged extension unless `.vscodeignore` excludes it.
+
 - Never execute the configured command in the extension host, a child process, a hidden shell, or a background task.
 - Keep the Workspace Trust gate in place before terminal creation or command execution.
 - Resolve `kilocodeCliLauncher.cliCommand` from user-level configuration only. Never allow workspace or workspace-folder settings to select an executable command.
@@ -21,6 +23,7 @@ This repository contains a small unofficial VS Code extension that sends a user-
 - `docs/`: engineering plans, specifications, and dated reviews. Keep end-user instructions in the root `README.md`.
 - `.github/`: issue and pull-request templates plus CI and dependency-security automation.
 - `out/`, `.vscode-test/`, `*.vsix`, and `*.tsbuildinfo`: generated or local-only output; never edit or commit it.
+- There is no `scripts/` directory. The `scripts/**` line in `.vscodeignore` is a deliberate guard so any future tooling stays out of the VSIX.
 
 ## Toolchain And Commands
 
@@ -74,12 +77,15 @@ There is no supported ESLint configuration while the installed TypeScript major 
 - Keep `package.json`, `package-lock.json`, `CITATION.cff`, and the release entry in `CHANGELOG.md` version-aligned.
 - Preserve public naming and the unofficial/trademark disclaimer.
 - Do not modify icons or assets unless explicitly requested or a lossless size optimization is demonstrably worthwhile. Validate dimensions, transparency, format, visual equivalence, and package paths after any permitted optimization.
+- `media/icon.png` and `media/launcher-mark.svg` are the artwork already published on the Marketplace and Open VSX. Never add a script, task, or workflow that renders over them: an earlier `scripts/generate-icon.ps1` did exactly that and was removed. `test/metadata.test.js` fails if any file under `scripts/`, `src/`, or `.github/`, or any npm script, references those asset paths.
+- The two `media/` assets are about 80% of the packaged VSIX (`media/launcher-mark.svg` ~31 KB compressed, `media/icon.png` ~26 KB of a ~70 KB package). The SVG is a raster image wrapped in SVG markup rather than a true vector mark, so it does not follow VS Code's monochrome `currentColor` toolbar guidance. Treat replacing it as a design decision for the maintainer, never an incidental cleanup.
 - Keep engineering-only files excluded from the VSIX through `.vscodeignore` and verify the final package surface with `npm run package:contents` or `npm run check`.
 - Publishing is not automated. Never publish, tag, push, or create a release unless the user explicitly authorizes that external action.
 
 ## Git And Pull Requests
 
 - Inspect `git status` before editing and preserve unrelated user changes.
+- `main` is protected: no direct pushes, no force pushes, linear history only. Work on a branch, open a pull request, and let the maintainer approve it — protection requires one approving review and passing CI. Never self-approve and never use an admin bypass.
 - Make surgical changes; never rewrite, stage, discard, or commit unrelated files.
 - Use concise imperative commit subjects, with a scoped prefix when useful, for example `fix: preserve global test settings`.
 - Pull requests should describe user-visible behavior, linked issues, security implications, documentation changes, and exact verification output.

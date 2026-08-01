@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-The extension has a small, appropriate runtime surface and no production npm dependencies. No unresolved critical or high-impact runtime vulnerabilities were found. The review identified two supply-chain weaknesses and one test-isolation issue; all were corrected without changing launcher behavior.
+The extension has a small, appropriate runtime surface and no production npm dependencies. No unresolved critical or high-impact runtime vulnerabilities were found. The review identified two supply-chain weaknesses, one test-isolation issue, and one asset-integrity issue; all were corrected without changing launcher behavior.
 
 ## Scope And Method
 
@@ -34,6 +34,14 @@ The integration test captured resolved settings with `configuration.get()` and r
 
 **Resolution:** The test now captures `globalValue` through `configuration.inspect()` and restores only the configuration target it mutates (`test/integration/suite/index.js`, lines 31–49).
 
+### SEC-004 — Stale asset generator able to overwrite a published icon
+
+**Project impact:** Low.
+
+`scripts/generate-icon.ps1` wrote directly to `media/icon.png`, the icon published on the Marketplace and Open VSX. The script was last touched for `0.1.0`, while the icon was replaced for `0.1.8`, so running it rendered a different placeholder (5,007 bytes) over the shipped artwork (26,767 bytes). Nothing referenced the script — no npm script, workflow, test, or document — so the only realistic outcome of running it was silent corruption of a published brand asset.
+
+**Resolution:** The unreferenced script was removed and `test/metadata.test.js` now asserts that no file under `scripts/`, `src/`, or `.github/` and no npm script can write `media/icon.png` or `media/launcher-mark.svg`. `.vscodeignore` keeps `scripts/**` excluded so any future tooling stays out of the VSIX.
+
 ## Validated Security Controls
 
 - Workspace Trust blocks launch before any terminal is created or command is sent (`src/extension.ts`, lines 15–29).
@@ -41,12 +49,13 @@ The integration test captured resolved settings with `configuration.get()` and r
 - Blank commands fail closed with a visible error (`src/extension.ts`, lines 37–40).
 - Commands are sent only to a visible integrated terminal after trust validation (`src/extension.ts`, lines 43–52).
 - The manifest marks the command setting as machine-scoped and restricted in untrusted workspaces (`package.json`, lines 29–39 and 89–99).
-- The Dependabot `pull_request_target` workflow does not check out or execute pull-request code, verifies the Dependabot author, and limits its write permissions to the auto-merge operation (`.github/workflows/dependabot-auto-merge.yml`, lines 15–39).
+- The Dependabot `pull_request_target` workflow does not check out or execute pull-request code, verifies the Dependabot author, pins its only action to a full commit SHA, and limits its write permissions to the auto-merge operation (`.github/workflows/dependabot-auto-merge.yml`, lines 27–43).
 
 ## Residual And Accepted Risks
 
 - The extension intentionally executes an arbitrary user-level command in the integrated terminal. Workspace Trust and global-only command resolution reduce repository-driven execution, but users remain responsible for reviewing their configured command and shell environment.
 - The auto-merge workflow requires write permissions by design. Its safety depends on the author check, pinned metadata action, no pull-request checkout, and protected required CI checks.
+- `main` branch protection lists required status check contexts (`validate (ubuntu-latest)`, `validate (windows-latest)`) that the CI job names no longer produce; the workflow reports `<os> / VS Code <version>` contexts instead. Protection therefore fails closed — pull requests wait on checks that are never reported — and the required contexts need to be re-pointed in repository settings.
 - Routine Dependabot version-update pull requests are intentionally disabled. Dependabot alerts and manual `npm outdated`/`npm audit` reviews remain necessary.
 - Publisher credentials and release automation are outside this repository. Publishing should remain manual or use protected repository environments and secrets if automated later.
 

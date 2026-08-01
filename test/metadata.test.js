@@ -5,10 +5,26 @@ const path = require('node:path');
 
 const rootDir = path.resolve(__dirname, '..');
 const PNG_SIGNATURE_SIZE = 8;
+const ASSET_WRITER_DIRECTORIES = ['scripts', 'src', '.github'];
+const TEXT_FILE_EXTENSIONS = new Set(['.ps1', '.sh', '.js', '.mjs', '.cjs', '.ts', '.yml', '.yaml']);
 
 /** Returns UTF-8 file contents from the repository root. */
 function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), 'utf8');
+}
+
+/** Returns repository-relative text files under a directory, recursively. */
+function collectTextFiles(relativeDirectory) {
+  const absoluteDirectory = path.join(rootDir, relativeDirectory);
+
+  if (!fs.existsSync(absoluteDirectory)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(absoluteDirectory, { withFileTypes: true, recursive: true })
+    .filter((entry) => entry.isFile() && TEXT_FILE_EXTENSIONS.has(path.extname(entry.name)))
+    .map((entry) => path.relative(rootDir, path.join(entry.parentPath, entry.name)));
 }
 
 /** Parses package.json for deterministic metadata assertions. */
@@ -80,6 +96,24 @@ test('extension assets keep Marketplace and command icons packaged on the expect
   assert.ok(marketplaceIcon.height >= 256);
   assert.match(commandIcon, /<svg/i);
   assert.ok(commandIcon.length > 0);
+});
+
+// `scripts/generate-icon.ps1` used to render a placeholder icon straight over
+// media/icon.png. It stopped matching the published artwork at 0.1.8 and was
+// removed, so nothing in the repository may overwrite a shipped asset again.
+test('no repository script can regenerate the published Marketplace icon', () => {
+  const packageJson = readPackageJson();
+
+  assert.equal(fs.existsSync(path.join(rootDir, 'scripts', 'generate-icon.ps1')), false);
+  assert.doesNotMatch(Object.values(packageJson.scripts).join('\n'), /icon/i);
+
+  for (const relativePath of ASSET_WRITER_DIRECTORIES.flatMap(collectTextFiles)) {
+    assert.doesNotMatch(
+      readText(relativePath),
+      /media[\\/](?:icon\.png|launcher-mark\.svg)/i,
+      `${relativePath} must not write a published media asset`,
+    );
+  }
 });
 
 test('package scripts use deterministic local tooling entry points', () => {
