@@ -12,45 +12,45 @@ let terminalSequence = 1;
 
 export function activate(context: vscode.ExtensionContext): void {
   const openCliCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openCli', async () => {
-      if (!vscode.workspace.isTrusted) {
-        const selection = await vscode.window.showWarningMessage(
-          'Kilo CLI Launcher runs terminal commands in the current workspace. Trust this workspace before launching Kilo CLI.',
-          'Manage Workspace Trust',
-          'Open Settings',
-        );
+    if (!vscode.workspace.isTrusted) {
+      const selection = await vscode.window.showWarningMessage(
+        'Kilo CLI Launcher runs terminal commands in the current workspace. Trust this workspace before launching Kilo CLI.',
+        'Manage Workspace Trust',
+        'Open Settings',
+      );
 
-        if (selection === 'Manage Workspace Trust') {
-          await vscode.commands.executeCommand('workbench.trust.manage');
-        } else if (selection === 'Open Settings') {
-          await vscode.commands.executeCommand('workbench.action.openSettings', buildExtensionSettingsQuery(context.extension.id));
-        }
-
-        return;
+      if (selection === 'Manage Workspace Trust') {
+        await vscode.commands.executeCommand('workbench.trust.manage');
+      } else if (selection === 'Open Settings') {
+        await vscode.commands.executeCommand('workbench.action.openSettings', buildExtensionSettingsQuery(context.extension.id));
       }
 
-      const configuration = vscode.workspace.getConfiguration('kilocodeCliLauncher');
-      const cliCommand = resolveCliCommandSetting(configuration.inspect<string>('cliCommand'), 'kilo');
-      const configuredTerminalName = configuration.get<string>('terminalName', FALLBACK_TERMINAL_NAME);
-      const terminalBaseName = normalizeTerminalName(configuredTerminalName, FALLBACK_TERMINAL_NAME);
-      const terminalName = buildTerminalName(configuredTerminalName, terminalSequence, FALLBACK_TERMINAL_NAME);
+      return;
+    }
 
-      if (!cliCommand) {
-        void vscode.window.showErrorMessage('Set "kilocodeCliLauncher.cliCommand" to the command that starts Kilo CLI.');
-        return;
-      }
+    const configuration = vscode.workspace.getConfiguration('kilocodeCliLauncher');
+    const cliCommand = resolveCliCommandSetting(configuration.inspect<string>('cliCommand'));
+    const configuredTerminalName = configuration.get<string>('terminalName', FALLBACK_TERMINAL_NAME);
+    const terminalBaseName = normalizeTerminalName(configuredTerminalName, FALLBACK_TERMINAL_NAME);
+    const terminalName = buildTerminalName(configuredTerminalName, terminalSequence, FALLBACK_TERMINAL_NAME);
 
-      terminalSequence += 1;
-      const cwd = resolveTerminalCwd(vscode.window.activeTextEditor, vscode.workspace);
+    if (!cliCommand) {
+      void vscode.window.showErrorMessage('Set "kilocodeCliLauncher.cliCommand" to the command that starts Kilo CLI.');
+      return;
+    }
 
-      const terminal = vscode.window.createTerminal({
-        name: terminalName,
-        location: { viewColumn: vscode.ViewColumn.Beside },
-        cwd,
-      });
-      terminal.show();
-      terminal.sendText(cliCommand, true);
-      void vscode.window.setStatusBarMessage(`Started ${terminalBaseName}`, 2500);
+    terminalSequence += 1;
+    const cwd = resolveTerminalCwd(vscode.window.activeTextEditor, vscode.workspace);
+
+    const terminal = vscode.window.createTerminal({
+      name: terminalName,
+      location: { viewColumn: vscode.ViewColumn.Beside },
+      cwd,
     });
+    terminal.show();
+    terminal.sendText(cliCommand, true);
+    void vscode.window.setStatusBarMessage(`Started ${terminalBaseName}`, 2500);
+  });
 
   const openSettingsCommand = vscode.commands.registerCommand('kilocodeCliLauncher.openSettings', async () => {
     await vscode.commands.executeCommand('workbench.action.openSettings', buildExtensionSettingsQuery(context.extension.id));
@@ -59,5 +59,4 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(openCliCommand, openSettingsCommand);
 }
 
-export function deactivate(): void {
-}
+export function deactivate(): void {}

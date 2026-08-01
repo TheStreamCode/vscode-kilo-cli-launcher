@@ -86,9 +86,11 @@ test('package scripts use deterministic local tooling entry points', () => {
   const packageJson = readPackageJson();
 
   assert.equal(packageJson.scripts.compile, 'node ./node_modules/typescript/bin/tsc -p . --pretty false');
+  assert.equal(packageJson.scripts.typecheck, 'node ./node_modules/typescript/bin/tsc -p . --noEmit --pretty false');
   assert.equal(packageJson.scripts.test, 'node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js');
   assert.equal(packageJson.scripts['test:integration'], 'node ./node_modules/typescript/bin/tsc -p . --pretty false && node ./test/integration/runTest.js');
-  assert.equal(packageJson.scripts.check, 'node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js && node ./node_modules/@vscode/vsce/vsce ls');
+  assert.equal(packageJson.scripts.audit, 'npm audit --audit-level=high --omit=optional');
+  assert.equal(packageJson.scripts.check, 'npm run typecheck && npm test && npm run package:contents');
   assert.equal(packageJson.scripts.package, 'node ./node_modules/@vscode/vsce/vsce package');
 });
 
@@ -100,12 +102,16 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /Works on Windows, macOS, and Linux\./);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode/);
   assert.match(readme, /## Features/);
+  assert.match(readme, /## Architecture/);
   assert.match(readme, /official Kilo CLI documentation/i);
   assert.match(readme, /## Configuration/);
+  assert.match(readme, /## Environment Variables/);
   assert.match(readme, /## Troubleshooting/);
   assert.match(readme, /Kilo CLI launcher: Open Settings/);
   assert.match(readme, /\\"C:\\\\Program Files\\\\Kilo CLI\\\\kilo\.cmd\\"/);
   assert.match(readme, /npm run check/);
+  assert.match(readme, /npm run typecheck/);
+  assert.match(readme, /npm ci/);
   assert.match(readme, /uses the active editor workspace when available/i);
   assert.match(readme, /https:\/\/kilocode\.ai\/docs\/code-with-ai\/platforms\/cli/);
   assert.match(readme, /does not install Kilo CLI/i);
@@ -135,6 +141,8 @@ test('docs directory includes an index for engineering documents', () => {
   assert.match(docsReadme, /root `README\.md`/);
   assert.match(docsReadme, /`specs\/`/);
   assert.match(docsReadme, /`plans\/`/);
+  assert.match(docsReadme, /`security-review-2026-08-01\.md`/);
+  assert.equal(fs.existsSync(path.join(rootDir, 'docs', 'security-review-2026-08-01.md')), true);
   assert.doesNotMatch(docsReadme, /interactive terminal install prompt/i);
 });
 
@@ -154,6 +162,9 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(gitignoreEntries.includes('.vsce/'));
   assert.ok(gitignoreEntries.includes('coverage/'));
   assert.ok(gitignoreEntries.includes('*.log'));
+  assert.ok(gitignoreEntries.includes('.env'));
+  assert.ok(gitignoreEntries.includes('.env.*'));
+  assert.ok(gitignoreEntries.includes('!.env.example'));
   assert.ok(gitignoreEntries.includes('.kilo/'));
   assert.ok(gitignoreEntries.includes('out/**/*.map'));
   assert.ok(gitignoreEntries.includes('package-lock.json') === false);
@@ -166,51 +177,36 @@ test('ignore rules keep tests docs source maps and local tooling out of artifact
   assert.ok(vscodeignoreEntries.includes('*.tsbuildinfo'));
   assert.ok(vscodeignoreEntries.includes('.vsce/**'));
   assert.ok(vscodeignoreEntries.includes('package-lock.json'));
+  assert.ok(vscodeignoreEntries.includes('AGENTS.md'));
+  assert.ok(vscodeignoreEntries.includes('CITATION.cff'));
   assert.ok(!vscodeignoreEntries.includes('pnpm-lock.yaml'));
   assert.ok(!vscodeignoreEntries.includes('.pnpm-store/**'));
 });
 
-test('changelog documents the 0.2.4 release and keeps historical release notes', () => {
+test('release metadata and changelog stay aligned with package.json', () => {
+  const packageJson = readPackageJson();
   const changelog = readText('CHANGELOG.md');
+  const citation = readText('CITATION.cff');
 
-  assert.match(changelog, /## 0\.2\.5[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.2\.5[\s\S]*Documented the existing interactive guided install prompt with the official Kilo CLI npm package command\./s);
-  assert.match(changelog, /## 0\.2\.4[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.2\.4[\s\S]*Updated engineering documentation to reflect the current interactive terminal install prompt behavior\./s);
-  assert.match(changelog, /## 0\.2\.3[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.2\.3[\s\S]*Shortened the terminal install prompt and hid the internal prompt runner command from normal terminal output\./s);
-  assert.match(changelog, /## 0\.2\.2[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.2\.2[\s\S]*Replaced the VS Code missing CLI warning with an interactive terminal install prompt\./s);
-  assert.match(changelog, /## 0\.2\.1[\s\S]*### Added/s);
-  assert.match(changelog, /## 0\.2\.1[\s\S]*Added `AGENTS\.md` with repository contributor guidelines\./s);
-  assert.match(changelog, /## 0\.2\.1[\s\S]*### Fixed/s);
-  assert.match(changelog, /## 0\.2\.1[\s\S]*Reduced false positives in the missing CLI warning when an installed `kilo` command reports unrelated missing files\./s);
-  assert.match(changelog, /## 0\.2\.1[\s\S]*Made the VS Code integration smoke test independent of a locally installed Kilo CLI\./s);
-  assert.match(changelog, /## 0\.2\.0[\s\S]*### Added/s);
-  assert.match(changelog, /## 0\.2\.0[\s\S]*Added an `Install` button to the missing CLI warning that opens a new terminal and runs the installation command automatically\./s);
-  assert.match(changelog, /## 0\.2\.0[\s\S]*Updated end-user documentation for the new one-click install flow\./s);
-  assert.match(changelog, /## 0\.1\.9[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.1\.9[\s\S]*Refined the public README so Marketplace-facing details stay focused on user-relevant setup, behavior, configuration, and troubleshooting\./s);
-  assert.match(changelog, /## 0\.1\.9[\s\S]*Removed internal branding and packaging notes from the end-user documentation\./s);
-  assert.match(changelog, /## 0\.1\.8[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.1\.8[\s\S]*Updated the packaged launcher mark and Marketplace icon assets to match the current branding\./s);
-  assert.match(changelog, /## 0\.1\.8[\s\S]*Refreshed the release documentation so the launcher SVG and Marketplace PNG are documented as separate packaged assets\./s);
-  assert.match(changelog, /## 0\.1\.5[\s\S]*### Changed/s);
-  assert.match(changelog, /## 0\.1\.5[\s\S]*Added a guided install warning when shell integration confirms that the default `kilo` command is missing from the terminal environment\./s);
-  assert.match(changelog, /## 0\.1\.5[\s\S]*Kept the non-blocking launch flow while avoiding false positives for custom commands and unrelated terminal failures\./s);
-  assert.match(changelog, /## 0\.1\.5[\s\S]*Updated end-user documentation for the new missing-install feedback path\./s);
-  assert.match(changelog, /## 0\.1\.0[\s\S]*Updated public-facing project details and documentation\./);
-  assert.match(changelog, /## 0\.0\.9[\s\S]*Improved overall reliability and packaging consistency\./);
-  assert.match(changelog, /## 0\.0\.8\s+### Fixed\s+- General stability improvements\./s);
+  assert.match(changelog, /^## Unreleased$/m);
+  assert.match(changelog, new RegExp(`^## ${packageJson.version.replaceAll('.', '\\.')}$$`, 'm'));
+  assert.match(citation, new RegExp(`^version: "${packageJson.version.replaceAll('.', '\\.')}"$$`, 'm'));
 });
 
-test('CI workflow validates the extension with npm on Windows and Linux', () => {
+test('CI workflow uses least privilege and validates supported VS Code versions', () => {
   const workflow = readText('.github/workflows/ci.yml');
 
   assert.match(workflow, /^name: CI$/m);
   assert.match(workflow, /windows-latest/);
   assert.match(workflow, /ubuntu-latest/);
+  assert.match(workflow, /vscode-version: '1\.103\.0'/);
+  assert.match(workflow, /vscode-version: stable/);
+  assert.match(workflow, /permissions:\s+contents: read/s);
+  assert.match(workflow, /actions\/checkout@[a-f0-9]{40} # v7/);
+  assert.match(workflow, /actions\/setup-node@[a-f0-9]{40} # v6/);
+  assert.match(workflow, /persist-credentials: false/);
   assert.match(workflow, /cache: npm/);
   assert.match(workflow, /npm ci/);
+  assert.match(workflow, /npm run audit/);
   assert.match(workflow, /npm run check/);
 });

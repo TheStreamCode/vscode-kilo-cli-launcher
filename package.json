@@ -103,19 +103,22 @@
   },
   "scripts": {
     "compile": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
+    "typecheck": "node ./node_modules/typescript/bin/tsc -p . --noEmit --pretty false",
     "watch": "node ./node_modules/typescript/bin/tsc --watch -p . --pretty false",
     "test": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js",
     "test:unit": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js",
     "test:command-utils": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/command-utils.test.js",
     "test:integration": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node ./test/integration/runTest.js",
-    "test:metadata": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/metadata.test.js",
+    "test:metadata": "node --test test/metadata.test.js",
     "vscode:prepublish": "node ./node_modules/typescript/bin/tsc -p . --pretty false",
     "package": "node ./node_modules/@vscode/vsce/vsce package",
-    "check": "node ./node_modules/typescript/bin/tsc -p . --pretty false && node --test test/*.test.js && node ./test/integration/runTest.js && node ./node_modules/@vscode/vsce/vsce ls"
+    "package:contents": "node ./node_modules/@vscode/vsce/vsce ls",
+    "audit": "npm audit --audit-level=high --omit=optional",
+    "check": "npm run typecheck && npm test && npm run package:contents"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "@types/vscode": "^1.103.0",
+    "@types/vscode": "1.103.0",
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.9.2",
     "typescript": "^7.0.2"

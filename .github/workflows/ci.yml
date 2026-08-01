@@ -4,31 +4,49 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   validate:
+    name: ${{ matrix.os }} / VS Code ${{ matrix.vscode-version }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - windows-latest
-          - ubuntu-latest
+        include:
+          - os: windows-latest
+            vscode-version: '1.103.0'
+          - os: ubuntu-latest
+            vscode-version: '1.103.0'
+          - os: ubuntu-latest
+            vscode-version: stable
+
+    env:
+      VSCODE_VERSION: ${{ matrix.vscode-version }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Audit dependencies
+        run: npm run audit
 
       - name: Run validation suite on Windows
         if: runner.os == 'Windows'

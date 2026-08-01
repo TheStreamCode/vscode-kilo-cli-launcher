@@ -4,6 +4,22 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Added an explicit type-check command, stricter TypeScript compiler checks, deterministic VS Code compatibility testing, and repository editor settings.
+- Added a dated security review covering the extension runtime, dependencies, packaging, and GitHub Actions workflows.
+
+### Changed
+
+- Aligned the README and citation metadata with version `0.3.1`, expanded development and release guidance, and refreshed contributor and agent instructions.
+- Pinned VS Code API types to the minimum supported editor version and excluded engineering-only metadata from the VSIX package.
+- Restored only the original global settings after integration tests, avoiding accidental persistence of resolved workspace or default values.
+
+### Security
+
+- Updated the lockfile to resolve the `brace-expansion` denial-of-service advisory in the development toolchain.
+- Pinned GitHub Actions to verified full commit SHAs and disabled persisted checkout credentials in the read-only CI workflow.
+
 ## 0.3.1
 
 ### Security

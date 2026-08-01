@@ -25,3 +25,6 @@ assignees: ''
 - Extension version:
 - VS Code version:
 - OS:
+- Workspace type (single-folder, multi-root, or no workspace):
+- Workspace trusted: yes/no
+- Configured command (redact tokens and secrets):

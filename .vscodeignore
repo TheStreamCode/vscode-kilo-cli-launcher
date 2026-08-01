@@ -5,6 +5,8 @@ scripts/**
 node_modules/**
 .git/**
 .gitignore
+.gitattributes
+.editorconfig
 .github/**
 .kilo/**
 .vscode/**
@@ -16,3 +18,5 @@ out/**/*.map
 *.tsbuildinfo
 tsconfig.json
 package-lock.json
+AGENTS.md
+CITATION.cff

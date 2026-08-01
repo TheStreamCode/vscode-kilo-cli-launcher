@@ -29,8 +29,8 @@ async function run() {
   assert.ok(commands.includes('kilocodeCliLauncher.openSettings'));
 
   const configuration = vscode.workspace.getConfiguration('kilocodeCliLauncher');
-  const originalCliCommand = configuration.get('cliCommand');
-  const originalTerminalName = configuration.get('terminalName');
+  const originalCliCommand = configuration.inspect('cliCommand')?.globalValue;
+  const originalTerminalName = configuration.inspect('terminalName')?.globalValue;
 
   try {
     await configuration.update('cliCommand', 'node --version', vscode.ConfigurationTarget.Global);

@@ -6,6 +6,7 @@ This directory contains engineering documents for the repository. End-user insta
 
 - `specs/`: scoped design documents for engineering changes
 - `plans/`: implementation plans and historical execution notes
+- `security-review-2026-08-01.md`: dated review of runtime, dependency, packaging, and CI security
 
 Current release hardening focuses on predictable direct terminal launch behavior, workspace-aware terminal placement, manual installation guidance through the official Kilo CLI documentation, npm-based local tooling, packaged branding assets for VS Code and Marketplace surfaces, and automated validation in CI.
 
