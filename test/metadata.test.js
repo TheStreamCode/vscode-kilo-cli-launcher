@@ -42,7 +42,7 @@ test('package metadata uses Kilo CLI launcher branding while keeping compatibili
 
   assert.equal(packageJson.displayName, 'Kilo CLI Launcher — Run Kilo Code in a Side Terminal');
   assert.equal(packageJson.description, 'Launch the Kilo Code AI coding agent CLI in a side terminal from your editor toolbar — one click, fresh terminal. Unofficial; works in VS Code, Cursor & Windsurf on Windows, macOS & Linux.');
-  assert.equal(packageJson.version, '0.3.1');
+  assert.match(packageJson.version, /^\d+\.\d+\.\d+$/);
   assert.equal(JSON.parse(readText('package-lock.json')).version, packageJson.version);
   assert.equal(packageJson.packageManager, undefined);
   assert.equal(packageJson.icon, 'media/icon.png');

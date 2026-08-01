@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.3.2
+
 ### Added
 
 - Added an explicit type-check command, stricter TypeScript compiler checks, deterministic VS Code compatibility testing, and repository editor settings.
@@ -11,7 +13,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
-- Aligned the README and citation metadata with version `0.3.1`, expanded development and release guidance, and refreshed contributor and agent instructions.
+- Aligned release metadata across the package manifest, lockfile, citation file, and changelog; expanded development and release guidance; and refreshed contributor and agent instructions.
 - Pinned VS Code API types to the minimum supported editor version and excluded engineering-only metadata from the VSIX package.
 - Restored only the original global settings after integration tests, avoiding accidental persistence of resolved workspace or default values.
 
