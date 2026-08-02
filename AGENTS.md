@@ -74,7 +74,7 @@ There is no supported ESLint configuration while the installed TypeScript major 
 ## Documentation, Assets, And Releases
 
 - Keep `README.md` accurate for requirements, installation, configuration, usage, troubleshooting, privacy, development, build, and release steps.
-- Keep `package.json`, `package-lock.json`, `CITATION.cff`, and the release entry in `CHANGELOG.md` version-aligned.
+- Keep `package.json`, `package-lock.json`, `CITATION.cff`, and the release entry in `CHANGELOG.md` version-aligned; `CITATION.cff` and `CHANGELOG.md` must also share the real release date.
 - Preserve public naming and the unofficial/trademark disclaimer.
 - Do not modify icons or assets unless explicitly requested or a lossless size optimization is demonstrably worthwhile. Validate dimensions, transparency, format, visual equivalence, and package paths after any permitted optimization.
 - `media/icon.png` and `media/launcher-mark.svg` are the artwork already published on the Marketplace and Open VSX. Never add a script, task, or workflow that renders over them: an earlier `scripts/generate-icon.ps1` did exactly that and was removed. `test/metadata.test.js` fails if any file under `scripts/`, `src/`, or `.github/`, or any npm script, references those asset paths.

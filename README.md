@@ -182,7 +182,7 @@ The repository includes unit tests, metadata checks, VS Code integration smoke t
 
 Releases are distributed through the Visual Studio Marketplace and Open VSX. Before publishing:
 
-1. Update `package.json`, `package-lock.json`, `CITATION.cff`, and `CHANGELOG.md` to the same version.
+1. Update `package.json`, `package-lock.json`, `CITATION.cff`, and `CHANGELOG.md` to the same version and real release date.
 2. Run `npm ci`, `npm run audit`, and `npm run check` from a clean checkout.
 3. Run `npm run package` and install the resulting VSIX locally for a final smoke test.
 4. Publish the verified artifact with authenticated Marketplace and Open VSX tooling.

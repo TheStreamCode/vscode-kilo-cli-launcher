@@ -221,10 +221,13 @@ test('release metadata and changelog stay aligned with package.json', () => {
   const packageJson = readPackageJson();
   const changelog = readText('CHANGELOG.md');
   const citation = readText('CITATION.cff');
+  const releaseDate = '2026-08-02';
 
   assert.match(changelog, /^## Unreleased$/m);
   assert.match(changelog, new RegExp(`^## ${packageJson.version.replaceAll('.', '\\.')}$$`, 'm'));
+  assert.match(changelog, new RegExp(`^Released ${releaseDate}\\.`, 'm'));
   assert.match(citation, new RegExp(`^version: "${packageJson.version.replaceAll('.', '\\.')}"$$`, 'm'));
+  assert.match(citation, new RegExp(`^date-released: "${releaseDate}"$$`, 'm'));
 });
 
 test('CI workflow uses least privilege and validates supported VS Code versions', () => {

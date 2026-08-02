@@ -6,7 +6,7 @@ All notable changes to this project are documented in this file.
 
 ## 0.3.3
 
-Released 2026-08-01. No change to launcher behavior, settings, or command IDs.
+Released 2026-08-02. No change to launcher behavior, settings, or command IDs.
 
 ### Removed
 
