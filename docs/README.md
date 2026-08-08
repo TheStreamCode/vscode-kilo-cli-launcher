@@ -6,6 +6,7 @@ This directory contains engineering documents for the repository. End-user insta
 
 - `specs/`: scoped design documents for engineering changes
 - `plans/`: implementation plans and historical execution notes
+- `images/github-social-preview.png`: reusable 1280×640 repository social preview; it is intentionally excluded from the VSIX
 - `security-review-2026-08-01.md`: dated review of runtime, dependency, packaging, and CI security
 - `security-review-2026-08-08.md`: current dependency, regression, packaging, and GitHub governance review
 

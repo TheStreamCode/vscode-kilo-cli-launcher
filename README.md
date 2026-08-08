@@ -1,4 +1,6 @@
-# Kilo CLI launcher
+# Kilo CLI Launcher
+
+![Kilo CLI Launcher — launch Kilo in a side terminal](https://raw.githubusercontent.com/TheStreamCode/vscode-kilo-cli-launcher/main/docs/images/github-social-preview.png)
 
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/mikesoft.vscode-kilo-cli-launcher?label=Marketplace&color=6366F1)](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-kilo-cli-launcher)
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/mikesoft.vscode-kilo-cli-launcher?color=0EA5E9)](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-kilo-cli-launcher)
@@ -7,13 +9,17 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Sponsor](https://img.shields.io/badge/Sponsor-TheStreamCode-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/TheStreamCode)
 
-Kilo CLI launcher is an unofficial VS Code extension that opens Kilo CLI in a new side terminal directly from the editor toolbar.
+Launch Kilo CLI in a fresh side terminal directly from the editor toolbar.
 
-Works on Windows, macOS, and Linux.
+Kilo CLI Launcher is an unofficial VS Code extension for Windows, macOS, and Linux. It stays deliberately small: one click, one new terminal, no telemetry or background services.
 
-See [CHANGELOG.md](CHANGELOG.md) for release-by-release changes.
+[Install from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-kilo-cli-launcher) · [Install from Open VSX](https://open-vsx.org/extension/mikesoft/vscode-kilo-cli-launcher) · [View the changelog](CHANGELOG.md)
 
-> **✨ Want one launcher for every agent?** Try **[Super CLI](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-super-cli)** — a single sidebar that launches Claude Code, Codex, Copilot, Cursor, Grok, Kilo, Antigravity, OpenCode, and more. Install this launcher for Kilo alone, or Super CLI for the whole set.
+## Quick Start
+
+1. Install the extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-kilo-cli-launcher) or [Open VSX](https://open-vsx.org/extension/mikesoft/vscode-kilo-cli-launcher).
+2. Install Kilo CLI by following the [official Kilo CLI documentation](https://kilo.ai/docs/code-with-ai/platforms/cli).
+3. Open a file and click the Kilo launcher button in the editor title.
 
 > **Disclaimer**
 > This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode. Kilo-related names are used only to identify the compatible CLI. See [TRADEMARKS.md](TRADEMARKS.md).
@@ -32,35 +38,6 @@ See [CHANGELOG.md](CHANGELOG.md) for release-by-release changes.
 
 - VS Code `^1.103.0`
 - Kilo CLI available in the integrated terminal environment, or a working custom launch command configured in settings
-
-## Installation
-
-1. Install the extension from the VS Code Marketplace.
-2. Install Kilo CLI by following the [official Kilo CLI documentation](https://kilocode.ai/docs/code-with-ai/platforms/cli).
-
-3. Open any file in VS Code.
-4. Click the launcher button in the editor title.
-
-Any equivalent install or launch method that makes `kilo` available in your terminal also works.
-
-## How It Works
-
-Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
-
-When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
-
-Launching is available only in trusted workspaces. The launcher runs the configured command only in VS Code's integrated terminal; review the workspace and command before you trust or launch it.
-
-The extension does not install Kilo CLI, create installer scripts, or inspect shell execution. If `kilo` is unavailable, use the terminal error and open the [official Kilo CLI documentation](https://kilocode.ai/docs/code-with-ai/platforms/cli) to choose and run an installation method yourself.
-
-## Architecture
-
-The runtime intentionally has two small modules:
-
-- `src/extension.ts` connects VS Code commands, Workspace Trust, settings, and terminal creation.
-- `src/command-utils.ts` contains pure normalization and workspace-resolution helpers covered by Node unit tests.
-
-Compiled CommonJS output is written to `out/` for the VS Code extension host. The extension has no production npm dependencies, background services, network client, telemetry, or persistent storage.
 
 ## Configuration
 
@@ -101,11 +78,21 @@ Windows executable path with arguments:
 "kilocodeCliLauncher.cliCommand": "\"C:\\Program Files\\Kilo CLI\\kilo.cmd\" --workspace \"C:\\Workspaces\\Sample Project\""
 ```
 
+## How It Works
+
+Each launch creates a new terminal beside the current editor and sends the configured command immediately. Existing terminals are not reused.
+
+When possible, the launcher opens the terminal in the workspace folder of the active editor. If the active editor is outside the workspace, it falls back to the first workspace folder in the current VS Code window.
+
+Launching is available only in trusted workspaces. The launcher runs the configured command only in VS Code's integrated terminal; review the workspace and command before you trust or launch it.
+
+The extension does not install Kilo CLI, create installer scripts, or inspect shell execution. If `kilo` is unavailable, use the terminal error and open the [official Kilo CLI documentation](https://kilo.ai/docs/code-with-ai/platforms/cli) to choose and run an installation method yourself.
+
 ## Troubleshooting
 
 ### The terminal opens but `kilo` is not recognized
 
-Follow the [official Kilo CLI documentation](https://kilocode.ai/docs/code-with-ai/platforms/cli), then confirm that `kilo` works in a regular integrated terminal.
+Follow the [official Kilo CLI documentation](https://kilo.ai/docs/code-with-ai/platforms/cli), then confirm that `kilo` works in a regular integrated terminal.
 
 If your setup relies on shell initialization, restart VS Code after installation so new terminals inherit the updated environment.
 
@@ -127,7 +114,16 @@ The launcher prefers the workspace folder of the active editor. To control where
 
 ## Privacy
 
-Kilo CLI launcher does not collect telemetry, analytics, or personal data.
+Kilo CLI Launcher does not collect telemetry, analytics, or personal data.
+
+## Architecture
+
+The runtime intentionally has two small modules:
+
+- `src/extension.ts` connects VS Code commands, Workspace Trust, settings, and terminal creation.
+- `src/command-utils.ts` contains pure normalization and workspace-resolution helpers covered by Node unit tests.
+
+Compiled CommonJS output is written to `out/` for the VS Code extension host. The extension has no production npm dependencies, background services, network client, telemetry, or persistent storage.
 
 ## Environment Variables
 
@@ -195,6 +191,8 @@ CI validates pushes and pull requests but intentionally does not publish release
 Open a GitHub issue for bugs and feature requests. For support details, see `SUPPORT.md`.
 
 Financial support for the independent maintainer is available through GitHub Sponsors: [github.com/sponsors/TheStreamCode](https://github.com/sponsors/TheStreamCode).
+
+> **Want one launcher for every agent?** Try [Super CLI](https://marketplace.visualstudio.com/items?itemName=mikesoft.vscode-super-cli), a single sidebar for Claude Code, Codex, Copilot, Cursor, Grok, Kilo, Antigravity, OpenCode, and more.
 
 ## License
 

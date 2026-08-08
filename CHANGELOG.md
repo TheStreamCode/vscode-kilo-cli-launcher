@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## 0.3.4
+
+Released 2026-08-08. No change to launcher behavior, settings, command IDs, or published icon artwork.
+
+### Added
+
+- Added a dedicated 1280×640 GitHub social preview and a clearer product visual at the top of the README.
+
+### Changed
+
+- Reorganized the README around a concise quick start, user configuration, behavior, and troubleshooting before engineering details.
+- Moved the Super CLI cross-promotion to the support section and standardized the public Kilo CLI Launcher capitalization.
+- Updated official Kilo CLI documentation links to the canonical `kilo.ai` domain.
+
 ### Security
 
 - Updated the lockfile to resolve current high-severity advisories in the development-only `fast-uri`, `js-yaml`, and `undici` dependency paths.

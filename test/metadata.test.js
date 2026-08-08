@@ -115,10 +115,13 @@ test('launcher security boundaries stay explicit and ordered', () => {
 
 test('extension assets keep Marketplace and command icons packaged on the expected paths', () => {
   const marketplaceIcon = readPngSize('media/icon.png');
+  const socialPreview = readPngSize('docs/images/github-social-preview.png');
   const commandIcon = readText('media/launcher-mark.svg');
 
   assert.ok(marketplaceIcon.width >= 256);
   assert.ok(marketplaceIcon.height >= 256);
+  assert.deepEqual(socialPreview, { width: 1280, height: 640 });
+  assert.ok(fs.statSync(path.join(rootDir, 'docs', 'images', 'github-social-preview.png')).size < 1_000_000);
   assert.match(commandIcon, /<svg/i);
   assert.ok(commandIcon.length > 0);
 });
@@ -156,9 +159,11 @@ test('package scripts use deterministic local tooling entry points', () => {
 test('README is organized around user-facing setup, configuration, and troubleshooting', () => {
   const readme = readText('README.md');
 
-  assert.match(readme, /^# Kilo CLI launcher$/m);
-  assert.match(readme, /opens Kilo CLI in a new side terminal/i);
-  assert.match(readme, /Works on Windows, macOS, and Linux\./);
+  assert.match(readme, /^# Kilo CLI Launcher$/m);
+  assert.match(readme, /Launch Kilo CLI in a fresh side terminal/i);
+  assert.match(readme, /for Windows, macOS, and Linux\./);
+  assert.match(readme, /## Quick Start/);
+  assert.match(readme, /docs\/images\/github-social-preview\.png/);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode/);
   assert.match(readme, /## Features/);
   assert.match(readme, /## Architecture/);
@@ -172,7 +177,7 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.match(readme, /npm run typecheck/);
   assert.match(readme, /npm ci/);
   assert.match(readme, /uses the active editor workspace when available/i);
-  assert.match(readme, /https:\/\/kilocode\.ai\/docs\/code-with-ai\/platforms\/cli/);
+  assert.match(readme, /https:\/\/kilo\.ai\/docs\/code-with-ai\/platforms\/cli/);
   assert.match(readme, /does not install Kilo CLI/i);
   assert.doesNotMatch(readme, /Guided Installation|Install Kilo CLI\? \(y\/N\):/i);
   assert.match(readme, /does not collect telemetry, analytics, or personal data/i);
@@ -219,7 +224,7 @@ test('README uses official installation guidance and keeps privacy guidance visi
   const readme = readText('README.md');
 
   assert.match(readme, /does not collect telemetry, analytics, or personal data\./i);
-  assert.match(readme, /https:\/\/kilocode\.ai\/docs\/code-with-ai\/platforms\/cli/);
+  assert.match(readme, /https:\/\/kilo\.ai\/docs\/code-with-ai\/platforms\/cli/);
   assert.match(readme, /npm run package/);
   assert.match(readme, /npx --yes @kilocode\/cli/);
 });
@@ -256,7 +261,7 @@ test('release metadata and changelog stay aligned with package.json', () => {
   const packageJson = readPackageJson();
   const changelog = readText('CHANGELOG.md');
   const citation = readText('CITATION.cff');
-  const releaseDate = '2026-08-02';
+  const releaseDate = '2026-08-08';
 
   assert.match(changelog, /^## Unreleased$/m);
   assert.match(changelog, new RegExp(`^## ${packageJson.version.replaceAll('.', '\\.')}$$`, 'm'));

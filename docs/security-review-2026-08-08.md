@@ -59,7 +59,7 @@ The helper tests covered user-level command resolution, but the manifest scopes,
 - `npm audit signatures`: 318 verified registry signatures and 15 verified attestations.
 - Strict TypeScript checks, 28 Node tests, and extension-host tests passed at VS Code `1.103.0` and current stable `1.132.0`.
 - The VSIX contains only the expected 11 extension payload files plus its two package metadata files.
-- GitHub release, Visual Studio Marketplace, and Open VSX version `0.3.3` payloads matched the package rebuilt from the tagged source.
+- The published GitHub, Visual Studio Marketplace, and Open VSX version `0.3.3` payloads matched the package rebuilt from the tagged source; the `0.3.4` candidate advances release metadata and documentation without changing runtime behavior.
 
 ## Residual And Accepted Risks
 
@@ -70,4 +70,4 @@ The helper tests covered user-level command resolution, but the manifest scopes,
 
 ## Result
 
-The reviewed state has no known npm audit findings, no open CodeQL or secret-scanning alerts, and no identified unresolved critical or high-impact runtime vulnerability. The runtime behavior, public command and setting IDs, version, and published assets are unchanged.
+The reviewed state has no known npm audit findings, no open CodeQL or secret-scanning alerts, and no identified unresolved critical or high-impact runtime vulnerability. Runtime behavior, public command and setting IDs, and the published icon artwork are unchanged; release metadata advances to `0.3.4`.
