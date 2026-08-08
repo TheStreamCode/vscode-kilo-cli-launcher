@@ -55,3 +55,16 @@ jobs:
       - name: Run validation suite on Linux
         if: runner.os == 'Linux'
         run: xvfb-run -a npm run check
+
+  required:
+    name: Required CI
+    if: ${{ always() }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Confirm validation matrix
+        env:
+          VALIDATE_RESULT: ${{ needs.validate.result }}
+        run: test "$VALIDATE_RESULT" = success

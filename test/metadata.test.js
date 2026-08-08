@@ -88,6 +88,31 @@ test('launcher has no automatic install, temporary script, or shell execution pi
   assert.doesNotMatch(commandUtilsSource, /npm install|child_process|shell:\s*true|installPrompt/i);
 });
 
+test('launcher security boundaries stay explicit and ordered', () => {
+  const packageJson = readPackageJson();
+  const extensionSource = readText('src/extension.ts');
+  const configuration = packageJson.contributes.configuration.properties;
+
+  assert.equal(packageJson.dependencies, undefined);
+  assert.equal(packageJson.capabilities.untrustedWorkspaces.supported, 'limited');
+  assert.deepEqual(packageJson.capabilities.untrustedWorkspaces.restrictedConfigurations, [
+    'kilocodeCliLauncher.cliCommand',
+  ]);
+  assert.equal(configuration['kilocodeCliLauncher.cliCommand'].scope, 'machine');
+  assert.equal(configuration['kilocodeCliLauncher.terminalName'].scope, 'window');
+  assert.doesNotMatch(extensionSource, /configuration\.get<string>\('cliCommand'/);
+
+  const trustGateIndex = extensionSource.indexOf('if (!vscode.workspace.isTrusted)');
+  const commandInspectionIndex = extensionSource.indexOf("configuration.inspect<string>('cliCommand')");
+  const terminalCreationIndex = extensionSource.indexOf('vscode.window.createTerminal');
+  const commandSendIndex = extensionSource.indexOf('terminal.sendText(cliCommand, true)');
+
+  assert.ok(trustGateIndex >= 0, 'Workspace Trust gate must remain present');
+  assert.ok(commandInspectionIndex > trustGateIndex, 'command inspection must happen after the trust gate');
+  assert.ok(terminalCreationIndex > commandInspectionIndex, 'terminal creation must happen after command inspection');
+  assert.ok(commandSendIndex > terminalCreationIndex, 'command execution must happen after terminal creation');
+});
+
 test('extension assets keep Marketplace and command icons packaged on the expected paths', () => {
   const marketplaceIcon = readPngSize('media/icon.png');
   const commandIcon = readText('media/launcher-mark.svg');
@@ -176,8 +201,18 @@ test('docs directory includes an index for engineering documents', () => {
   assert.match(docsReadme, /`specs\/`/);
   assert.match(docsReadme, /`plans\/`/);
   assert.match(docsReadme, /`security-review-2026-08-01\.md`/);
+  assert.match(docsReadme, /`security-review-2026-08-08\.md`/);
   assert.equal(fs.existsSync(path.join(rootDir, 'docs', 'security-review-2026-08-01.md')), true);
+  assert.equal(fs.existsSync(path.join(rootDir, 'docs', 'security-review-2026-08-08.md')), true);
   assert.doesNotMatch(docsReadme, /interactive terminal install prompt/i);
+});
+
+test('SECURITY offers private vulnerability reporting channels', () => {
+  const securityPolicy = readText('SECURITY.md');
+
+  assert.match(securityPolicy, /security\/advisories\/new/);
+  assert.match(securityPolicy, /info@mikesoft\.it/);
+  assert.match(securityPolicy, /do not report security vulnerabilities through public GitHub issues/i);
 });
 
 test('README uses official installation guidance and keeps privacy guidance visible', () => {
@@ -246,4 +281,9 @@ test('CI workflow uses least privilege and validates supported VS Code versions'
   assert.match(workflow, /npm ci/);
   assert.match(workflow, /npm run audit/);
   assert.match(workflow, /npm run check/);
+  assert.match(workflow, /^  required:$/m);
+  assert.match(workflow, /name: Required CI/);
+  assert.match(workflow, /needs: validate/);
+  assert.match(workflow, /VALIDATE_RESULT: \$\{\{ needs\.validate\.result \}\}/);
+  assert.match(workflow, /test "\$VALIDATE_RESULT" = success/);
 });

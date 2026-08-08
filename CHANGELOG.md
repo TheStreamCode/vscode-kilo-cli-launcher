@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+### Security
+
+- Updated the lockfile to resolve current high-severity advisories in the development-only `fast-uri`, `js-yaml`, and `undici` dependency paths.
+- Added regression coverage for the Workspace Trust, machine-scoped command, restricted-configuration, and blank-command security boundaries.
+- Added a stable required CI check and aligned repository protection, Dependabot security updates, and private vulnerability reporting with the documented governance policy.
+
 ## 0.3.3
 
 Released 2026-08-02. No change to launcher behavior, settings, or command IDs.

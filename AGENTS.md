@@ -69,7 +69,7 @@ There is no supported ESLint configuration while the installed TypeScript major 
 - Avoid new dependencies for behavior that can be implemented clearly with the standard library or VS Code API.
 - For dependency changes, update `package.json` and `package-lock.json` together, run `npm audit`, and document material changes in `CHANGELOG.md`.
 - Never commit local `.env` files, tokens, Marketplace/Open VSX credentials, logs, generated packages, or machine-specific paths. A sanitized `.env.example` is allowed only if environment variables are introduced later and documented.
-- Do not re-enable scheduled Dependabot version updates without maintainer approval; security alerts remain intentionally enabled while routine version-update PRs are disabled.
+- Keep Dependabot security updates and alerts enabled. Do not re-enable scheduled version updates without maintainer approval; routine version-update PRs remain disabled.
 
 ## Documentation, Assets, And Releases
 
@@ -85,7 +85,7 @@ There is no supported ESLint configuration while the installed TypeScript major 
 ## Git And Pull Requests
 
 - Inspect `git status` before editing and preserve unrelated user changes.
-- `main` is protected: no direct pushes, no force pushes, linear history only. Work on a branch, open a pull request, and let the maintainer approve it — protection requires one approving review and passing CI. Never self-approve and never use an admin bypass.
+- `main` is protected: no direct pushes, no force pushes, linear history only. Work on a branch, open a pull request, and let the maintainer approve it — protection requires one approving review and the stable `Required CI` check. Never self-approve and never use an admin bypass.
 - Make surgical changes; never rewrite, stage, discard, or commit unrelated files.
 - Use concise imperative commit subjects, with a scoped prefix when useful, for example `fix: preserve global test settings`.
 - Pull requests should describe user-visible behavior, linked issues, security implications, documentation changes, and exact verification output.

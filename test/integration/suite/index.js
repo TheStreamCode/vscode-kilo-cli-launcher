@@ -41,6 +41,11 @@ async function run() {
     const terminal = await waitForNewTerminal(beforeCount);
 
     assert.match(terminal.name, /^Kilo CLI Test/);
+
+    await configuration.update('cliCommand', '   ', vscode.ConfigurationTarget.Global);
+    const blankCommandTerminalCount = vscode.window.terminals.length;
+    await vscode.commands.executeCommand('kilocodeCliLauncher.openCli');
+    assert.equal(vscode.window.terminals.length, blankCommandTerminalCount);
     terminal.dispose();
 
     await vscode.commands.executeCommand('kilocodeCliLauncher.openSettings');

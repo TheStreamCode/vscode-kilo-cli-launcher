@@ -8,7 +8,7 @@ Security fixes are applied to the latest Marketplace and Open VSX release. Upgra
 
 Please do not report security vulnerabilities through public GitHub issues.
 
-Email security concerns to info@mikesoft.it with a clear description, affected version, reproduction details, and potential impact. Redact tokens, credentials, personal data, and unrelated workspace content.
+Use [GitHub private vulnerability reporting](https://github.com/TheStreamCode/vscode-kilo-cli-launcher/security/advisories/new) or email security concerns to info@mikesoft.it. Include a clear description, affected version, reproduction details, and potential impact. Redact tokens, credentials, personal data, and unrelated workspace content.
 
 ## Security Model
 
