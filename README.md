@@ -196,4 +196,4 @@ Financial support for the independent maintainer is available through GitHub Spo
 
 ## License
 
-Released under the MIT License. See `LICENSE` for details.
+This project is licensed under the [MIT License](LICENSE).
