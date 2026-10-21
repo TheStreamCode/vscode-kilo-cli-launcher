@@ -293,7 +293,7 @@ test('CI workflow uses least privilege and validates supported VS Code versions'
   assert.match(workflow, /vscode-version: stable/);
   assert.match(workflow, /permissions:\s+contents: read/s);
   assert.match(workflow, /actions\/checkout@[a-f0-9]{40} # v7/);
-  assert.match(workflow, /actions\/setup-node@[a-f0-9]{40} # v6/);
+  assert.match(workflow, /actions\/setup-node@[a-f0-9]{40} # v[67]/);
   assert.match(workflow, /persist-credentials: false/);
   assert.match(workflow, /cache: npm/);
   assert.match(workflow, /npm ci/);
