@@ -6,7 +6,7 @@ Kilo CLI launcher is maintained by Mikesoft.
 
 Use GitHub Issues for reproducible bugs, regressions, and feature requests:
 
-- Issues: https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues
+- [GitHub Issues](https://github.com/TheStreamCode/vscode-kilo-cli-launcher/issues)
 
 When opening an issue, include:
 
@@ -19,9 +19,13 @@ When opening an issue, include:
 - Actual result
 - What happened in the integrated terminal after launch
 
+## Questions And Workflows
+
+Use [GitHub Discussions](https://github.com/TheStreamCode/vscode-kilo-cli-launcher/discussions) for usage questions and workflows.
+
 ## General Or Private Contact
 
 For general questions, private contact, or maintainer inquiries:
 
-- Website: https://mikesoft.it
-- Email: info@mikesoft.it
+- Website: [mikesoft.it](https://mikesoft.it)
+- Email: [info@mikesoft.it](mailto:info@mikesoft.it)
