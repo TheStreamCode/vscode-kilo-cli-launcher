@@ -156,21 +156,32 @@ test('package scripts use deterministic local tooling entry points', () => {
   assert.equal(packageJson.scripts.package, 'node ./node_modules/@vscode/vsce/vsce package');
 });
 
-test('README is organized around user-facing setup, configuration, and troubleshooting', () => {
+test('README follows the shared section order and keeps setup, guidance, and privacy visible', () => {
   const readme = readText('README.md');
+  const headings = [...readme.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
 
   assert.match(readme, /^# Kilo CLI Launcher$/m);
+  assert.deepEqual(headings, [
+    'Install',
+    'Quick start',
+    'Features',
+    'Requirements',
+    'Configuration',
+    'Privacy and security',
+    'Troubleshooting',
+    'Development',
+    'Support',
+    'Contributing',
+    'License',
+  ]);
+  assert.match(readme, /actions\/workflows\/ci\.yml\/badge\.svg/);
+  assert.match(readme, /License-MIT/);
+  assert.match(readme, /Maintained by \[Michael Gasperini \(Mikesoft\)\]\(https:\/\/mikesoft\.it\)/);
   assert.match(readme, /Launch Kilo CLI in a fresh side terminal/i);
   assert.match(readme, /for Windows, macOS, and Linux\./);
-  assert.match(readme, /## Quick Start/);
   assert.match(readme, /docs\/images\/github-social-preview\.png/);
   assert.match(readme, /This extension is unofficial and is not affiliated with, endorsed by, or sponsored by Kilo or KiloCode/);
-  assert.match(readme, /## Features/);
-  assert.match(readme, /## Architecture/);
   assert.match(readme, /official Kilo CLI documentation/i);
-  assert.match(readme, /## Configuration/);
-  assert.match(readme, /## Environment Variables/);
-  assert.match(readme, /## Troubleshooting/);
   assert.match(readme, /Kilo CLI launcher: Open Settings/);
   assert.match(readme, /\\"C:\\\\Program Files\\\\Kilo CLI\\\\kilo\.cmd\\"/);
   assert.match(readme, /npm run check/);
@@ -186,6 +197,8 @@ test('README is organized around user-facing setup, configuration, and troublesh
   assert.doesNotMatch(readme, /backward compatibility/i);
   assert.doesNotMatch(readme, /^## Credits$/m);
   assert.doesNotMatch(readme, /^## Project Links$/m);
+  assert.doesNotMatch(readme, /^## Architecture$/m);
+  assert.doesNotMatch(readme, /^## Environment Variables$/m);
 });
 
 test('SUPPORT explains when to use issues and when to contact the maintainer directly', () => {
