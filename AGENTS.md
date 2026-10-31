@@ -80,7 +80,7 @@ There is no supported ESLint configuration while the installed TypeScript major 
 - `media/icon.png` and `media/launcher-mark.svg` are the artwork already published on the Marketplace and Open VSX. Never add a script, task, or workflow that renders over them: an earlier `scripts/generate-icon.ps1` did exactly that and was removed. `test/metadata.test.js` fails if any file under `scripts/`, `src/`, or `.github/`, or any npm script, references those asset paths.
 - The two `media/` assets are about 80% of the packaged VSIX (`media/launcher-mark.svg` ~31 KB compressed, `media/icon.png` ~26 KB of a ~70 KB package). The SVG is a raster image wrapped in SVG markup rather than a true vector mark, so it does not follow VS Code's monochrome `currentColor` toolbar guidance. Treat replacing it as a design decision for the maintainer, never an incidental cleanup.
 - Keep engineering-only files excluded from the VSIX through `.vscodeignore` and verify the final package surface with `npm run package:contents` or `npm run check`.
-- Publishing is not automated. Never publish, tag, push, or create a release unless the user explicitly authorizes that external action.
+- Publishing is owner-controlled: the Release workflow publishes only when the owner dispatches it with an existing release tag, through OIDC trusted publishing. Never publish, tag, push, or create a release unless the user explicitly authorizes that external action.
 
 ## Git And Pull Requests
 
