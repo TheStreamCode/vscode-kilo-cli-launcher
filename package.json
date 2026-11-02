@@ -114,10 +114,10 @@
     "check": "npm run typecheck && npm test && npm run package:contents"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "@types/vscode": "1.103.0",
     "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^4.0.0",
+    "@vscode/vsce": "^4.1.0",
     "typescript": "^7.0.2"
   },
   "overrides": {
